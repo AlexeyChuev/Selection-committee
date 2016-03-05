@@ -1,4 +1,4 @@
-package net.chuiev.selcommittee.repository;
+package net.chuiev.selcommittee.repository.entity;
 
 import java.sql.Blob;
 

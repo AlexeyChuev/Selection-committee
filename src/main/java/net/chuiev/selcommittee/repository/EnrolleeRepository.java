@@ -1,5 +1,7 @@
 package net.chuiev.selcommittee.repository;
 
+import net.chuiev.selcommittee.repository.entity.Enrollee;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,8 +12,9 @@ import java.util.Collection;
 public class EnrolleeRepository implements Repository<Enrollee> {
     private Connection connection = ConnectionPoolFactory.getConnection();
 
-    public void setNewParametrsForEntity(Enrollee entity, String sql)
-    {
+    @Override
+    public void create(Enrollee entity) {
+        String sql = "INSERT INTO Enrollee VALUES(?,?,?,?,?,?,?,?,?);";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, entity.getId());
@@ -30,17 +33,25 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     }
 
     @Override
-    public void create(Enrollee entity) {
-        String sql = "INSERT INTO Enrollee VALUES(?,?,?,?,?,?,?,?,?);";
-        setNewParametrsForEntity(entity, sql);
-    }
-
-    @Override
-    public void update(Enrollee entity) {
-        String sql = "UPDATE Enrollee SET id=?"+
-                ", first_name=?, last_name=?, surname=?, city=?, region=?,"+
-                "school_name=?, email=?, certificate=?, isBlocked=? WHERE id=" +entity.getId()+ ";";
-        setNewParametrsForEntity(entity, sql);
+    public void update(Enrollee oldEntity, Enrollee newEntity) {
+        String sql = "UPDATE Enrollee SET first_name=?, "+
+                "last_name=?, surname=?, city=?, region=?, school_name=?,"+
+                " email=?, certificate=?, isBlocked=? WHERE id=?;";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        {
+            preparedStatement.setString(1, newEntity.getFirstname());
+            preparedStatement.setString(2, newEntity.getLastname());
+            preparedStatement.setString(3, newEntity.getSurname());
+            preparedStatement.setString(4, newEntity.getCity());
+            preparedStatement.setString(5, newEntity.getRegion());
+            preparedStatement.setString(6, newEntity.getSchoolName());
+            preparedStatement.setBoolean(7, newEntity.isBlocked());
+            preparedStatement.setBlob(8, newEntity.getCertificate());
+            preparedStatement.setInt(9, oldEntity.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
