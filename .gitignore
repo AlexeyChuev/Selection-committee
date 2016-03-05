@@ -1,0 +1,9 @@
+## Directory-based project format:
+       .idea/
+       target/
+       #java
+       *.iml
+       *.xml
+       *.log
+       .project
+
