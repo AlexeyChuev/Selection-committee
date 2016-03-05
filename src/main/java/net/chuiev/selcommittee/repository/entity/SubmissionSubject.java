@@ -1,0 +1,62 @@
+package net.chuiev.selcommittee.repository.entity;
+
+/**
+ * Created by Алексей on 3/5/2016.
+ */
+public class SubmissionSubject {
+    private int id;
+    private int submissionId;
+    private int subjectId;
+    private int grade;
+
+    public SubmissionSubject(int id, int submissionId, int subjectId, int grade) {
+        this.id = id;
+        this.submissionId = submissionId;
+        this.subjectId = subjectId;
+        this.grade = grade;
+    }
+
+    public SubmissionSubject(){}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getSubmissionId() {
+        return submissionId;
+    }
+
+    public void setSubmissionId(int submissionId) {
+        this.submissionId = submissionId;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "SubmissionSubject{" +
+                "id=" + id +
+                ", submissionId=" + submissionId +
+                ", subjectId=" + subjectId +
+                ", grade=" + grade +
+                '}';
+    }
+}
