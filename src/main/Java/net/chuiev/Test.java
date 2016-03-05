@@ -29,7 +29,7 @@ public class Test {
 //            st.execute("insert into users2 values ('Gab', 'Robsky',2)");
 //            st.execute("insert into users2 values ('Игорь', 'Николаев',3)");
 
-            //st.execute("update users2 set us_id=777 WHERE first_name='Игорь'");
+
 
 
             ResultSet rs = st.executeQuery("SELECT * FROM USERS");
