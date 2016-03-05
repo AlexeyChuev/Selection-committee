@@ -6,4 +6,8 @@
        *.xml
        *.log
        .project
+       .classpath
+       .settings
+       output
+       bkb
 
