@@ -49,8 +49,8 @@ public class SubjectRepository implements Repository<Subject> {
     }
 
     @Override
-    public Subject get(Subject entity) throws SQLException {
-        String sql = "SELECT * FROM Subject WHERE id="+entity.getId()+ ";";
+    public Subject get(int entityId) throws SQLException {
+        String sql = "SELECT * FROM Subject WHERE id="+entityId+ ";";
         Subject newSubject = new Subject();
         try {
             Statement statement = connection.createStatement();

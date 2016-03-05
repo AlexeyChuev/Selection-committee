@@ -51,8 +51,8 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
     }
 
     @Override
-    public FacultySubject get(FacultySubject entity) throws SQLException {
-        String sql = "SELECT * FROM FacultySubject WHERE id="+entity.getId()+ ";";
+    public FacultySubject get(int entityId) throws SQLException {
+        String sql = "SELECT * FROM FacultySubject WHERE id="+entityId+ ";";
         FacultySubject newFacultySubject = new FacultySubject();
         try {
             Statement statement = connection.createStatement();

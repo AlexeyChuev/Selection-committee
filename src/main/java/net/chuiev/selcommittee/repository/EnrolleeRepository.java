@@ -66,8 +66,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
 
     @Override
-    public Enrollee get(Enrollee entity) throws SQLException {
-        String sql = "SELECT * FROM Enrolle WHERE id="+entity.getId()+ ";";
+    public Enrollee get(int entityId) throws SQLException {
+        String sql = "SELECT * FROM Enrolle WHERE id="+entityId+ ";";
         Enrollee newEnrollee = new Enrollee();
         try {
             Statement statement = connection.createStatement();

@@ -53,8 +53,8 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
     }
 
     @Override
-    public SubmissionSubject get(SubmissionSubject entity) throws SQLException {
-        String sql = "SELECT * FROM SubmissionSubject WHERE id="+entity.getId()+ ";";
+    public SubmissionSubject get(int entityId) throws SQLException {
+        String sql = "SELECT * FROM SubmissionSubject WHERE id="+entityId+ ";";
         SubmissionSubject newSubmissionSubject = new SubmissionSubject();
         try {
             Statement statement = connection.createStatement();

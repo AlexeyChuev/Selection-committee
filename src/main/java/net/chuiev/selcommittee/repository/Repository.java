@@ -10,7 +10,7 @@ public interface Repository<T> {
     void create(T entity) throws SQLException;
     void update(T oldEntity, T newEntity) throws SQLException;
     void delete(T entity) throws SQLException;
-    T get(T entity) throws SQLException;
+    T get(int entityId) throws SQLException;
 
     Collection<T> findAll() throws SQLException;
 }
