@@ -13,7 +13,7 @@ public class Test1 {
 
 
         String driver ="org.apache.derby.jdbc.ClientDriver";
-        String connectionURL = "jdbc:derby://localhost:1527/C:/apache/myDB;create=true";
+        String connectionURL = "jdbc:derby://localhost:1527/myDB;create=true";
 
         try {
             Class.forName(driver);
