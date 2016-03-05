@@ -34,7 +34,8 @@ public class FacultyRepository implements Repository<Faculty> {
         {
             preparedStatement.setString(1, newEntity.getName());
             preparedStatement.setInt(2, newEntity.getBudgetVolume());
-            preparedStatement.setInt(3, oldEntity.getTotalVolume());
+            preparedStatement.setInt(3, newEntity.getTotalVolume());
+            preparedStatement.setInt(4, oldEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
