@@ -22,14 +22,14 @@ CREATE TABLE Enrollee(
 
 CREATE TABLE Faculty(
   id INT NOT NULL generated always AS identity PRIMARY KEY,
-  name varchar(20) NOT NULL UNIQUE,
+  name varchar(50) NOT NULL UNIQUE,
   budget_volume integer NOT NULL,
   total_volume integer NOT NULL
 );
 
 CREATE TABLE Subject(
   id INT NOT NULL generated always AS identity PRIMARY KEY,
-  name varchar(20) NOT NULL UNIQUE
+  name varchar(60) NOT NULL UNIQUE
 );
 
 CREATE TABLE Faculty_Subject(
