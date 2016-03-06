@@ -19,6 +19,11 @@ public class FacultyRepository implements Repository<Faculty> {
     private final static String FIND_COMMAND = "SELECT * FROM Faculty WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.FACULTY";
 
+    private final static String SORT_BY_NAME_FROM_A_TO_Z = "SELECT * FROM ADMIN.FACULTY ORDER BY NAME ASC";
+    private final static String SORT_BY_NAME_FROM_Z_TO_A = "SELECT * FROM ADMIN.FACULTY ORDER BY NAME DESC";
+    private final static String SORT_BY_BUDGETVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY BUDGETVOLUME ASC";
+    private final static String SORT_BY_TOTALVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY TOTALVOLUME ASC";
+
     @Override
     public void create(Faculty entity){
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND)) {
@@ -98,5 +103,47 @@ public class FacultyRepository implements Repository<Faculty> {
             throw new EntityNotExistsException();
         }
         return faculties;
+    }
+
+    private Collection<Faculty> sortFaculties(String sql)
+    {
+        Collection<Faculty> faculties = new ArrayList<>();
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                Faculty newFaculty = new Faculty();
+                newFaculty.setId(resultSet.getInt("id"));
+                newFaculty.setName(resultSet.getString("name"));
+                newFaculty.setBudgetVolume(resultSet.getInt("budgetVolume"));
+                newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
+                faculties.add(newFaculty);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException();
+        }
+        return faculties;
+    }
+
+    public static Collection<Faculty> sortedFacultiesByNameFromAToZ()
+    {
+        return new FacultyRepository().sortFaculties(SORT_BY_NAME_FROM_A_TO_Z);
+    }
+
+    public static Collection<Faculty> sortedFacultiesByNameFromZToA()
+    {
+        return new FacultyRepository().sortFaculties(SORT_BY_NAME_FROM_Z_TO_A);
+    }
+
+    public static Collection<Faculty> sortedFacultiesByBudgetVolume()
+    {
+        return new FacultyRepository().sortFaculties(SORT_BY_BUDGETVOLUME);
+    }
+
+    public static Collection<Faculty> sortedFacultiesByTotalVolume()
+    {
+        return new FacultyRepository().sortFaculties(SORT_BY_TOTALVOLUME);
     }
 }
