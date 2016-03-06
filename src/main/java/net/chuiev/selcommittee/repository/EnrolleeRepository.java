@@ -1,6 +1,6 @@
 package net.chuiev.selcommittee.repository;
 
-import net.chuiev.selcommittee.repository.entity.Enrollee;
+import net.chuiev.selcommittee.entity.Enrollee;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package net.chuiev.selcommittee.repository.entity;
+package net.chuiev.selcommittee.entity;
 
 /**
  * Created by Алексей on 3/5/2016.
