@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by Алексей on 3/5/2016.
  */
 public class FacultyRepository implements Repository<Faculty> {
-    private Connection connection = ConnectionPoolFactory.getConnection();
+    private Connection connection = ConnectionCreator.getConnection();
 
     @Override
     public void create(Faculty entity) throws SQLException {
@@ -28,14 +28,13 @@ public class FacultyRepository implements Repository<Faculty> {
     }
 
     @Override
-    public void update(Faculty oldEntity, Faculty newEntity) throws SQLException {
+    public void update(Faculty newEntity) throws SQLException {
         String sql = "UPDATE Faculty SET name=?, budgetVolume=?, totalVolume=? WHERE id=?;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setString(1, newEntity.getName());
             preparedStatement.setInt(2, newEntity.getBudgetVolume());
             preparedStatement.setInt(3, newEntity.getTotalVolume());
-            preparedStatement.setInt(4, oldEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,8 +42,8 @@ public class FacultyRepository implements Repository<Faculty> {
     }
 
     @Override
-    public void delete(Faculty entity) throws SQLException {
-        String sql = "DELETE FROM Faculty WHERE id=" + entity.getId() + ";";
+    public void delete(int entityId) throws SQLException {
+        String sql = "DELETE FROM Faculty WHERE id=" + entityId + ";";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

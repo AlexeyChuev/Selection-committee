@@ -20,25 +20,24 @@ public class Test1 {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try (java.sql.Connection conn = DriverManager.getConnection(connectionURL)) {// body of code to go here
+        try (java.sql.Connection conn = DriverManager.getConnection(connectionURL, "admin", "admin")) {// body of code to go here
 
 
             Statement st = conn.createStatement();
-//           st.execute("create table users2 (first_name varchar(30) not null, last_name varchar (30) not null, us_id integer not null)");
-//            st.execute("insert into users2 values ('Tom', 'Anderson',1)");
-//            st.execute("insert into users2 values ('Gab', 'Robsky',2)");
-//            st.execute("insert into users2 values ('Игорь', 'Николаев',3)");
+          // st.execute("create table users2 (first_name varchar(30) not null, last_name varchar (30) not null, us_id integer not null)");
+           //st.execute("insert into subject (name) values ('Math')");
+           //st.execute("insert into subject (name) values ('Geography')");
+           //st.execute("insert into subject (name) values ('English')");
 
 
 
 
-            ResultSet rs = st.executeQuery("SELECT * FROM USERS");
+            ResultSet rs = st.executeQuery("SELECT * FROM subject");
             while (rs.next()) {
-                String first = rs.getString(1);
+                int first = rs.getInt(1);
                 String last = rs.getString(2);
-                int id = rs.getInt(3);
 
-                System.out.println(id + " " + first + " " + last + " ");
+                System.out.println(first + " " + last + " ");
 
             }
 

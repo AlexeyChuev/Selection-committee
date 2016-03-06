@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by Алексей on 3/5/2016.
  */
 public class FacultySubjectRepository implements Repository<FacultySubject> {
-    private Connection connection = ConnectionPoolFactory.getConnection();
+    private Connection connection = ConnectionCreator.getConnection();
 
     @Override
     public void create(FacultySubject entity) throws SQLException {
@@ -27,13 +27,12 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
     }
 
     @Override
-    public void update(FacultySubject oldEntity, FacultySubject newEntity) throws SQLException {
+    public void update(FacultySubject newEntity) throws SQLException {
         String sql = "UPDATE FacultySubject SET facultyId=?, subjectId=? WHERE id=?;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, newEntity.getFacultyId());
             preparedStatement.setInt(2, newEntity.getSubjectId());
-            preparedStatement.setInt(3, oldEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,8 +40,8 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
     }
 
     @Override
-    public void delete(FacultySubject entity) throws SQLException {
-        String sql = "DELETE FROM FacultySubject WHERE id=" + entity.getId() + ";";
+    public void delete(int entityId) throws SQLException {
+        String sql = "DELETE FROM FacultySubject WHERE id=" + entityId + ";";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

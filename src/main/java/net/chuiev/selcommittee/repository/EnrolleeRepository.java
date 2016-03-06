@@ -1,6 +1,7 @@
 package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Enrollee;
+import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,34 +11,34 @@ import java.util.Collection;
  * Created by Алексей on 3/5/2016.
  */
 public class EnrolleeRepository implements Repository<Enrollee> {
-    private Connection connection = ConnectionPoolFactory.getConnection();
+    private Connection connection = ConnectionCreator.getConnection();
+
+    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.ENROLLEE (full_name,city,region,school_name,email,certificate,isBlocked) VALUES(?,?,?,?,?,?,?)";
+    private final static String UPDATE_COMMAND = "UPDATE ADMIN.ENROLLEE SET full_name=?,city=?,region=?,school_name=?,email=?,certificate=?,isBlocked=? WHERE id=?";
+    private final static String DELETE_COMMAND = "DELETE FROM ADMIN.ENROLLEE WHERE id=";
+    private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ENROLLEE WHERE id=";
+    private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ENROLLEE";
 
     @Override
     public void create(Enrollee entity) {
-        String sql = "INSERT INTO Enrollee VALUES(?,?,?,?,?,?,?,?);";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
-        {
-            preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setString(2, entity.getFullName());
-            preparedStatement.setString(3, entity.getCity());
-            preparedStatement.setString(4, entity.getRegion());
-            preparedStatement.setString(5, entity.getSchoolName());
-            preparedStatement.setString(6, entity.getEmail());
-            preparedStatement.setBlob(7, entity.getCertificate());
-            preparedStatement.setBoolean(8, entity.isBlocked());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND)) {
+            preparedStatement.setString(1, entity.getFullName());
+            preparedStatement.setString(2, entity.getCity());
+            preparedStatement.setString(3, entity.getRegion());
+            preparedStatement.setString(4, entity.getSchoolName());
+            preparedStatement.setString(5, entity.getEmail());
+            preparedStatement.setBlob(6, entity.getCertificate());
+            preparedStatement.setBoolean(7, entity.isBlocked());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
     }
 
     @Override
-    public void update(Enrollee oldEntity, Enrollee newEntity) {
-        String sql = "UPDATE Enrollee SET full_name=?, "+
-                "city=?, region=?, school_name=?,"+
-                " email=?, certificate=?, isBlocked=? WHERE id=?;";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
-        {
+    public void update(Enrollee newEntity) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND)) {
             preparedStatement.setString(1, newEntity.getFullName());
             preparedStatement.setString(2, newEntity.getCity());
             preparedStatement.setString(3, newEntity.getRegion());
@@ -45,31 +46,31 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             preparedStatement.setString(5, newEntity.getEmail());
             preparedStatement.setBlob(6, newEntity.getCertificate());
             preparedStatement.setBoolean(7, newEntity.isBlocked());
-            preparedStatement.setInt(8, oldEntity.getId());
+            preparedStatement.setInt(8, newEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
     }
 
     @Override
-    public void delete(Enrollee entity) {
-        String sql = "DELETE FROM Enrolle WHERE id="+entity.getId() + ";";
+    public void delete(int entityId) {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            statement.executeUpdate(DELETE_COMMAND + entityId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException();
         }
-        catch (SQLException e){e.printStackTrace();}
     }
 
-
     @Override
-    public Enrollee get(int entityId) throws SQLException {
-        String sql = "SELECT * FROM Enrolle WHERE id="+entityId+ ";";
+    public Enrollee get(int entityId){
         Enrollee newEnrollee = new Enrollee();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(FIND_COMMAND +  entityId);
             resultSet.next();
             newEnrollee.setId(resultSet.getInt("id"));
             newEnrollee.setFullName(resultSet.getString("full_name"));
@@ -81,21 +82,19 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             newEnrollee.setCertificate(resultSet.getBlob("certificate"));
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
         return newEnrollee;
     }
 
-
     @Override
     public Collection<Enrollee> findAll() {
-        String sql = "SELECT * FROM Enrolle;";
         Collection<Enrollee> enrollees = new ArrayList<>();
         Statement statement;
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next())
-            {
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
+            while (resultSet.next()) {
                 Enrollee newEnrollee = new Enrollee();
                 newEnrollee.setId(resultSet.getInt("id"));
                 newEnrollee.setFullName(resultSet.getString("full_name"));
@@ -109,6 +108,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
         return enrollees;
     }

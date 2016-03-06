@@ -10,11 +10,18 @@ import java.util.Collection;
  * Created by Алексей on 3/5/2016.
  */
 public class SubjectRepository implements Repository<Subject> {
-    private Connection connection = ConnectionPoolFactory.getConnection();
+    private Connection connection = ConnectionCreator.getConnection();
+
+    public static void main(String[] args) throws SQLException {
+        SubjectRepository subjectRepository = new SubjectRepository();
+        subjectRepository.create(new Subject(1, "Name1"));
+        subjectRepository.create(new Subject(2, "Name2"));
+        subjectRepository.create(new Subject(3, "Name3"));
+    }
 
     @Override
-    public void create(Subject entity) throws SQLException {
-        String sql = "INSERT INTO Subject VALUES(?,?);";
+    public void create(Subject entity){
+        String sql = "INSERT INTO Subject VALUES(?,?)";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, entity.getId());
@@ -26,12 +33,11 @@ public class SubjectRepository implements Repository<Subject> {
     }
 
     @Override
-    public void update(Subject oldEntity, Subject newEntity) throws SQLException {
+    public void update(Subject newEntity){
         String sql = "UPDATE Subject SET name=? WHERE id=?;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setString(1, newEntity.getName());
-            preparedStatement.setInt(2, oldEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,8 +45,8 @@ public class SubjectRepository implements Repository<Subject> {
     }
 
     @Override
-    public void delete(Subject entity) throws SQLException {
-        String sql = "DELETE FROM Subject WHERE id=" + entity.getId() + ";";
+    public void delete(int entityId){
+        String sql = "DELETE FROM Subject WHERE id=" + entityId + ";";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -49,7 +55,7 @@ public class SubjectRepository implements Repository<Subject> {
     }
 
     @Override
-    public Subject get(int entityId) throws SQLException {
+    public Subject get(int entityId){
         String sql = "SELECT * FROM Subject WHERE id="+entityId+ ";";
         Subject newSubject = new Subject();
         try {
