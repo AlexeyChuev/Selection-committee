@@ -1,6 +1,7 @@
 package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Subject;
+import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,72 +13,74 @@ import java.util.Collection;
 public class SubjectRepository implements Repository<Subject> {
     private Connection connection = ConnectionCreator.getConnection();
 
-    public static void main(String[] args) throws SQLException {
-        SubjectRepository subjectRepository = new SubjectRepository();
-        subjectRepository.create(new Subject(1, "Name1"));
-        subjectRepository.create(new Subject(2, "Name2"));
-        subjectRepository.create(new Subject(3, "Name3"));
-    }
+    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBJECT (NAME) VALUES(?)";
+    private final static String UPDATE_COMMAND = "UPDATE ADMIN.SUBJECT SET name=? WHERE id=?";
+    private final static String DELETE_COMMAND = "DELETE FROM ADMIN.SUBJECT WHERE id=";
+    private final static String FIND_COMMAND = "SELECT * FROM ADMIN.SUBJECT WHERE id=";
+    private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.SUBJECT";
 
     @Override
     public void create(Subject entity){
-        String sql = "INSERT INTO Subject VALUES(?,?)";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND))
         {
-            preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setString(2, entity.getName());
+            preparedStatement.setString(1, entity.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
     }
 
     @Override
     public void update(Subject newEntity){
-        String sql = "UPDATE Subject SET name=? WHERE id=?;";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
+        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND))
         {
             preparedStatement.setString(1, newEntity.getName());
+            preparedStatement.setInt(2, newEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
     }
 
     @Override
     public void delete(int entityId){
-        String sql = "DELETE FROM Subject WHERE id=" + entityId + ";";
+        if (get(entityId) == null) throw new EntityNotExistsException();
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+            statement.executeUpdate(DELETE_COMMAND + entityId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException();
         }
-        catch (SQLException e){e.printStackTrace();}
     }
 
     @Override
     public Subject get(int entityId){
-        String sql = "SELECT * FROM Subject WHERE id="+entityId+ ";";
         Subject newSubject = new Subject();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(FIND_COMMAND);
             resultSet.next();
+            if (resultSet.wasNull()) throw new EntityNotExistsException();
             newSubject.setId(resultSet.getInt("id"));
             newSubject.setName(resultSet.getString("name"));
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
         return newSubject;
     }
 
     @Override
     public Collection<Subject> findAll() throws SQLException {
-        String sql = "SELECT * FROM Subject;";
         Collection<Subject> subjects = new ArrayList<>();
         Statement statement;
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
             while (resultSet.next())
             {
                 Subject newSubject = new Subject();
@@ -87,6 +90,7 @@ public class SubjectRepository implements Repository<Subject> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new EntityNotExistsException();
         }
         return subjects;
     }

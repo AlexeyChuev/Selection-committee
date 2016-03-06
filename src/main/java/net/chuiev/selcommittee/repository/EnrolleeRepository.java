@@ -13,8 +13,8 @@ import java.util.Collection;
 public class EnrolleeRepository implements Repository<Enrollee> {
     private Connection connection = ConnectionCreator.getConnection();
 
-    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.ENROLLEE (full_name,city,region,school_name,email,certificate,isBlocked) VALUES(?,?,?,?,?,?,?)";
-    private final static String UPDATE_COMMAND = "UPDATE ADMIN.ENROLLEE SET full_name=?,city=?,region=?,school_name=?,email=?,certificate=?,isBlocked=? WHERE id=?";
+    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.ENROLLEE (FULL_NAME,city,region,school_name,email,certificate,isBlocked) VALUES(?,?,?,?,?,?,?)";
+    private final static String UPDATE_COMMAND = "UPDATE ADMIN.ENROLLEE SET FULL_NAME=?,CITY=?,REGION=?,SCHOOL_NAME=?,EMAIL=?,CERTIFICATE=?,ISBLOCKED=? WHERE id=?";
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.ENROLLEE WHERE id=";
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ENROLLEE WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ENROLLEE";
@@ -38,6 +38,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
     @Override
     public void update(Enrollee newEntity) {
+        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND)) {
             preparedStatement.setString(1, newEntity.getFullName());
             preparedStatement.setString(2, newEntity.getCity());
@@ -52,10 +53,12 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             e.printStackTrace();
             throw new EntityNotExistsException();
         }
+
     }
 
     @Override
     public void delete(int entityId) {
+        if (get(entityId) == null) throw new EntityNotExistsException();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND + entityId);
@@ -63,15 +66,18 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             e.printStackTrace();
             throw new EntityNotExistsException();
         }
+
+
     }
 
     @Override
-    public Enrollee get(int entityId){
+    public Enrollee get(int entityId) {
         Enrollee newEnrollee = new Enrollee();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_COMMAND +  entityId);
+            ResultSet resultSet = statement.executeQuery(FIND_COMMAND + entityId);
             resultSet.next();
+            if(resultSet.wasNull())throw new EntityNotExistsException();
             newEnrollee.setId(resultSet.getInt("id"));
             newEnrollee.setFullName(resultSet.getString("full_name"));
             newEnrollee.setCity(resultSet.getString("city"));
@@ -84,7 +90,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             e.printStackTrace();
             throw new EntityNotExistsException();
         }
-        return newEnrollee;
+            return newEnrollee;
     }
 
     @Override
