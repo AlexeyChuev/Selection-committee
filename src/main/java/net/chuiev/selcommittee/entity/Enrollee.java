@@ -10,23 +10,21 @@ public class Enrollee implements Serializable{
     private static final long serialVersionUID = 1113613887250453747L;
 
     private int id;
-    private String firstname;
-    private String lastname;
-    private String surname;
+    private String fullName;
     private String city;
     private String region;
     private String schoolName;
+    private String email;
     private boolean isBlocked;
     private Blob certificate; //?????????????
 
-    public Enrollee(int id, String firstname, String lastname, String surname, String city, String region, String schoolName, boolean isBlocked, Blob certificate) {
+    public Enrollee(int id, String fullName, String city, String region, String schoolName, String email, boolean isBlocked, Blob certificate) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.surname = surname;
+        this.fullName = fullName;
         this.city = city;
         this.region = region;
         this.schoolName = schoolName;
+        this.email = email;
         this.isBlocked = isBlocked;
         this.certificate = certificate;
     }
@@ -41,28 +39,12 @@ public class Enrollee implements Serializable{
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getCity() {
@@ -89,6 +71,14 @@ public class Enrollee implements Serializable{
         this.schoolName = schoolName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean isBlocked() {
         return isBlocked;
     }
@@ -109,12 +99,11 @@ public class Enrollee implements Serializable{
     public String toString() {
         return "Enrollee{" +
                 "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", surname='" + surname + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", city='" + city + '\'' +
                 ", region='" + region + '\'' +
                 ", schoolName='" + schoolName + '\'' +
+                ", email='" + email + '\'' +
                 ", isBlocked=" + isBlocked +
                 ", certificate=" + certificate +
                 '}';

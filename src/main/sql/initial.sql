@@ -9,9 +9,7 @@ DROP TABLE Submission_Subject;
 
 CREATE TABLE Enrollee(
   id integer NOT NULL generated always AS identity PRIMARY KEY,
-  first_name varchar(20) NOT NULL,
-  last_name varchar(20) NOT NULL,
-  surname varchar(20) NOT NULL,
+  full_name varchar(70) NOT NULL,
   city varchar(30) NOT NULL,
   region varchar(30) NOT NULL,
   school_name varchar(50) NOT NULL,

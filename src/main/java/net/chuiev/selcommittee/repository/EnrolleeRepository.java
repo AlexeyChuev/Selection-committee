@@ -14,18 +14,17 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
     @Override
     public void create(Enrollee entity) {
-        String sql = "INSERT INTO Enrollee VALUES(?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO Enrollee VALUES(?,?,?,?,?,?,?,?);";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setInt(1, entity.getId());
-            preparedStatement.setString(2, entity.getFirstname());
-            preparedStatement.setString(3, entity.getLastname());
-            preparedStatement.setString(4, entity.getSurname());
-            preparedStatement.setString(5, entity.getCity());
-            preparedStatement.setString(6, entity.getRegion());
-            preparedStatement.setString(7, entity.getSchoolName());
+            preparedStatement.setString(2, entity.getFullName());
+            preparedStatement.setString(3, entity.getCity());
+            preparedStatement.setString(4, entity.getRegion());
+            preparedStatement.setString(5, entity.getSchoolName());
+            preparedStatement.setString(6, entity.getEmail());
+            preparedStatement.setBlob(7, entity.getCertificate());
             preparedStatement.setBoolean(8, entity.isBlocked());
-            preparedStatement.setBlob(9, entity.getCertificate());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,20 +33,19 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
     @Override
     public void update(Enrollee oldEntity, Enrollee newEntity) {
-        String sql = "UPDATE Enrollee SET first_name=?, "+
-                "last_name=?, surname=?, city=?, region=?, school_name=?,"+
+        String sql = "UPDATE Enrollee SET full_name=?, "+
+                "city=?, region=?, school_name=?,"+
                 " email=?, certificate=?, isBlocked=? WHERE id=?;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
-            preparedStatement.setString(1, newEntity.getFirstname());
-            preparedStatement.setString(2, newEntity.getLastname());
-            preparedStatement.setString(3, newEntity.getSurname());
-            preparedStatement.setString(4, newEntity.getCity());
-            preparedStatement.setString(5, newEntity.getRegion());
-            preparedStatement.setString(6, newEntity.getSchoolName());
+            preparedStatement.setString(1, newEntity.getFullName());
+            preparedStatement.setString(2, newEntity.getCity());
+            preparedStatement.setString(3, newEntity.getRegion());
+            preparedStatement.setString(4, newEntity.getSchoolName());
+            preparedStatement.setString(5, newEntity.getEmail());
+            preparedStatement.setBlob(6, newEntity.getCertificate());
             preparedStatement.setBoolean(7, newEntity.isBlocked());
-            preparedStatement.setBlob(8, newEntity.getCertificate());
-            preparedStatement.setInt(9, oldEntity.getId());
+            preparedStatement.setInt(8, oldEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,12 +72,11 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             ResultSet resultSet = statement.executeQuery(sql);
             resultSet.next();
             newEnrollee.setId(resultSet.getInt("id"));
-            newEnrollee.setFirstname(resultSet.getString("first_name"));
-            newEnrollee.setLastname(resultSet.getString("last_name"));
-            newEnrollee.setSurname(resultSet.getString("surname"));
+            newEnrollee.setFullName(resultSet.getString("full_name"));
             newEnrollee.setCity(resultSet.getString("city"));
             newEnrollee.setRegion(resultSet.getString("region"));
             newEnrollee.setBlocked(resultSet.getBoolean("isBlocked"));
+            newEnrollee.setEmail(resultSet.getString("email"));
             newEnrollee.setSchoolName(resultSet.getString("school_name"));
             newEnrollee.setCertificate(resultSet.getBlob("certificate"));
         } catch (SQLException e) {
@@ -101,12 +98,11 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             {
                 Enrollee newEnrollee = new Enrollee();
                 newEnrollee.setId(resultSet.getInt("id"));
-                newEnrollee.setFirstname(resultSet.getString("first_name"));
-                newEnrollee.setLastname(resultSet.getString("last_name"));
-                newEnrollee.setSurname(resultSet.getString("surname"));
+                newEnrollee.setFullName(resultSet.getString("full_name"));
                 newEnrollee.setCity(resultSet.getString("city"));
                 newEnrollee.setRegion(resultSet.getString("region"));
                 newEnrollee.setBlocked(resultSet.getBoolean("isBlocked"));
+                newEnrollee.setEmail(resultSet.getString("email"));
                 newEnrollee.setSchoolName(resultSet.getString("school_name"));
                 newEnrollee.setCertificate(resultSet.getBlob("certificate"));
                 enrollees.add(newEnrollee);
