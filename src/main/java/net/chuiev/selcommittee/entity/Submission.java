@@ -1,9 +1,13 @@
 package net.chuiev.selcommittee.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Алексей on 3/5/2016.
  */
-public class Submission {
+public class Submission implements Serializable {
+    private static final long serialVersionUID = -5388561545513613948L;
+
     private int id;
     private int facultyId;
     private int enrolleeId;
