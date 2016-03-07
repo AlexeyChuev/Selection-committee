@@ -1,5 +1,6 @@
 package net.chuiev.selcommittee.repository;
 
+import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.FacultySubject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
@@ -18,6 +19,8 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.FACULTY_SUBJECT WHERE id=";
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.FACULTY_SUBJECT WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.FACULTY_SUBJECT";
+
+    private final static String FIND_ALL_SUBJECTS_FOR_FACULTY = "SELECT * FROM ADMIN.FACULTY_SUBJECT WHERE FACULTY_ID=";
 
     @Override
     public void create(FacultySubject entity) {
@@ -84,6 +87,28 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
+            while (resultSet.next())
+            {
+                FacultySubject newFacultySubject = new FacultySubject();
+                newFacultySubject.setId(resultSet.getInt("id"));
+                newFacultySubject.setFacultyId(resultSet.getInt("FACULTY_ID"));
+                newFacultySubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
+                facultySubjects.add(newFacultySubject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException(e);
+        }
+        return facultySubjects;
+    }
+
+
+    public Collection<FacultySubject> findSubjectsForFaculty(Faculty faculty){
+        Collection<FacultySubject> facultySubjects = new ArrayList<>();
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_SUBJECTS_FOR_FACULTY+faculty.getId());
             while (resultSet.next())
             {
                 FacultySubject newFacultySubject = new FacultySubject();

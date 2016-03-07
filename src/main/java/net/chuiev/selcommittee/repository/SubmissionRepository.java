@@ -1,5 +1,7 @@
 package net.chuiev.selcommittee.repository;
 
+import net.chuiev.selcommittee.entity.Enrollee;
+import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.Submission;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
@@ -16,8 +18,10 @@ public class SubmissionRepository implements Repository<Submission> {
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBMISSION (FACULTY_ID, ENROLLEE_ID) VALUES(?,?)";
     private final static String UPDATE_COMMAND = "UPDATE ADMIN.SUBMISSION SET FACULTY_ID=?, ENROLLEE_ID=? WHERE id=?";
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.SUBMISSION WHERE id=";
-    private final static String FIND_COMMAND = "SELECT * FROM Submission WHERE id=";
+    private final static String FIND_COMMAND = "SELECT * FROM ADMIN.SUBMISSION WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.SUBMISSION";
+
+    private final static String FIND_BY_FACULTY_AND_ENROLLEE = "SELECT * FROM ADMIN.SUBMISSION WHERE FACULTY_ID=? AND ENROLLEE_ID=?";
 
     @Override
     public void create(Submission entity){
@@ -65,6 +69,26 @@ public class SubmissionRepository implements Repository<Submission> {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
+            resultSet.next();
+            if (resultSet.wasNull()) throw new EntityNotExistsException();
+            newSubmission.setId(resultSet.getInt("id"));
+            newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
+            newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException(e);
+        }
+        return newSubmission;
+    }
+
+    public Submission getByFacultyAndEnrolle(Faculty faculty, Enrollee enrollee)
+    {
+        Submission newSubmission = new Submission();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_FACULTY_AND_ENROLLEE);
+            preparedStatement.setInt(1, faculty.getId());
+            preparedStatement.setInt(2, enrollee.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             if (resultSet.wasNull()) throw new EntityNotExistsException();
             newSubmission.setId(resultSet.getInt("id"));

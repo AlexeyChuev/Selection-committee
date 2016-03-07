@@ -1,11 +1,9 @@
-package net.chuiev.selcommittee.services;
+package net.chuiev.selcommittee.email;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.Properties;
 /**
  * Created by Алексей on 3/7/2016.

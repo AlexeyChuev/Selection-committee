@@ -1,4 +1,4 @@
-package net.chuiev.selcommittee.services;
+package net.chuiev.selcommittee.email;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
