@@ -38,7 +38,7 @@ public final class ConnectionCreator {
                 connection = dataSource.getConnection("admin", "admin");
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw new BrokenConnectionException();
+                throw new BrokenConnectionException(e);
             }
         }
         return connection;
