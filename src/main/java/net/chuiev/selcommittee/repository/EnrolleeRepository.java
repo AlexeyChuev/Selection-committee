@@ -32,7 +32,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -51,7 +51,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
 
     }
@@ -64,7 +64,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
 
 
@@ -88,7 +88,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             newEnrollee.setCertificate(resultSet.getBlob("certificate"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
             return newEnrollee;
     }
@@ -114,7 +114,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return enrollees;
     }

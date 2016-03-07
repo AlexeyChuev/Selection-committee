@@ -33,7 +33,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -60,7 +60,7 @@ public class FacultyRepository implements Repository<Faculty> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -78,7 +78,7 @@ public class FacultyRepository implements Repository<Faculty> {
             newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return newFaculty;
     }
@@ -100,7 +100,7 @@ public class FacultyRepository implements Repository<Faculty> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return faculties;
     }
@@ -122,7 +122,7 @@ public class FacultyRepository implements Repository<Faculty> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return faculties;
     }

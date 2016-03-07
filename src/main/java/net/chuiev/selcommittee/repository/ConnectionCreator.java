@@ -9,7 +9,7 @@ import java.sql.*;
 /**
  * Created by Алексей on 3/5/2016.
  */
-public class ConnectionCreator {
+public final class ConnectionCreator {
     private ConnectionCreator(){};
 
     private static Connection connection;

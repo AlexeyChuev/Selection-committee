@@ -29,7 +29,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -45,7 +45,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -57,7 +57,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             newSubmissionSubject.setGrade(resultSet.getInt("grade"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return newSubmissionSubject;
     }
@@ -98,7 +98,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException();
+            throw new EntityNotExistsException(e);
         }
         return submissionSubjects;
     }
