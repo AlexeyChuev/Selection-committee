@@ -8,7 +8,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 /**
- * Created by Алексей on 3/7/2016.
+ * Created by Alex on 3/7/2016.
  */
 public class SendEmail {
 
@@ -16,7 +16,7 @@ public class SendEmail {
     private String password;
     private Properties props;
 
-    private static SendEmail tlsSender = new SendEmail("chuevalexey93@gmail.com", "261187vjcrdf");
+    private static SendEmail tlsSender = new SendEmail("chuevalexey93@gmail.com", "pass");
 
     /*public static void main(String[] args){
         tlsSender.send("This is Subject", "TLS: This is text!", "chuevalexey93@gmail.com", "alexchuev090893@gmail.com");
@@ -91,7 +91,7 @@ public class SendEmail {
             Message msg = new MimeMessage(session);
 
             //Set message attributes
-            msg.setFrom(new InternetAddress(from, "261187vjcrdf"));
+            msg.setFrom(new InternetAddress(from, "pass"));
             InternetAddress[] address = {new InternetAddress(to)};
             msg.setRecipients(Message.RecipientType.TO, address);
             msg.setSubject("Test E-Mail through Java");

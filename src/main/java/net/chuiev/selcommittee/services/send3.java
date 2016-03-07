@@ -57,7 +57,7 @@ public class send3 {
         String host = "smtp.gmail.com";
         String port = "587";
         String mailFrom = "chuevalexey93@gmail.com";
-        String password = "261187vjcrdf";
+        String password = "pass";
 
         // outgoing message information
         String mailTo = "alexeychuev@mail.ru";

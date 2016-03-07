@@ -55,7 +55,7 @@ public class Send2 {
     }
 
     public static void main(String[] args) {
-        Send2 sender = new Send2("chuevalexey93@gmail.com", "261187vjcrdf");
+        Send2 sender = new Send2("chuevalexey93@gmail.com", "pass");
 
         sender.send("This is Subject", "TLS: This is text!", "alexchuev090893@gmail.com");
     }
