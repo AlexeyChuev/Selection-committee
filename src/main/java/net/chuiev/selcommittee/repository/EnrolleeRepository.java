@@ -19,6 +19,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ENROLLEE WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ENROLLEE";
 
+    private final static String UPDATE_ISBLOCKED = "UPDATE ADMIN.ENROLLEE SET ISBLOCKED=? WHERE id=?";
+
     @Override
     public void create(Enrollee entity) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND)) {
@@ -117,5 +119,18 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             throw new EntityNotExistsException(e);
         }
         return enrollees;
+    }
+
+    public void updateStatusIsBlocked(Enrollee newEntity, boolean isBlocked) {
+        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ISBLOCKED)) {
+            preparedStatement.setBoolean(1, isBlocked);
+            preparedStatement.setInt(2, newEntity.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException(e);
+        }
+
     }
 }

@@ -19,6 +19,8 @@ public class UserRepository implements Repository<User> {
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.Users WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.Users";
 
+    private final static String FIND_USER_BY_EMAIL = "SELECT * FROM ADMIN.Users WHERE EMAIL=";
+
     @Override
     public void create(User entity){
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND)) {
@@ -98,5 +100,23 @@ public class UserRepository implements Repository<User> {
             throw new EntityNotExistsException(e);
         }
         return users;
+    }
+
+    public User findUserByEmail(String email){
+        User newUser = new User();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_USER_BY_EMAIL + email);
+            resultSet.next();
+            if (resultSet.wasNull()) throw new EntityNotExistsException();
+            newUser.setId(resultSet.getInt("id"));
+            newUser.setEmail(resultSet.getString("email"));
+            newUser.setPassword(resultSet.getString("password"));
+            newUser.setRole(resultSet.getInt("role"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new EntityNotExistsException(e);
+        }
+        return newUser;
     }
 }

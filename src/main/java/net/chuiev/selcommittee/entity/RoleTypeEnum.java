@@ -9,4 +9,5 @@ public enum RoleTypeEnum {
     public String getName() {
         return name().toLowerCase();
     }
+
 }

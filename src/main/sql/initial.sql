@@ -51,6 +51,17 @@ CREATE TABLE Subject(
   name varchar(60) NOT NULL UNIQUE
 );
 
+INSERT INTO Subject (name) VALUES ('maths');
+INSERT INTO Subject (name) VALUES ('history');
+INSERT INTO Subject (name) VALUES ('geography');
+INSERT INTO Subject (name) VALUES ('chemistry');
+INSERT INTO Subject (name) VALUES ('physics');
+INSERT INTO Subject (name) VALUES ('english');
+INSERT INTO Subject (name) VALUES ('ukrainian');
+INSERT INTO Subject (name) VALUES ('biology');
+INSERT INTO Subject (name) VALUES ('computer_science');
+INSERT INTO Subject (name) VALUES ('economics');
+
 CREATE TABLE Faculty_Subject(
   id INT NOT NULL PRIMARY KEY generated always AS identity (START WITH 1, INCREMENT BY 1),
   faculty_id integer REFERENCES Faculty (id),
@@ -76,7 +87,7 @@ CREATE TABLE Submission_Subject(
   subject_id integer REFERENCES Subject (id),
   grade INT NOT NULL,
   grade_type VARCHAR(20) REFERENCES Grade_Type(id),
-  UNIQUE (subject_id, submission_id)
+  UNIQUE (subject_id, submission_id, grade_type)
 );
 
 disconnect;

@@ -9,19 +9,21 @@ public class AdmissionRegister{
     private String fullName;
     private String email;
     private boolean isBlocked;
-    private short preliminarySum;
-    private short diplomaSum;
+    private short examsSum;
+    private short certificateSum;
     private short totalSum;
 
-    public AdmissionRegister(int facultyId, String fullName, String email, boolean isBlocked, short preliminarySum, short diplomaSum, short totalSum) {
+    public AdmissionRegister(int facultyId, String fullName, String email, boolean isBlocked, short examsSum, short diplomaSum, short totalSum) {
         this.facultyId = facultyId;
         this.fullName = fullName;
         this.email = email;
         this.isBlocked = isBlocked;
-        this.preliminarySum = preliminarySum;
-        this.diplomaSum = diplomaSum;
+        this.examsSum = examsSum;
+        this.certificateSum = diplomaSum;
         this.totalSum = totalSum;
     }
+
+    public AdmissionRegister(){}
 
     public int getFacultyId() {
         return facultyId;
@@ -55,20 +57,12 @@ public class AdmissionRegister{
         isBlocked = blocked;
     }
 
-    public short getPreliminarySum() {
-        return preliminarySum;
+    public short getExamsSum() {
+        return examsSum;
     }
 
-    public void setPreliminarySum(short preliminarySum) {
-        this.preliminarySum = preliminarySum;
-    }
-
-    public short getDiplomaSum() {
-        return diplomaSum;
-    }
-
-    public void setDiplomaSum(short diplomaSum) {
-        this.diplomaSum = diplomaSum;
+    public void setExamsSum(short examsSum) {
+        this.examsSum = examsSum;
     }
 
     public short getTotalSum() {
@@ -79,6 +73,14 @@ public class AdmissionRegister{
         this.totalSum = totalSum;
     }
 
+    public short getCertificateSum() {
+        return certificateSum;
+    }
+
+    public void setCertificateSum(short certificateSum) {
+        this.certificateSum = certificateSum;
+    }
+
     @Override
     public String toString() {
         return "AdmissionRegister{" +
@@ -86,9 +88,38 @@ public class AdmissionRegister{
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", isBlocked=" + isBlocked +
-                ", preliminarySum=" + preliminarySum +
-                ", diplomaSum=" + diplomaSum +
+                ", examsSum=" + examsSum +
+                ", certificateSum=" + certificateSum +
                 ", totalSum=" + totalSum +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AdmissionRegister that = (AdmissionRegister) o;
+
+        if (facultyId != that.facultyId) return false;
+        if (isBlocked != that.isBlocked) return false;
+        if (examsSum != that.examsSum) return false;
+        if (certificateSum != that.certificateSum) return false;
+        if (totalSum != that.totalSum) return false;
+        if (!fullName.equals(that.fullName)) return false;
+        return email.equals(that.email);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = facultyId;
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + (isBlocked ? 1 : 0);
+        result = 31 * result + (int) examsSum;
+        result = 31 * result + (int) certificateSum;
+        result = 31 * result + (int) totalSum;
+        return result;
     }
 }
