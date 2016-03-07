@@ -12,15 +12,25 @@ public class SubmissionSubject implements Serializable {
     private int submissionId;
     private int subjectId;
     private int grade;
+    private int gradeType;
 
-    public SubmissionSubject(int id, int submissionId, int subjectId, int grade) {
+    public SubmissionSubject(int id, int submissionId, int subjectId, int grade, int gradeType) {
         this.id = id;
         this.submissionId = submissionId;
         this.subjectId = subjectId;
         this.grade = grade;
+        this.gradeType=gradeType;
     }
 
     public SubmissionSubject(){}
+
+    public int getGradeType() {
+        return gradeType;
+    }
+
+    public void setGradeType(int gradeType) {
+        this.gradeType = gradeType;
+    }
 
     public int getId() {
         return id;
@@ -61,6 +71,7 @@ public class SubmissionSubject implements Serializable {
                 ", submissionId=" + submissionId +
                 ", subjectId=" + subjectId +
                 ", grade=" + grade +
+                ", gradeType=" + gradeType +
                 '}';
     }
 }

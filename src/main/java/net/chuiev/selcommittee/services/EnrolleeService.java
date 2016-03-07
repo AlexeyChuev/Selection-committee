@@ -16,13 +16,13 @@ public class EnrolleeService {
     private static SubmissionRepository submissionRepository = new SubmissionRepository();
     private static FacultySubjectRepository facultySubjectRepository = new FacultySubjectRepository();
 
-    public static void registrationInSystem(String fullname, String city, String region, String schoolName, String email, boolean isBlocked, Blob certificate)
+    public static void registrationInSystem(String fullname, String city, String region, String schoolName, boolean isBlocked, Blob certificate, int userId)
     {
         Enrollee enrollee = new Enrollee();
         enrollee.setFullName(fullname);
         enrollee.setCity(city);
         enrollee.setRegion(region);
-        enrollee.setEmail(email);
+        enrollee.setUserId(userId);
         enrollee.setBlocked(isBlocked);
         enrollee.setSchoolName(schoolName);
         enrollee.setCertificate(certificate);

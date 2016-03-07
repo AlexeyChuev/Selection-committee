@@ -13,8 +13,8 @@ import java.util.Collection;
 public class SubmissionSubjectRepository implements Repository<SubmissionSubject> {
     private Connection connection = ConnectionCreator.getConnection();
 
-    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBMISSION_SUBJECT (SUBMISSION_ID, SUBJECT_ID, GRADE) VALUES(?,?,?)";
-    private final static String UPDATE_COMMAND = "UPDATE ADMIN.SUBMISSION_SUBJECT SET SUBMISSION_ID=?, SUBJECT_ID=?, grade=? WHERE id=?";
+    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBMISSION_SUBJECT (SUBMISSION_ID, SUBJECT_ID, GRADE, GRADE_TYPE) VALUES(?,?,?,?)";
+    private final static String UPDATE_COMMAND = "UPDATE ADMIN.SUBMISSION_SUBJECT SET SUBMISSION_ID=?, SUBJECT_ID=?, grade=?, GRADE_TYPE=? WHERE id=?";
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.SUBMISSION_SUBJECT WHERE id=";
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT";
@@ -26,6 +26,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.setInt(1, entity.getSubmissionId());
             preparedStatement.setInt(2, entity.getSubjectId());
             preparedStatement.setInt(3, entity.getGrade());
+            preparedStatement.setInt(4, entity.getGradeType());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +42,8 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.setInt(1, newEntity.getSubmissionId());
             preparedStatement.setInt(2, newEntity.getSubjectId());
             preparedStatement.setInt(3, newEntity.getGrade());
-            preparedStatement.setInt(4, newEntity.getId());
+            preparedStatement.setInt(4, newEntity.getGradeType());
+            preparedStatement.setInt(5, newEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,6 +75,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             newSubmissionSubject.setSubmissionId(resultSet.getInt("SUBMISSION_ID"));
             newSubmissionSubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
             newSubmissionSubject.setGrade(resultSet.getInt("grade"));
+            newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new EntityNotExistsException(e);
