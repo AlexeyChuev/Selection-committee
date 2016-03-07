@@ -9,9 +9,9 @@ public class Role implements Serializable{
     private static final long serialVersionUID = 2200691353927261877L;
 
     private int id;
-    private String roleType;
+    private Enum roleType;
 
-    public Role(int id, String roleType) {
+    public Role(int id, Enum roleType) {
         this.id = id;
         this.roleType = roleType;
     }
@@ -26,11 +26,11 @@ public class Role implements Serializable{
         this.id = id;
     }
 
-    public String getRoleType() {
+    public Enum getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(String roleType) {
+    public void setRoleType(Enum roleType) {
         this.roleType = roleType;
     }
 

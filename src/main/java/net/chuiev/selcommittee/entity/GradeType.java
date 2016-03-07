@@ -9,20 +9,20 @@ public class GradeType implements Serializable{
     private static final long serialVersionUID = 4113633887252453777L;
 
     private int id;
-    private String gradeType;
+    private Enum gradeType;
 
-    public GradeType(int id, String gradeType) {
+    public GradeType(int id, Enum gradeType) {
         this.id = id;
         this.gradeType = gradeType;
     }
 
     public GradeType(){}
 
-    public String getGradeType() {
+    public Enum getGradeType() {
         return gradeType;
     }
 
-    public void setGradeType(String gradeType) {
+    public void setGradeType(Enum gradeType) {
         this.gradeType = gradeType;
     }
 

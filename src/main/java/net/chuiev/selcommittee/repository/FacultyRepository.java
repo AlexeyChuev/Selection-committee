@@ -16,7 +16,7 @@ public class FacultyRepository implements Repository<Faculty> {
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.FACULTY (NAME, BUDGETVOLUME, TOTALVOLUME) VALUES(?,?,?)";
     private final static String UPDATE_COMMAND = "UPDATE ADMIN.FACULTY SET NAME=?, BUDGETVOLUME=?, TOTALVOLUME=? WHERE id=?";
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.FACULTY WHERE id=";
-    private final static String FIND_COMMAND = "SELECT * FROM Faculty WHERE id=";
+    private final static String FIND_COMMAND = "SELECT * FROM ADMIN.FACULTY WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.FACULTY";
 
     private final static String SORT_BY_NAME_FROM_A_TO_Z = "SELECT * FROM ADMIN.FACULTY ORDER BY NAME ASC";
