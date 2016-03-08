@@ -63,8 +63,7 @@ public class EnrolleeService {
     }
 
     //get them from page with special textBox for each grade in
-    public static Collection<Integer> getGradesForSpecialExams(int firstGrade, int secondGrade, int thirdGrade)
-    {
+    public static Collection<Integer> getGradesForSpecialExams(int firstGrade, int secondGrade, int thirdGrade) {
         Collection<Integer> gradesForSpecialExams = new ArrayList<>();
         gradesForSpecialExams.add(firstGrade);
         gradesForSpecialExams.add(secondGrade);
@@ -73,8 +72,7 @@ public class EnrolleeService {
     }
 
     public static Collection<Integer> getCertificateGrades(int maths, int history, int geography, int chemistry, int physics,
-                                                            int english, int ukrainian, int biology, int computer_science, int economics)
-    {
+                                                           int english, int ukrainian, int biology, int computer_science, int economics) {
         Collection<Integer> certificateGrades = new ArrayList<>();
         certificateGrades.add(maths);
         certificateGrades.add(history);

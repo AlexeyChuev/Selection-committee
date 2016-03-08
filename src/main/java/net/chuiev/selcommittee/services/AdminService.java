@@ -12,23 +12,19 @@ public class AdminService {
     private static FacultyRepository facultyRepository = new FacultyRepository();
     private static EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
 
-    public static void addFaculty(Faculty faculty)
-    {
+    public static void addFaculty(Faculty faculty) {
         facultyRepository.create(faculty);
     }
 
-    public static void editingFaculty(Faculty faculty)
-    {
+    public static void editingFaculty(Faculty faculty) {
         facultyRepository.update(faculty);
     }
 
-    public static void removeFaculty(Faculty faculty)
-    {
+    public static void removeFaculty(Faculty faculty) {
         facultyRepository.delete(faculty.getId());
     }
 
-    public static void changeEnrolleeBlockingStatus(Enrollee enrollee, boolean isBlocked)
-    {
+    public static void changeEnrolleeBlockingStatus(Enrollee enrollee, boolean isBlocked) {
         enrolleeRepository.updateStatusIsBlocked(enrollee, isBlocked);
     }
 

@@ -10,8 +10,7 @@ import net.chuiev.selcommittee.repository.UserRepository;
 public class UserService {
     private static UserRepository userRepository = new UserRepository();
 
-    public static void registrationUserInSystem(String email, String password, String roleType)
-    {
+    public static void registrationUserInSystem(String email, String password, String roleType) {
         User user = new User();
         user.setPassword(password);
         user.setEmail(email);

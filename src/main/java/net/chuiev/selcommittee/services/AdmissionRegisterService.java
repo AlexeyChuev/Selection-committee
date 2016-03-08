@@ -24,9 +24,8 @@ public class AdmissionRegisterService {
 
     public final static String GET_ENROLLEE_EMAIL = "SELECT Users.email AS 'email' FROM ADMIN.USERS WHERE ADMIN.USERS.ID=";
 
-    public static short getEnrolleeExamSum(Enrollee enrollee, Faculty faculty)
-    {
-        short sum=0;
+    public static short getEnrolleeExamSum(Enrollee enrollee, Faculty faculty) {
+        short sum = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_EXAM_GRADES);
             statement.setInt(1, enrollee.getId());
@@ -35,7 +34,7 @@ public class AdmissionRegisterService {
             resultSet.next();
             if (resultSet.wasNull()) throw new EntityNotExistsException();
             sum = Short.parseShort(resultSet.getString("sum"));
-            if(sum==0)throw new EntityNotExistsException();
+            if (sum == 0) throw new EntityNotExistsException();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new EntityNotExistsException(e);
@@ -43,9 +42,8 @@ public class AdmissionRegisterService {
         return sum;
     }
 
-    public static short getEnrolleeCertificateSum(Enrollee enrollee, Faculty faculty)
-    {
-        short sum=0;
+    public static short getEnrolleeCertificateSum(Enrollee enrollee, Faculty faculty) {
+        short sum = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_CERTIFICATE_GRADES);
             statement.setInt(1, enrollee.getId());
@@ -54,7 +52,7 @@ public class AdmissionRegisterService {
             resultSet.next();
             if (resultSet.wasNull()) throw new EntityNotExistsException();
             sum = Short.parseShort(resultSet.getString("sum"));
-            if(sum==0)throw new EntityNotExistsException();
+            if (sum == 0) throw new EntityNotExistsException();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new EntityNotExistsException(e);
@@ -62,15 +60,14 @@ public class AdmissionRegisterService {
         return sum;
     }
 
-    public static String getEmailEnrollee(Enrollee enrollee)
-    {
+    public static String getEmailEnrollee(Enrollee enrollee) {
         String email = null;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ENROLLEE_EMAIL + enrollee.getId());
             resultSet.next();
             email = resultSet.getString("email");
-            if(email==null)throw new EntityNotExistsException();
+            if (email == null) throw new EntityNotExistsException();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new EntityNotExistsException(e);
@@ -78,16 +75,15 @@ public class AdmissionRegisterService {
         return email;
     }
 
-    public static AdmissionRegister createAdmissionRegister(Enrollee enrollee, Faculty faculty)
-    {
+    public static AdmissionRegister createAdmissionRegister(Enrollee enrollee, Faculty faculty) {
         AdmissionRegister admissionRegister = new AdmissionRegister();
         admissionRegister.setEmail(getEmailEnrollee(enrollee));
         admissionRegister.setFullName(enrollee.getFullName());
         admissionRegister.setBlocked(enrollee.isBlocked());
         admissionRegister.setFacultyId(faculty.getId());
-        short enrolleExamSum = getEnrolleeExamSum(enrollee,faculty);
-        short enrolleCertificateSum = getEnrolleeCertificateSum(enrollee,faculty);
-        int totalSum = enrolleExamSum+enrolleCertificateSum;
+        short enrolleExamSum = getEnrolleeExamSum(enrollee, faculty);
+        short enrolleCertificateSum = getEnrolleeCertificateSum(enrollee, faculty);
+        int totalSum = enrolleExamSum + enrolleCertificateSum;
         admissionRegister.setCertificateSum(enrolleCertificateSum);
         admissionRegister.setExamsSum(enrolleExamSum);
         admissionRegister.setTotalSum((short) totalSum);
