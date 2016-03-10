@@ -14,15 +14,25 @@ public class User implements Serializable {
     private int role;
     private String email;
     private String password;
+    private boolean isBlocked;
 
-    public User(int id, int role, String email, String password) {
-        this.id = id;
+    public User(int role, String email, String password, boolean isBlocked) {
+
         this.role = role;
         this.email = email;
         this.password = password;
+        this.isBlocked = isBlocked;
     }
 
     public User(){}
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
 
     public int getId() {
         return id;
@@ -63,6 +73,7 @@ public class User implements Serializable {
                 ", role=" + role +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", isBlocked=" + isBlocked +
                 '}';
     }
 }

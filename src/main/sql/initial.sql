@@ -20,7 +20,8 @@ CREATE TABLE Users(
   id integer NOT NULL PRIMARY KEY generated always AS identity (START WITH 1, INCREMENT BY 1),
   role INT REFERENCES Role (id),
   email varchar(60) NOT NULL UNIQUE,
-  password VARCHAR (50) NOT NULL
+  password VARCHAR (50) NOT NULL,
+  isBlocked BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Administrator(
@@ -35,7 +36,6 @@ CREATE TABLE Enrollee(
   region varchar(30) NOT NULL,
   school_name varchar(50) NOT NULL,
   certificate BLOB,
-  isBlocked BOOLEAN DEFAULT FALSE,
   user_id INTEGER REFERENCES Users (id)
 );
 

@@ -12,22 +12,22 @@
 </head>
 <body>
 
-<form id ="login" action="controller" method="post">
+<form name="login" id ="login" action="controller" method="POST">
     <input type="hidden" name="command" value="login" />
-
+    <h1>Система "Приемная комиссия"</h1>
     <label>
-        Username:<br>
-        <input required type="text" name="username" class="input-field">
+        Введите email:<br>
+        <input required type="email" name="email" class="input-field">
     </label>
     <br>
     <label>
-        Password:<br>
+        Введите пароль:<br>
         <input required type="password" name="password" class="input-field">
     </label>
     <br>
     <br>
-    <input type=submit value="Login" class="submit-btn">
-    <input type="button" value="Register" class="submit-btn" onclick="document.location.href='registration.jsp'">
+    <input type=submit value="Войти" class="submit-btn">
+    <input type="button" value="Зарегистрироваться" class="submit-btn" onclick="document.location.href='registration.jsp'">
 </form>
 </body>
 </html>

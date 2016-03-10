@@ -13,13 +13,14 @@ import java.util.Collection;
 public class UserRepository implements Repository<User> {
     private Connection connection = ConnectionCreator.getConnection();
 
-    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.Users (role, email, password) VALUES(?,?,?)";
-    private final static String UPDATE_COMMAND = "UPDATE ADMIN.Users SET role=?, email=?, password=? WHERE id=?";
+    private final static String INSERT_COMMAND = "INSERT INTO ADMIN.Users (role, email, password, ISBLOCKED) VALUES(?,?,?,?)";
+    private final static String UPDATE_COMMAND = "UPDATE ADMIN.Users SET role=?, email=?, password=?, ISBLOCKED=? WHERE id=?";
     private final static String DELETE_COMMAND = "DELETE FROM ADMIN.Users WHERE id=";
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.Users WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.Users";
 
     private final static String FIND_USER_BY_EMAIL = "SELECT * FROM ADMIN.Users WHERE EMAIL=";
+
 
     @Override
     public void create(User entity){
@@ -27,10 +28,11 @@ public class UserRepository implements Repository<User> {
             preparedStatement.setInt(1, entity.getRole());
             preparedStatement.setString(2, entity.getEmail());
             preparedStatement.setString(3, entity.getPassword());
+            preparedStatement.setBoolean(4, entity.isBlocked());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -41,11 +43,12 @@ public class UserRepository implements Repository<User> {
             preparedStatement.setInt(1, newEntity.getRole());
             preparedStatement.setString(2, newEntity.getEmail());
             preparedStatement.setString(3, newEntity.getPassword());
-            preparedStatement.setInt(4, newEntity.getId());
+            preparedStatement.setBoolean(4, newEntity.isBlocked());
+            preparedStatement.setInt(5, newEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -57,7 +60,7 @@ public class UserRepository implements Repository<User> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -68,14 +71,15 @@ public class UserRepository implements Repository<User> {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_COMMAND + entityId);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+
             newUser.setId(resultSet.getInt("id"));
             newUser.setEmail(resultSet.getString("email"));
             newUser.setPassword(resultSet.getString("password"));
             newUser.setRole(resultSet.getInt("role"));
+            newUser.setBlocked(resultSet.getBoolean("isblocked"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newUser;
     }
@@ -93,11 +97,12 @@ public class UserRepository implements Repository<User> {
                 newUser.setEmail(resultSet.getString("email"));
                 newUser.setPassword(resultSet.getString("password"));
                 newUser.setRole(resultSet.getInt("role"));
+                newUser.setBlocked(resultSet.getBoolean("isblocked"));
                 users.add(newUser);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return users;
     }
@@ -106,17 +111,43 @@ public class UserRepository implements Repository<User> {
         User newUser = new User();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_USER_BY_EMAIL + email);
-            resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+            ResultSet resultSet = statement.executeQuery(FIND_USER_BY_EMAIL + prepareEmail(email));
+            if(!resultSet.next()) return null;
             newUser.setId(resultSet.getInt("id"));
             newUser.setEmail(resultSet.getString("email"));
             newUser.setPassword(resultSet.getString("password"));
             newUser.setRole(resultSet.getInt("role"));
+            newUser.setBlocked(resultSet.getBoolean("isblocked"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newUser;
     }
+
+    private static String prepareEmail(String email)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("'");
+        sb.append(email);
+        sb.append("'");
+        return sb.toString();
+    }
+
+
+
+    /*public boolean getBlockedStatusByUserId(int userId) {
+        boolean result = false;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ENROLLEE_BY_USER_ID + userId);
+            resultSet.next();
+
+            result = resultSet.getBoolean("isBlocked");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return result;
+    }*/
 }

@@ -14,8 +14,8 @@ public class Enrollee implements Serializable{
     private String city;
     private String region;
     private String schoolName;
-    private Blob certificate; //?????????????
-    private boolean isBlocked;
+
+
     private int userId;
 
     public int getUserId() {
@@ -26,14 +26,13 @@ public class Enrollee implements Serializable{
         this.userId = userId;
     }
 
-    public Enrollee(int id, String fullName, String city, String region, String schoolName, Blob certificate, boolean isBlocked, int userId) {
-        this.id = id;
+    public Enrollee(String fullName, String city, String region, String schoolName, int userId) {
+
         this.fullName = fullName;
         this.city = city;
         this.region = region;
         this.schoolName = schoolName;
-        this.isBlocked = isBlocked;
-        this.certificate = certificate;
+
         this.userId = userId;
     }
 
@@ -79,22 +78,6 @@ public class Enrollee implements Serializable{
         this.schoolName = schoolName;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
-    }
-
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
-    }
-
-    public Blob getCertificate() {
-        return certificate;
-    }
-
-    public void setCertificate(Blob certificate) {
-        this.certificate = certificate;
-    }
-
     @Override
     public String toString() {
         return "Enrollee{" +
@@ -103,8 +86,6 @@ public class Enrollee implements Serializable{
                 ", city='" + city + '\'' +
                 ", region='" + region + '\'' +
                 ", schoolName='" + schoolName + '\'' +
-                ", isBlocked=" + isBlocked +
-                ", certificate=" + certificate +
                 ", userId=" + userId +
                 '}';
     }

@@ -79,7 +79,7 @@ public class AdmissionRegisterService {
         AdmissionRegister admissionRegister = new AdmissionRegister();
         admissionRegister.setEmail(getEmailEnrollee(enrollee));
         admissionRegister.setFullName(enrollee.getFullName());
-        admissionRegister.setBlocked(enrollee.isBlocked());
+
         admissionRegister.setFacultyId(faculty.getId());
         short enrolleExamSum = getEnrolleeExamSum(enrollee, faculty);
         short enrolleCertificateSum = getEnrolleeCertificateSum(enrollee, faculty);

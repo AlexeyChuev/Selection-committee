@@ -11,21 +11,87 @@
     <title>Форма регистрации посетителей</title>
 </head>
 <body>
-<h1>Регистрация посетителей</h1>
-<form action="AddUser" method="post">
-    Пользователь: <input type="text" name="user" size="10"><br>
-    Пароль: <input type="password" name="password" size="10"><br>
-    Email: <input type="text" name="email"><br>
-    <p>
-    <table>
-        <tr>
-            <th><small>
-                <input type="submit" name="save" value="Сохранить">
-            </small>
-            <th><small>
-                <input type="submit" name="cancel" value="Выйти">
-            </small>
-    </table>
-</form>
+<br>
+<br>
+
+<div class="welcomeform">
+    <form id="registration_form" method="POST" action="controller">
+        <input type="hidden" name="command" value="client_registration" />
+
+
+
+        <div class="field">
+            <label>  Email:
+            <input type="email" name="email" value="" required/>
+        </label>
+        </div>
+        <br>
+        <div class="field">
+            <label>
+                Пароль:
+                <input type="password" name="password" value="" required/>
+            </label>
+        </div>
+        <br>
+        <div class="field">
+            <label>
+                ФИО:
+                <input type="text" name="full_name" value="" required/>
+            </label>
+        </div>
+        <br>
+        <div class="field">
+            <label>
+                Город:
+                <input type="text" name="city" value="" required/>
+            </label>
+        </div>
+        <br>
+        <div class="field">
+            <label>
+                Регион:
+                <input type="text" name="region" value="" required/>
+            </label>
+        </div>
+        <br>
+        <div class="field">
+            <label>
+                Название учебного заведения:
+                <input type="text" name="school" value="" required/>
+            </label>
+        </div>
+
+        <!--
+        <br>
+        <div class="field">
+            <label>
+                Приложить скан аттестата:
+                <input type="file" name="certificate" value=""/>
+            </label>
+        </div>
+        !-->
+
+        <br>
+        <div class="field">
+            <input type="submit"
+                   value="Отправить" />
+        </div>
+
+
+        <div class="field">
+            <input type="reset"
+                   value="Очистить заполненные поля"/>
+        </div>
+
+        <br>
+        <div class="field">
+
+         <a href="index.jsp">Вернуться на страницу входа</a>
+        </div>
+
+    </form>
+
+</div>
+
 </body>
 </html>

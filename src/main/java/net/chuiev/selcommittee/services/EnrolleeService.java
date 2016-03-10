@@ -31,9 +31,9 @@ public class EnrolleeService {
         enrollee.setCity(city);
         enrollee.setRegion(region);
         enrollee.setUserId(justAddedUser.getId());
-        enrollee.setBlocked(false);
+
         enrollee.setSchoolName(schoolName);
-        enrollee.setCertificate(certificate);
+
         enrolleeRepository.create(enrollee);
     }
 

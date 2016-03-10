@@ -1,0 +1,18 @@
+<!-- Header - top area. -->
+
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<br>
+<br>
+
+<div class="menu">
+    <a href="controller?command=viewAllFaculties">Все факультеты</a>
+    <a href="index.jsp">Страница входа</a>
+    <a href="controller?command=viewProfile">Профиль</a>
+    <a href="controller?command=logout">Выход</a>
+</div>
+<br>
+<br>
+<br>
+<br>

@@ -1,8 +1,15 @@
 package net.chuiev.selcommittee.controller;
 
+import net.chuiev.selcommittee.entity.Enrollee;
+import net.chuiev.selcommittee.entity.Role;
+import net.chuiev.selcommittee.entity.User;
+import net.chuiev.selcommittee.repository.EnrolleeRepository;
+import net.chuiev.selcommittee.repository.UserRepository;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -14,9 +21,35 @@ public class LoginCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result = null;
-        /*if (request.geactionType == ActionType.POST) {
-            result = doPost(request, response);
-        }*/
+        HttpSession session = request.getSession();
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        if (email == null || password == null || email.isEmpty()
+                || password.isEmpty()) {
+            result = "/WEB-INF/errors/errorUserNotExist.jsp";
+        }
+
+        UserRepository userRepository = new UserRepository();
+        User user = userRepository.findUserByEmail(email);
+
+        if (user == null) {
+            result = "/WEB-INF/errors/errorUserNotExist.jsp";
+        } else {
+            if(!user.getPassword().equals(password))return  "/WEB-INF/errors/errorUserNotExist.jsp";
+            int userRole = user.getRole();
+
+            if (userRole == 1) {
+                result = "/WEB-INF/admin/adminHome.jsp";
+            }
+            if (userRole == 2) {
+                if(user.isBlocked())result= "/WEB-INF/errors/errorBlockedUser.jsp";
+                else result = "/WEB-INF/client/clientHome.jsp";
+            }
+            session.setAttribute("user", user);
+            session.setAttribute("userRole", userRole);
+        }
         return result;
     }
 

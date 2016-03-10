@@ -13,6 +13,8 @@ public class CommandManager {
     static {
         commands.put("login", new LoginCommand());
         commands.put("noCommand", new NoCommand());
+        commands.put("client_registration", new ClientRegistrationCommand());
+        commands.put("logout", new LogoutCommand());
     }
 
     public static Command get(String commandName) {
