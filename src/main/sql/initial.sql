@@ -86,7 +86,7 @@ CREATE TABLE Submission_Subject(
   submission_id integer REFERENCES Submission (id),
   subject_id integer REFERENCES Subject (id),
   grade INT NOT NULL,
-  grade_type VARCHAR(20) REFERENCES Grade_Type(id),
+  grade_type INTEGER REFERENCES Grade_Type(id),
   UNIQUE (subject_id, submission_id, grade_type)
 );
 
