@@ -36,6 +36,7 @@ public class Controller extends HttpServlet {
             response.sendRedirect("/login.jsp");
         }
         else{
+
             RequestDispatcher disp = request.getRequestDispatcher(path);
             disp.forward(request, response);
         }

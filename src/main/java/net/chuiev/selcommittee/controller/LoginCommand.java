@@ -23,6 +23,7 @@ public class LoginCommand extends Command {
         String result = null;
         HttpSession session = request.getSession();
 
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -41,14 +42,21 @@ public class LoginCommand extends Command {
             int userRole = user.getRole();
 
             if (userRole == 1) {
+                session.setAttribute("user", user.getEmail());
+                session.setAttribute("userRole", user.getRole());
+
                 result = "/WEB-INF/admin/adminHome.jsp";
             }
             if (userRole == 2) {
                 if(user.isBlocked())result= "/WEB-INF/errors/errorBlockedUser.jsp";
-                else result = "/WEB-INF/client/clientHome.jsp";
+                else {
+                    session.setAttribute("email", email);
+                    session.setAttribute("userRole", userRole);
+                    result = "controller?command=clientHomePage";
+                }
             }
-            session.setAttribute("user", user);
-            session.setAttribute("userRole", userRole);
+
+
         }
         return result;
     }

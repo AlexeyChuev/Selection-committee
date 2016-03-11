@@ -20,6 +20,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ENROLLEE";
 
     private final static String UPDATE_ISBLOCKED = "UPDATE ADMIN.ENROLLEE SET ISBLOCKED=? WHERE id=?";
+    private final static String FIND_BY_USER_ID = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID=";
 
 
     @Override
@@ -129,6 +130,27 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
         }
 
+    }
+
+    public Enrollee findByUserId(int userId){
+        Enrollee newEnrollee = new Enrollee();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_BY_USER_ID + userId);
+            resultSet.next();
+
+            newEnrollee.setId(resultSet.getInt("id"));
+            newEnrollee.setFullName(resultSet.getString("full_name"));
+            newEnrollee.setCity(resultSet.getString("city"));
+            newEnrollee.setRegion(resultSet.getString("region"));
+
+            newEnrollee.setUserId(resultSet.getInt("user_id"));
+            newEnrollee.setSchoolName(resultSet.getString("school_name"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newEnrollee;
     }
 
 

@@ -8,6 +8,7 @@ import net.chuiev.selcommittee.repository.UserRepository;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Blob;
 
@@ -45,11 +46,15 @@ public class ClientRegistrationCommand extends Command {
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
         enrolleeRepository.create(enrollee);
 
+        HttpSession session = request.getSession(true);
+        session.setAttribute("email", email);
+        session.setAttribute("userRole", 2);
+
         /*MailUtils.sendConfirmationEmail(user);
         request.setAttribute("successfulMessage",
                 "Your account was created. Check your email and confirm your registration.");*/
 
-        result = "/WEB-INF/client/clientHome.jsp";
+        result = "controller?command=clientHomePage";
         return result;
     }
 
