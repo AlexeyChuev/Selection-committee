@@ -28,7 +28,9 @@
 <c:forEach var="faculty" items="${faculties}">
     <tr>
         <td>
-            <a href="/index.jsp"> ${faculty.name} </a>
+            <a href="<c:url value="controller?command=defineFaculty"> <c:param name="facultyname" value="${faculty.name}"/></c:url>">
+                <c:out value="${faculty.name}"></c:out>
+            </a>
         </td>
         <td>${faculty.budgetVolume}</td>
         <td>${faculty.totalVolume}</td>
@@ -46,6 +48,10 @@
     <a href="controller?command=sortFacultiesByBudget">По количеству бюджетных мест</a>
     <a href="controller?command=sortFacultiesByTotal">По общему количеству мес</a>
 </div>
+
+
+
+
 
 </body>
 </html>

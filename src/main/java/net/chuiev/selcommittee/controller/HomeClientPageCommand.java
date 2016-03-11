@@ -31,6 +31,8 @@ public class HomeClientPageCommand extends Command{
         request.setAttribute("region", enrollee.getRegion());
         request.setAttribute("school", enrollee.getSchoolName());
 
+        session.setAttribute("enrolleeID", enrollee.getId());
+
 
         int userRole = (int)session.getAttribute("userRole");
 
