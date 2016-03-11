@@ -14,42 +14,18 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf"%>
-<h3>Ваш профиль</h3>
+<h2>Ваш профиль</h2>
 
-ФИО:${name}
-<br>
-Город:${city}
-<br>
-Регион:${region}
-<br>
-Учебное заведение:${school}
-<br>
-Email:${email}
-<br>
-<%--
-<br>
-sg1
+    <b>ФИО:</b><br>${name}
+<br><br>
+    <b>Город:</b><br>${city}
+<br><br>
+    <b>Регион:</b><br>${region}
+<br><br>
+    <b>Учебное заведение:</b><br>${school}
+<br><br>
+    <b>Email:</b><br>${email}
 <br>
 
-<table>
-    <c:forEach var="elem" items="${sessionScope.values()}" varStatus="status">
-        <tr>
-            <td><c:out value="${ elem }" /></td>
-
-        </tr>
-    </c:forEach>
-</table>
-<br>
-sg2
-<br>
-<table>
-    <c:forEach var="elem" items="${param.values()}" varStatus="status">
-        <tr>
-            <td><c:out value="${ elem }" /></td>
-
-        </tr>
-    </c:forEach>
-</table>
---%>
 </body>
 </html>

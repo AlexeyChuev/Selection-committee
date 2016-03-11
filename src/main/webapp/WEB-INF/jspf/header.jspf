@@ -8,7 +8,6 @@
 
 <div class="menu">
     <a href="controller?command=viewAllFaculties">Все факультеты</a>
-    <a href="index.jsp">Страница входа</a>
     <a href="controller?command=clientHomePage">Профиль</a>
     <a href="controller?command=logout">Выход</a>
 </div>

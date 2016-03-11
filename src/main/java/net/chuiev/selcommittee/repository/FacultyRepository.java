@@ -21,8 +21,8 @@ public class FacultyRepository implements Repository<Faculty> {
 
     private final static String SORT_BY_NAME_FROM_A_TO_Z = "SELECT * FROM ADMIN.FACULTY ORDER BY NAME ASC";
     private final static String SORT_BY_NAME_FROM_Z_TO_A = "SELECT * FROM ADMIN.FACULTY ORDER BY NAME DESC";
-    private final static String SORT_BY_BUDGETVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY BUDGETVOLUME ASC";
-    private final static String SORT_BY_TOTALVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY TOTALVOLUME ASC";
+    private final static String SORT_BY_BUDGETVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY BUDGETVOLUME DESC";
+    private final static String SORT_BY_TOTALVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY TOTALVOLUME DESC";
 
     @Override
     public void create(Faculty entity){
@@ -33,7 +33,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -48,7 +48,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -60,7 +60,7 @@ public class FacultyRepository implements Repository<Faculty> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -71,14 +71,14 @@ public class FacultyRepository implements Repository<Faculty> {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_COMMAND + entityId);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+
             newFaculty.setId(resultSet.getInt("id"));
             newFaculty.setName(resultSet.getString("name"));
             newFaculty.setBudgetVolume(resultSet.getInt("budgetVolume"));
             newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newFaculty;
     }
@@ -100,7 +100,7 @@ public class FacultyRepository implements Repository<Faculty> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return faculties;
     }
@@ -122,27 +122,27 @@ public class FacultyRepository implements Repository<Faculty> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return faculties;
     }
 
-    public static Collection<Faculty> sortedFacultiesByNameFromAToZ()
+    public  Collection<Faculty> sortedFacultiesByNameFromAToZ()
     {
         return new FacultyRepository().sortFaculties(SORT_BY_NAME_FROM_A_TO_Z);
     }
 
-    public static Collection<Faculty> sortedFacultiesByNameFromZToA()
+    public  Collection<Faculty> sortedFacultiesByNameFromZToA()
     {
         return new FacultyRepository().sortFaculties(SORT_BY_NAME_FROM_Z_TO_A);
     }
 
-    public static Collection<Faculty> sortedFacultiesByBudgetVolume()
+    public  Collection<Faculty> sortedFacultiesByBudgetVolume()
     {
         return new FacultyRepository().sortFaculties(SORT_BY_BUDGETVOLUME);
     }
 
-    public static Collection<Faculty> sortedFacultiesByTotalVolume()
+    public  Collection<Faculty> sortedFacultiesByTotalVolume()
     {
         return new FacultyRepository().sortFaculties(SORT_BY_TOTALVOLUME);
     }

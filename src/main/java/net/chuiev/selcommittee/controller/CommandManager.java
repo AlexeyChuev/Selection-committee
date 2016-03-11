@@ -16,6 +16,11 @@ public class CommandManager {
         commands.put("client_registration", new ClientRegistrationCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("clientHomePage", new HomeClientPageCommand());
+        commands.put("viewAllFaculties", new ViewAllFacultiesCommand());
+        commands.put("sortFacultiesAZ", new SortFacultiesAZCommand());
+        commands.put("sortFacultiesZA", new SortFacultiesZACommand());
+        commands.put("sortFacultiesByBudget", new SortFacultiesByBudgetCommand());
+        commands.put("sortFacultiesByTotal", new SortFacultiesByTotalCommand());
     }
 
     public static Command get(String commandName) {
