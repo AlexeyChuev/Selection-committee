@@ -2,11 +2,13 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.FacultySubject;
+import net.chuiev.selcommittee.entity.Subject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Алексей on 3/5/2016.
@@ -122,5 +124,19 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             throw new EntityNotExistsException(e);
         }
         return facultySubjects;
+    }
+
+    public static void main(String[] args) {
+        FacultyRepository facultyRepository = new FacultyRepository();
+        Faculty faculty1 = facultyRepository.findFacultyByName("Географический факультет");
+        System.out.println(faculty1.toString());
+        Faculty faculty = facultyRepository.get(1);
+        List<FacultySubject> facultySubjects = (List<FacultySubject>) new FacultySubjectRepository().findSubjectsForFaculty(faculty);
+        /*for(FacultySubject l:facultySubjects)
+        {
+            System.out.println(l.toString());
+            Subject subject = new SubjectRepository().get(l.getSubjectId());
+            System.out.println(subject.getName());
+        }*/
     }
 }

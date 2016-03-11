@@ -27,7 +27,7 @@ public class SubjectRepository implements Repository<Subject> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -41,7 +41,7 @@ public class SubjectRepository implements Repository<Subject> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -62,14 +62,14 @@ public class SubjectRepository implements Repository<Subject> {
         Subject newSubject = new Subject();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_COMMAND);
+            ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+
             newSubject.setId(resultSet.getInt("id"));
             newSubject.setName(resultSet.getString("name"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newSubject;
     }
@@ -90,7 +90,7 @@ public class SubjectRepository implements Repository<Subject> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return subjects;
     }

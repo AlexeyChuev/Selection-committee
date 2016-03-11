@@ -6,6 +6,13 @@
          version="3.0">
   <display-name>Archetype Created Web Application</display-name>
 
+  <resource-ref>
+    <description>Selection committee DB</description>
+    <res-ref-name>jdbc/selection-committeeDB</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
 
 
 </web-app>

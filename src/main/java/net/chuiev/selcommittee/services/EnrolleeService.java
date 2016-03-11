@@ -46,7 +46,7 @@ public class EnrolleeService {
         submissionRepository.create(newSubmission);
 
         //get Submission, that has been created above
-        Submission enrolleSubmission = submissionRepository.getByFacultyAndEnrolle(faculty, enrollee);
+        Submission enrolleSubmission = submissionRepository.getByFacultyAndEnrolle(faculty.getId(), enrollee.getId());
 
         //get subjects for faculty (special exams)
         Collection<FacultySubject> facultySubjects = facultySubjectRepository.findSubjectsForFaculty(faculty);

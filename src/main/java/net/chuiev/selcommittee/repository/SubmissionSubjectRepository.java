@@ -30,13 +30,13 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
     @Override
     public void update(SubmissionSubject newEntity){
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        //if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
         try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND))
         {
             preparedStatement.setInt(1, newEntity.getSubmissionId());
@@ -47,19 +47,19 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
     @Override
     public void delete(int entityId){
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        //if (get(entityId) == null) throw new EntityNotExistsException();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -70,7 +70,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+
             newSubmissionSubject.setId(resultSet.getInt("id"));
             newSubmissionSubject.setSubmissionId(resultSet.getInt("SUBMISSION_ID"));
             newSubmissionSubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
@@ -78,7 +78,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newSubmissionSubject;
     }
@@ -101,7 +101,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return submissionSubjects;
     }

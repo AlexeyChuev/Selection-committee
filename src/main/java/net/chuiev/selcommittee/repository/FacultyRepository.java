@@ -24,6 +24,8 @@ public class FacultyRepository implements Repository<Faculty> {
     private final static String SORT_BY_BUDGETVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY BUDGETVOLUME DESC";
     private final static String SORT_BY_TOTALVOLUME = "SELECT * FROM ADMIN.FACULTY ORDER BY TOTALVOLUME DESC";
 
+    private final static String FIND_BY_NAME = "SELECT * FROM ADMIN.FACULTY WHERE NAME=";
+
     @Override
     public void create(Faculty entity){
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND)) {
@@ -145,5 +147,32 @@ public class FacultyRepository implements Repository<Faculty> {
     public  Collection<Faculty> sortedFacultiesByTotalVolume()
     {
         return new FacultyRepository().sortFaculties(SORT_BY_TOTALVOLUME);
+    }
+
+
+    public Faculty findFacultyByName(String name){
+        Faculty newFaculty = new Faculty();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_BY_NAME + prepareName(name));
+            if(!resultSet.next()) return null;
+            newFaculty.setId(resultSet.getInt("id"));
+            newFaculty.setName(resultSet.getString("name"));
+            newFaculty.setBudgetVolume(resultSet.getInt("budgetVolume"));
+            newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return newFaculty;
+    }
+
+    private static String prepareName(String name)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("'");
+        sb.append(name);
+        sb.append("'");
+        return sb.toString();
     }
 }

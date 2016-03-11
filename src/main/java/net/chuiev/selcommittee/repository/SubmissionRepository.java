@@ -27,18 +27,19 @@ public class SubmissionRepository implements Repository<Submission> {
     public void create(Submission entity){
         try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND))
         {
+
             preparedStatement.setInt(1, entity.getFacultyId());
             preparedStatement.setInt(2, entity.getEnrolleeId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
     @Override
     public void update(Submission newEntity){
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        //if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
         try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND))
         {
             preparedStatement.setInt(1, newEntity.getFacultyId());
@@ -47,19 +48,19 @@ public class SubmissionRepository implements Repository<Submission> {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
     @Override
     public void delete(int entityId){
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        //if (get(entityId) == null) throw new EntityNotExistsException();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND + entityId);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
     }
 
@@ -69,34 +70,34 @@ public class SubmissionRepository implements Repository<Submission> {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
-            resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+
+            if(!resultSet.next()) return null;
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newSubmission;
     }
 
-    public Submission getByFacultyAndEnrolle(Faculty faculty, Enrollee enrollee)
+    public Submission getByFacultyAndEnrolle(int facultyId, int enrolleeId)
     {
         Submission newSubmission = new Submission();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_FACULTY_AND_ENROLLEE);
-            preparedStatement.setInt(1, faculty.getId());
-            preparedStatement.setInt(2, enrollee.getId());
+            preparedStatement.setInt(1, facultyId);
+            preparedStatement.setInt(2, enrolleeId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
+            if(!resultSet.next()) return null;
+
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return newSubmission;
     }
@@ -118,8 +119,13 @@ public class SubmissionRepository implements Repository<Submission> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EntityNotExistsException(e);
+
         }
         return submissions;
+    }
+
+    public static void main(String[] args) {
+
+        System.out.print(new SubmissionRepository().getByFacultyAndEnrolle(1,2).toString());
     }
 }

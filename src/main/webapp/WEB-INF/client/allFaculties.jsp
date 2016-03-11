@@ -28,7 +28,7 @@
 <c:forEach var="faculty" items="${faculties}">
     <tr>
         <td>
-            <a href="<c:url value="controller?command=defineFaculty"> <c:param name="facultyname" value="${faculty.name}"/></c:url>">
+            <a href="<c:url value="controller?command=defineFaculty"> <c:param name="facultyid" value="${faculty.id}"/></c:url>">
                 <c:out value="${faculty.name}"></c:out>
             </a>
         </td>

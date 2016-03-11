@@ -10,9 +10,7 @@ import java.sql.*;
  * Created by Алексей on 3/5/2016.
  */
 public final class ConnectionCreator {
-    private ConnectionCreator(){};
 
-    private static Connection connection;
     private static DataSource dataSource;
 
     private static DataSource getDS(String database, String user, String password) throws SQLException {
@@ -31,15 +29,13 @@ public final class ConnectionCreator {
     }
 
     public static Connection getConnection() {
-        if(connection==null)
-        {
-            try {
-                dataSource = getDS("myDB;create=true", null, null);
-                connection = dataSource.getConnection("admin", "admin");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new BrokenConnectionException(e);
-            }
+        Connection connection = null;
+        try {
+            dataSource = getDS("myDB;create=true", null, null);
+            connection = dataSource.getConnection("admin", "admin");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BrokenConnectionException(e);
         }
         return connection;
     }
