@@ -15,9 +15,11 @@
 <body>
 <%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
 <h2>Панель администратора:</h2>
-
+Выберите действие, которое хотите совершить:
+<br>
 
 <input type="button" value="Добавить новый факультет" class="submit-btn" onclick="document.location.href='controller?command=addNewFacultyForward'">
-
+<br>
+<input type="button" value="Удалить факультет" class="submit-btn" onclick="document.location.href='controller?command=deleteFacultyForward'">
 </body>
 </html>

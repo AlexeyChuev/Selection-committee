@@ -175,7 +175,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_BY_USER_ID + userId);
-            resultSet.next();
+            if (!resultSet.next()) return null;
             newEnrollee.setId(resultSet.getInt("id"));
             newEnrollee.setFullName(resultSet.getString("full_name"));
             newEnrollee.setCity(resultSet.getString("city"));

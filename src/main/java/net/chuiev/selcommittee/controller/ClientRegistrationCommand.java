@@ -48,6 +48,10 @@ public class ClientRegistrationCommand extends Command {
         Enrollee enrollee = new Enrollee(fullName, city, region,schoolName, addedUser.getId());
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
 
+        Enrollee testEnrollee = enrolleeRepository.findByUserId(addedUser.getId());
+        if(testEnrollee!=null)return "/WEB-INF/errors/errorUserAlreadyExist.jsp";
+        enrolleeRepository.create(enrollee);
+
 
         HttpSession session = request.getSession(true);
         session.setAttribute("email", email);

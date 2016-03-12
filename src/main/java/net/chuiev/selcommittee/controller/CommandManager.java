@@ -30,6 +30,8 @@ public class CommandManager {
         commands.put("adminHomePage", new AdminHomePageCommand());
         commands.put("addNewFacultyForward", new AddNewFacultyForwardCommand());
         commands.put("addNewFaculty", new AddNewFacultyCommand());
+        commands.put("deleteFacultyForward", new DeleteFacultyForwardCommand());
+        commands.put("deleteFaculty", new DeleteFacultyCommand());
     }
 
     public static Command get(String commandName) {
