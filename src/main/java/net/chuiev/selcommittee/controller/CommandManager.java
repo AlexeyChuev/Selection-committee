@@ -32,6 +32,9 @@ public class CommandManager {
         commands.put("addNewFaculty", new AddNewFacultyCommand());
         commands.put("deleteFacultyForward", new DeleteFacultyForwardCommand());
         commands.put("deleteFaculty", new DeleteFacultyCommand());
+        commands.put("editFacultyForward", new EditFacultyForwardCommand());
+        commands.put("addNewInformationAboutFaculty", new AddNewInformationAboutFacultyCommand());
+        commands.put("updateFaculty", new UpdateFacultyCommand());
     }
 
     public static Command get(String commandName) {

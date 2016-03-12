@@ -13,5 +13,6 @@
 <body>
 <%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h2>Новый факультет успешно добавлен!</h2>
+<input type="button" value="Вернуться на панель администратора" class="submit-btn" onclick="document.location.href='controller?command=adminHomePage'">
 </body>
 </html>

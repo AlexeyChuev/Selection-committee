@@ -20,6 +20,10 @@
 
 <input type="button" value="Добавить новый факультет" class="submit-btn" onclick="document.location.href='controller?command=addNewFacultyForward'">
 <br>
+<br>
 <input type="button" value="Удалить факультет" class="submit-btn" onclick="document.location.href='controller?command=deleteFacultyForward'">
+<br>
+<br>
+<input type="button" value="Редактировать факультет" class="submit-btn" onclick="document.location.href='controller?command=editFacultyForward'">
 </body>
 </html>
