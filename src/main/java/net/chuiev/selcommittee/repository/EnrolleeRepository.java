@@ -22,7 +22,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     //private final static String UPDATE_ISBLOCKED = "UPDATE ADMIN.ENROLLEE SET ISBLOCKED=? WHERE id=?";
     private final static String FIND_BY_USER_ID = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID=";
     private final static String FIND_ALL_UNBLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=FALSE)";
-
+    private final static String FIND_ALL_BLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=TRUE)";
 
 
 
@@ -205,6 +205,35 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_ALL_UNBLOCK);
+            while (resultSet.next()) {
+                Enrollee newEnrollee = new Enrollee();
+                newEnrollee.setId(resultSet.getInt("id"));
+                newEnrollee.setFullName(resultSet.getString("full_name"));
+                newEnrollee.setCity(resultSet.getString("city"));
+                newEnrollee.setRegion(resultSet.getString("region"));
+                newEnrollee.setUserId(resultSet.getInt("user_id"));
+                newEnrollee.setSchoolName(resultSet.getString("school_name"));
+                enrollees.add(newEnrollee);            }
+            connection.commit();
+        } catch (SQLException e) {
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
+        }
+        return enrollees;
+    }
+
+    public Collection<Enrollee> findAllBlock() {
+        Collection<Enrollee> enrollees = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_ALL_BLOCK);
             while (resultSet.next()) {
                 Enrollee newEnrollee = new Enrollee();
                 newEnrollee.setId(resultSet.getInt("id"));
