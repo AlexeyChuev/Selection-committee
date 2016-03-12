@@ -45,7 +45,7 @@ public class LoginCommand extends Command {
                 session.setAttribute("user", user.getEmail());
                 session.setAttribute("userRole", user.getRole());
 
-                result = "/WEB-INF/admin/adminHome.jsp";
+                result = "controller?command=adminHomePage";
             }
             if (userRole == 2) {
                 if(user.isBlocked())result= "/WEB-INF/errors/errorBlockedUser.jsp";

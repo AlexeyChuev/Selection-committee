@@ -13,7 +13,7 @@ import java.util.Collection;
  * Created by Алексей on 3/5/2016.
  */
 public class SubmissionRepository implements Repository<Submission> {
-    private Connection connection = ConnectionCreator.getConnection();
+    private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBMISSION (FACULTY_ID, ENROLLEE_ID) VALUES(?,?)";
     private final static String UPDATE_COMMAND = "UPDATE ADMIN.SUBMISSION SET FACULTY_ID=?, ENROLLEE_ID=? WHERE id=?";
@@ -24,108 +24,140 @@ public class SubmissionRepository implements Repository<Submission> {
     private final static String FIND_BY_FACULTY_AND_ENROLLEE = "SELECT * FROM ADMIN.SUBMISSION WHERE FACULTY_ID=? AND ENROLLEE_ID=?";
 
     @Override
-    public void create(Submission entity){
-        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND))
-        {
-
+    public void create(Submission entity) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_COMMAND);
             preparedStatement.setInt(1, entity.getFacultyId());
             preparedStatement.setInt(2, entity.getEnrolleeId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
-    public void update(Submission newEntity){
-        //if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND))
-        {
+    public void update(Submission newEntity) {
+        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(UPDATE_COMMAND);
             preparedStatement.setInt(1, newEntity.getFacultyId());
             preparedStatement.setInt(2, newEntity.getEnrolleeId());
             preparedStatement.setInt(3, newEntity.getId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
-    public void delete(int entityId){
-        //if (get(entityId) == null) throw new EntityNotExistsException();
+    public void delete(int entityId) {
+        if (get(entityId) == null) throw new EntityNotExistsException();
+        Connection connection = null;
+        Statement statement = null;
         try {
-            Statement statement = connection.createStatement();
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND + entityId);
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
-    public Submission get(int entityId){
+    public Submission get(int entityId) {
         Submission newSubmission = new Submission();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
-
-            if(!resultSet.next()) return null;
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_COMMAND + entityId);
+            if (!resultSet.next()) return null;
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return newSubmission;
     }
 
-    public Submission getByFacultyAndEnrolle(int facultyId, int enrolleeId)
-    {
+    public Submission getByFacultyAndEnrolle(int facultyId, int enrolleeId) {
         Submission newSubmission = new Submission();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_FACULTY_AND_ENROLLEE);
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(FIND_BY_FACULTY_AND_ENROLLEE);
             preparedStatement.setInt(1, facultyId);
             preparedStatement.setInt(2, enrolleeId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(!resultSet.next()) return null;
-
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) return null;
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return newSubmission;
     }
 
     @Override
-    public Collection<Submission> findAll(){
+    public Collection<Submission> findAll() {
         Collection<Submission> submissions = new ArrayList<>();
-        Statement statement;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
+            connection = connectionCreator.getConnection();
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
-            while (resultSet.next())
-            {
+            resultSet = statement.executeQuery(FIND_ALL_COMMAND);
+            while (resultSet.next()) {
                 Submission newSubmission = new Submission();
                 newSubmission.setId(resultSet.getInt("id"));
                 newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
                 newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
                 submissions.add(newSubmission);
             }
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return submissions;
     }
 
-    public static void main(String[] args) {
-
-        System.out.print(new SubmissionRepository().getByFacultyAndEnrolle(1,2).toString());
-    }
 }

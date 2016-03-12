@@ -25,6 +25,11 @@ public class CommandManager {
         commands.put("sortFacultiesByTotal", new SortFacultiesByTotalCommand());
         commands.put("defineFaculty", new DefineFacultyCommand());
         commands.put("applySubmission", new EnrolleeApplyCommand());
+
+        //admin
+        commands.put("adminHomePage", new AdminHomePageCommand());
+        commands.put("addNewFacultyForward", new AddNewFacultyForwardCommand());
+        commands.put("addNewFaculty", new AddNewFacultyCommand());
     }
 
     public static Command get(String commandName) {

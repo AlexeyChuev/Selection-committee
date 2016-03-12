@@ -12,7 +12,7 @@ import java.sql.*;
  * Created by Alex on 3/8/2016.
  */
 public class AdmissionRegisterService {
-    private static Connection connection = ConnectionCreator.getConnection();
+    private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     public final static String CALCULATE_SUM_OF_EXAM_GRADES = "SELECT sum(grade) AS 'sum' FROM ADMIN.SUBMISSION_SUBJECT " +
             "WHERE ADMIN.SUBMISSION_SUBJECT.GRADE_TYPE=1 AND ADMIN.SUBMISSION_SUBJECT.SUBMISSION_ID=" +
@@ -24,7 +24,7 @@ public class AdmissionRegisterService {
 
     public final static String GET_ENROLLEE_EMAIL = "SELECT Users.email AS 'email' FROM ADMIN.USERS WHERE ADMIN.USERS.ID=";
 
-    public static short getEnrolleeExamSum(Enrollee enrollee, Faculty faculty) {
+    /*public static short getEnrolleeExamSum(Enrollee enrollee, Faculty faculty) {
         short sum = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_EXAM_GRADES);
@@ -40,9 +40,9 @@ public class AdmissionRegisterService {
             throw new EntityNotExistsException(e);
         }
         return sum;
-    }
+    }*/
 
-    public static short getEnrolleeCertificateSum(Enrollee enrollee, Faculty faculty) {
+    /*public static short getEnrolleeCertificateSum(Enrollee enrollee, Faculty faculty) {
         short sum = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_CERTIFICATE_GRADES);
@@ -88,6 +88,6 @@ public class AdmissionRegisterService {
         admissionRegister.setExamsSum(enrolleExamSum);
         admissionRegister.setTotalSum((short) totalSum);
         return admissionRegister;
-    }
+    }*/
 
 }

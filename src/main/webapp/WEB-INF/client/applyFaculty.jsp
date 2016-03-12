@@ -135,6 +135,11 @@
         <input type="submit"
                value="Подать заявку"/>
     </div>
+    <br>
+    <div class="field">
+        <input type="reset"
+               value="Очистить заполненные поля"/>
+    </div>
 
 
 </form>

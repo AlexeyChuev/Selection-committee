@@ -16,7 +16,7 @@ import java.util.Collection;
  * Created by Alex on 3/7/2016.
  */
 public class RoleRepository implements Repository<Role> {
-    private Connection connection = ConnectionCreator.getConnection();
+    private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ROLE WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ROLE";
@@ -39,19 +39,26 @@ public class RoleRepository implements Repository<Role> {
     @Override
     public Role get(int entityId) {
         Role newRole = new Role();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_COMMAND);
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_COMMAND);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
             newRole.setId(resultSet.getInt("id"));
             String tempRoleType = resultSet.getString("role_type");
             if (RoleTypeEnum.ADMIN.getName().equalsIgnoreCase(tempRoleType))
                 newRole.setRoleType(RoleTypeEnum.ADMIN);
             else newRole.setRoleType(RoleTypeEnum.CLIENT);
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return newRole;
     }
@@ -59,10 +66,13 @@ public class RoleRepository implements Repository<Role> {
     @Override
     public Collection<Role> findAll() {
         Collection<Role> roles = new ArrayList<>();
-        Statement statement;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
+            connection = connectionCreator.getConnection();
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
+            resultSet = statement.executeQuery(FIND_ALL_COMMAND);
             while (resultSet.next()) {
                 Role newRole = new Role();
                 newRole.setId(resultSet.getInt("id"));
@@ -72,9 +82,13 @@ public class RoleRepository implements Repository<Role> {
                 else newRole.setRoleType(RoleTypeEnum.CLIENT);
                 roles.add(newRole);
             }
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return roles;
     }

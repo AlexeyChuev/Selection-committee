@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Алексей on 3/5/2016.
  */
 public class FacultySubjectRepository implements Repository<FacultySubject> {
-    private Connection connection = ConnectionCreator.getConnection();
+    private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.FACULTY_SUBJECT (FACULTY_ID, SUBJECT_ID) VALUES(?,?)";
     private final static String UPDATE_COMMAND = "UPDATE ADMIN.FACULTY_SUBJECT SET FACULTY_ID=?, SUBJECT_ID=? WHERE id=?";
@@ -26,71 +26,126 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
 
     @Override
     public void create(FacultySubject entity) {
-        try(PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COMMAND))
-        {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(INSERT_COMMAND);
             preparedStatement.setInt(1, entity.getFacultyId());
             preparedStatement.setInt(2, entity.getSubjectId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
     public void update(FacultySubject newEntity) {
         if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
-        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_COMMAND))
-        {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(UPDATE_COMMAND);
             preparedStatement.setInt(1, newEntity.getFacultyId());
             preparedStatement.setInt(2, newEntity.getSubjectId());
             preparedStatement.setInt(3, newEntity.getId());
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
     public void delete(int entityId) {
         if (get(entityId) == null) throw new EntityNotExistsException();
+        Connection connection = null;
+        Statement statement = null;
         try {
-            Statement statement = connection.createStatement();
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
             statement.executeUpdate(DELETE_COMMAND + entityId);
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
         }
     }
 
     @Override
-    public FacultySubject get(int entityId){
+    public FacultySubject get(int entityId) {
         FacultySubject newFacultySubject = new FacultySubject();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_COMMAND+entityId);
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_COMMAND + entityId);
             resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
             newFacultySubject.setId(resultSet.getInt("id"));
             newFacultySubject.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newFacultySubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return newFacultySubject;
     }
 
     @Override
-    public Collection<FacultySubject> findAll(){
+    public Collection<FacultySubject> findAll() {
         Collection<FacultySubject> facultySubjects = new ArrayList<>();
-        Statement statement;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
+            connection = connectionCreator.getConnection();
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_COMMAND);
-            while (resultSet.next())
-            {
+            resultSet = statement.executeQuery(FIND_ALL_COMMAND);
+            while (resultSet.next()) {
+                FacultySubject newFacultySubject = new FacultySubject();
+                newFacultySubject.setId(resultSet.getInt("id"));
+                newFacultySubject.setFacultyId(resultSet.getInt("FACULTY_ID"));
+                newFacultySubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
+                facultySubjects.add(newFacultySubject);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
+        }
+        return facultySubjects;
+    }
+
+
+    public Collection<FacultySubject> findSubjectsForFaculty(Faculty faculty) {
+        Collection<FacultySubject> facultySubjects = new ArrayList<>();
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionCreator.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(FIND_ALL_SUBJECTS_FOR_FACULTY + faculty.getId());
+            while (resultSet.next()) {
                 FacultySubject newFacultySubject = new FacultySubject();
                 newFacultySubject.setId(resultSet.getInt("id"));
                 newFacultySubject.setFacultyId(resultSet.getInt("FACULTY_ID"));
@@ -98,45 +153,13 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
                 facultySubjects.add(newFacultySubject);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
         }
         return facultySubjects;
     }
 
-
-    public Collection<FacultySubject> findSubjectsForFaculty(Faculty faculty){
-        Collection<FacultySubject> facultySubjects = new ArrayList<>();
-        Statement statement;
-        try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(FIND_ALL_SUBJECTS_FOR_FACULTY+faculty.getId());
-            while (resultSet.next())
-            {
-                FacultySubject newFacultySubject = new FacultySubject();
-                newFacultySubject.setId(resultSet.getInt("id"));
-                newFacultySubject.setFacultyId(resultSet.getInt("FACULTY_ID"));
-                newFacultySubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
-                facultySubjects.add(newFacultySubject);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
-        }
-        return facultySubjects;
-    }
-
-    public static void main(String[] args) {
-        FacultyRepository facultyRepository = new FacultyRepository();
-        Faculty faculty1 = facultyRepository.findFacultyByName("Географический факультет");
-        System.out.println(faculty1.toString());
-        Faculty faculty = facultyRepository.get(1);
-        List<FacultySubject> facultySubjects = (List<FacultySubject>) new FacultySubjectRepository().findSubjectsForFaculty(faculty);
-        /*for(FacultySubject l:facultySubjects)
-        {
-            System.out.println(l.toString());
-            Subject subject = new SubjectRepository().get(l.getSubjectId());
-            System.out.println(subject.getName());
-        }*/
-    }
 }

@@ -13,8 +13,8 @@ public class Faculty  implements Serializable {
     private int budgetVolume;
     private int totalVolume;
 
-    public Faculty(int id, String name, int budgetVolume, int totalVolume) {
-        this.id = id;
+    public Faculty(String name, int budgetVolume, int totalVolume) {
+
         this.name = name;
         this.budgetVolume = budgetVolume;
         this.totalVolume = totalVolume;

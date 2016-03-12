@@ -11,9 +11,9 @@ import java.sql.*;
  */
 public final class ConnectionCreator {
 
-    private static DataSource dataSource;
+    private DataSource dataSource;
 
-    private static DataSource getDS(String database, String user, String password) throws SQLException {
+    private DataSource getDS(String database, String user, String password) throws SQLException {
         ClientDataSource ds = new ClientDataSource();
         // DatabaseName can include Derby URL Attributes
         ds.setDatabaseName(database);
@@ -28,15 +28,46 @@ public final class ConnectionCreator {
         return ds;
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         Connection connection = null;
         try {
             dataSource = getDS("myDB;create=true", null, null);
             connection = dataSource.getConnection("admin", "admin");
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new BrokenConnectionException(e);
         }
         return connection;
+    }
+
+    public void close(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ex) {}
+        }
+    }
+
+    public void close(Statement stmt) {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {}
+        }
+    }
+
+    public void rollback(Connection con) {
+        if (con != null) {
+            try {
+                con.rollback();
+            } catch (SQLException ex) {}
+        }
+    }
+
+    protected void close(Connection con) {
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException ex) {}
+        }
     }
 }
