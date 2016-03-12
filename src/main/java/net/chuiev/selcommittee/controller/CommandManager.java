@@ -35,6 +35,8 @@ public class CommandManager {
         commands.put("editFacultyForward", new EditFacultyForwardCommand());
         commands.put("addNewInformationAboutFaculty", new AddNewInformationAboutFacultyCommand());
         commands.put("updateFaculty", new UpdateFacultyCommand());
+        commands.put("blockEnrolleeForward", new BlockEnrolleeForwardCommand());
+        commands.put("blockEnrollee", new BlockEnrolleeCommand());
     }
 
     public static Command get(String commandName) {

@@ -24,9 +24,9 @@ public class AdminService {
         facultyRepository.delete(faculty.getId());
     }
 
-    public static void changeEnrolleeBlockingStatus(Enrollee enrollee, boolean isBlocked) {
+    /*public static void changeEnrolleeBlockingStatus(Enrollee enrollee, boolean isBlocked) {
         enrolleeRepository.updateStatusIsBlocked(enrollee, isBlocked);
-    }
+    }*/
 
 
 }

@@ -25,5 +25,8 @@
 <br>
 <br>
 <input type="button" value="Редактировать факультет" class="submit-btn" onclick="document.location.href='controller?command=editFacultyForward'">
+<br>
+<br>
+<input type="button" value="Заблокировать абитуриента" class="submit-btn" onclick="document.location.href='controller?command=blockEnrolleeForward'">
 </body>
 </html>

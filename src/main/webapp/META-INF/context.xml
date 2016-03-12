@@ -2,7 +2,7 @@
 (The default Tomcat's DBCP is used)-->
 
 <Context>
-    <Resource name="jdbc/SMT4DB"
+    <Resource name="jdbc/myDB"
               auth="Container"
               type="javax.sql.DataSource"
               maxActive="100" maxIdle="30" maxWait="10000"
