@@ -1,7 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.admin;
 
-import net.chuiev.selcommittee.entity.User;
-import net.chuiev.selcommittee.repository.UserRepository;
+import net.chuiev.selcommittee.controller.Command;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by Alex on 3/12/2016.
  */
-public class AdminHomePageCommand extends Command{
+public class AddNewFacultyForwardCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -22,7 +21,7 @@ public class AdminHomePageCommand extends Command{
 
         int userRole = (int)session.getAttribute("userRole");
 
-        if(userRole==1)result="/WEB-INF/admin/adminHome.jsp";
+        if(userRole==1)result="/WEB-INF/admin/addNewFaculty.jsp";
         return result;
     }
 }

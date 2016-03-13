@@ -1,5 +1,8 @@
 package net.chuiev.selcommittee.controller;
 
+import net.chuiev.selcommittee.controller.admin.*;
+import net.chuiev.selcommittee.controller.client.*;
+
 import java.util.HashMap;
 import java.util.Map;
 

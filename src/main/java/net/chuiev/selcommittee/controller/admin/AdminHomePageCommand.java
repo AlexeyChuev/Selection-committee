@@ -1,7 +1,8 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.admin;
 
-import net.chuiev.selcommittee.entity.Faculty;
-import net.chuiev.selcommittee.repository.FacultyRepository;
+import net.chuiev.selcommittee.controller.Command;
+import net.chuiev.selcommittee.entity.User;
+import net.chuiev.selcommittee.repository.UserRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Alex on 3/12/2016.
  */
-public class AddNewInformationAboutFacultyCommand extends Command {
+public class AdminHomePageCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -20,14 +21,9 @@ public class AddNewInformationAboutFacultyCommand extends Command {
         String result=null;
         HttpSession session = request.getSession(false);
 
-        int facultyId = Integer.parseInt(request.getParameter("facultiesSelect"));
-        FacultyRepository facultyRepository = new FacultyRepository();
-        Faculty faculty =facultyRepository.get(facultyId);
-        request.setAttribute("faculty", faculty);
-
         int userRole = (int)session.getAttribute("userRole");
 
-        if(userRole==1)result="/WEB-INF/admin/addNewInformationAboutFaculty.jsp";
+        if(userRole==1)result="/WEB-INF/admin/adminHome.jsp";
         return result;
     }
 }
