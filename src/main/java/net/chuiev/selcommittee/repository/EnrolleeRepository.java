@@ -24,6 +24,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     private final static String FIND_ALL_UNBLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=FALSE)";
     private final static String FIND_ALL_BLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=TRUE)";
 
+    private final static String FIND_ALL_FACULTY_ENROLLEES = "SELECT * FROM ADMIN.ENROLLEE WHERE ID IN (SELECT (enrollee_id) FROM ADMIN.SUBMISSION WHERE FACULTY_ID=?)";
 
 
     @Override
@@ -248,6 +249,37 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
+        }
+        return enrollees;
+    }
+
+
+    public Collection<Enrollee> findFacultyEnrollees(int facultyId) {
+        Collection<Enrollee> enrollees = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(FIND_ALL_FACULTY_ENROLLEES);
+            preparedStatement.setInt(1, facultyId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Enrollee newEnrollee = new Enrollee();
+                newEnrollee.setId(resultSet.getInt("id"));
+                newEnrollee.setFullName(resultSet.getString("full_name"));
+                newEnrollee.setCity(resultSet.getString("city"));
+                newEnrollee.setRegion(resultSet.getString("region"));
+                newEnrollee.setUserId(resultSet.getInt("user_id"));
+                newEnrollee.setSchoolName(resultSet.getString("school_name"));
+                enrollees.add(newEnrollee);            }
+            connection.commit();
+        } catch (SQLException e) {
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
             connectionCreator.close(connection);
             connectionCreator.close(resultSet);
         }

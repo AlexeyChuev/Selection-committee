@@ -19,6 +19,9 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT";
 
+    private final static String FIND_SUBMISSION_SUBJECTS_EXAMS = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT WHERE SUBMISSION_ID IN (SELECT (id) FROM ADMIN.SUBMISSION WHERE FACULTY_ID=? AND ENROLLEE_ID=?) AND GRADE_TYPE=1";
+    private final static String FIND_SUBMISSION_SUBJECTS_CERTIFICATE = "SELECT * FROM ADMIN.SUBMISSION_SUBJECT WHERE SUBMISSION_ID IN (SELECT (id) FROM ADMIN.SUBMISSION WHERE FACULTY_ID=? AND ENROLLEE_ID=?) AND GRADE_TYPE=2";
+
     @Override
     public void create(SubmissionSubject entity) {
         Connection connection = null;
@@ -124,6 +127,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
                 newSubmissionSubject.setSubmissionId(resultSet.getInt("SUBMISSION_ID"));
                 newSubmissionSubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
                 newSubmissionSubject.setGrade(resultSet.getInt("grade"));
+                newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
                 submissionSubjects.add(newSubmissionSubject);
             }
             connection.commit();
@@ -131,6 +135,69 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
+        }
+        return submissionSubjects;
+    }
+
+
+    public Collection<SubmissionSubject> findSubmissionSubjectsExam(int facultyId, int enrolleeId) {
+        Collection<SubmissionSubject> submissionSubjects = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(FIND_SUBMISSION_SUBJECTS_EXAMS);
+            preparedStatement.setInt(1, facultyId);
+            preparedStatement.setInt(2, enrolleeId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                SubmissionSubject newSubmissionSubject = new SubmissionSubject();
+                newSubmissionSubject.setId(resultSet.getInt("id"));
+                newSubmissionSubject.setSubmissionId(resultSet.getInt("SUBMISSION_ID"));
+                newSubmissionSubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
+                newSubmissionSubject.setGrade(resultSet.getInt("grade"));
+                newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
+                submissionSubjects.add(newSubmissionSubject);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
+            connectionCreator.close(connection);
+            connectionCreator.close(resultSet);
+        }
+        return submissionSubjects;
+    }
+
+    public Collection<SubmissionSubject> findSubmissionSubjectsCertificate(int facultyId, int enrolleeId) {
+        Collection<SubmissionSubject> submissionSubjects = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = connectionCreator.getConnection();
+            preparedStatement = connection.prepareStatement(FIND_SUBMISSION_SUBJECTS_CERTIFICATE);
+            preparedStatement.setInt(1, facultyId);
+            preparedStatement.setInt(2, enrolleeId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                SubmissionSubject newSubmissionSubject = new SubmissionSubject();
+                newSubmissionSubject.setId(resultSet.getInt("id"));
+                newSubmissionSubject.setSubmissionId(resultSet.getInt("SUBMISSION_ID"));
+                newSubmissionSubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
+                newSubmissionSubject.setGrade(resultSet.getInt("grade"));
+                newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
+                submissionSubjects.add(newSubmissionSubject);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            connectionCreator.rollback(connection);
+        } finally {
+            connectionCreator.close(preparedStatement);
             connectionCreator.close(connection);
             connectionCreator.close(resultSet);
         }

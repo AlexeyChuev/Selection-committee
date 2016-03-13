@@ -31,5 +31,8 @@
 <br>
 <br>
 <input type="button" value="Разблокировать абитуриента" class="submit-btn" onclick="document.location.href='controller?command=unblockEnrolleeForward'">
+<br>
+<br>
+<input type="button" value="Сформировать ведомость" class="submit-btn" onclick="document.location.href='controller?command=createRegister'">
 </body>
 </html>

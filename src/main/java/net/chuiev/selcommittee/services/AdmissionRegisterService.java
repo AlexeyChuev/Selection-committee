@@ -1,93 +1,108 @@
 package net.chuiev.selcommittee.services;
 
-import net.chuiev.selcommittee.entity.AdmissionRegister;
-import net.chuiev.selcommittee.entity.Enrollee;
-import net.chuiev.selcommittee.entity.Faculty;
-import net.chuiev.selcommittee.exception.EntityNotExistsException;
-import net.chuiev.selcommittee.repository.ConnectionCreator;
+import net.chuiev.selcommittee.entity.*;
+import net.chuiev.selcommittee.repository.*;
 
-import java.sql.*;
+import java.util.*;
 
 /**
  * Created by Alex on 3/8/2016.
  */
 public class AdmissionRegisterService {
-    private ConnectionCreator connectionCreator = new ConnectionCreator();
+    private EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
+    private FacultyRepository facultyRepository = new FacultyRepository();
 
-    public final static String CALCULATE_SUM_OF_EXAM_GRADES = "SELECT sum(grade) AS 'sum' FROM ADMIN.SUBMISSION_SUBJECT " +
-            "WHERE ADMIN.SUBMISSION_SUBJECT.GRADE_TYPE=1 AND ADMIN.SUBMISSION_SUBJECT.SUBMISSION_ID=" +
-            "(SELECT ADMIN.SUBMISSION.ID FROM ADMIN.SUBMISSION WHERE ADMIN.SUBMISSION.ENROLLEE_ID=? AND ADMIN.SUBMISSION.FACULTY_ID=?)";
-
-    public final static String CALCULATE_SUM_OF_CERTIFICATE_GRADES = "SELECT sum(grade)  AS 'sum' FROM ADMIN.SUBMISSION_SUBJECT " +
-            "WHERE ADMIN.SUBMISSION_SUBJECT.GRADE_TYPE=2 AND ADMIN.SUBMISSION_SUBJECT.SUBMISSION_ID=" +
-            "(SELECT ADMIN.SUBMISSION.ID FROM ADMIN.SUBMISSION WHERE ADMIN.SUBMISSION.ENROLLEE_ID=? AND ADMIN.SUBMISSION.FACULTY_ID=?)";
-
-    public final static String GET_ENROLLEE_EMAIL = "SELECT Users.email AS 'email' FROM ADMIN.USERS WHERE ADMIN.USERS.ID=";
-
-    /*public static short getEnrolleeExamSum(Enrollee enrollee, Faculty faculty) {
-        short sum = 0;
-        try {
-            PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_EXAM_GRADES);
-            statement.setInt(1, enrollee.getId());
-            statement.setInt(2, faculty.getId());
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
-            sum = Short.parseShort(resultSet.getString("sum"));
-            if (sum == 0) throw new EntityNotExistsException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
-        }
-        return sum;
-    }*/
-
-    /*public static short getEnrolleeCertificateSum(Enrollee enrollee, Faculty faculty) {
-        short sum = 0;
-        try {
-            PreparedStatement statement = connection.prepareStatement(CALCULATE_SUM_OF_CERTIFICATE_GRADES);
-            statement.setInt(1, enrollee.getId());
-            statement.setInt(2, faculty.getId());
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            if (resultSet.wasNull()) throw new EntityNotExistsException();
-            sum = Short.parseShort(resultSet.getString("sum"));
-            if (sum == 0) throw new EntityNotExistsException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
-        }
-        return sum;
+    private Collection<Enrollee> getFacultyEnrollees(Faculty faculty) {
+        return enrolleeRepository.findFacultyEnrollees(faculty.getId());
     }
 
-    public static String getEmailEnrollee(Enrollee enrollee) {
-        String email = null;
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(GET_ENROLLEE_EMAIL + enrollee.getId());
-            resultSet.next();
-            email = resultSet.getString("email");
-            if (email == null) throw new EntityNotExistsException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new EntityNotExistsException(e);
+    private List<AdmissionRegisterRecord> createAdmissionRegisterRecords(Faculty faculty) {
+        //final list of records for register
+        List<AdmissionRegisterRecord> admissionRegisterRecordsList = new ArrayList<>();
+
+        //list enrollees for current faculty
+        List<Enrollee> enrollees = (List<Enrollee>) getFacultyEnrollees(faculty);
+
+        for (Enrollee enrollee : enrollees) {
+            //create new record
+            AdmissionRegisterRecord admissionRegisterRecord = new AdmissionRegisterRecord();
+
+            //add information about enrollee and faculty
+            admissionRegisterRecord.setEnrollee(enrollee);
+            admissionRegisterRecord.setFaculty(faculty);
+
+            //find three submissionSubject for current faculty with their grades
+            SubmissionSubjectRepository submissionSubjectRepository = new SubmissionSubjectRepository();
+            List<SubmissionSubject> submissionSubjectsExams = (List<SubmissionSubject>) submissionSubjectRepository.findSubmissionSubjectsExam(faculty.getId(), enrollee.getId());
+
+            //find subjects for current faculty
+            FacultySubjectRepository facultySubjectRepository = new FacultySubjectRepository();
+            List<FacultySubject> facultySubjects = (List<FacultySubject>) facultySubjectRepository.findSubjectsForFaculty(faculty);
+
+            //find three already passed exams for current faculty and current enrollee
+            SubjectRepository subjectRepository = new SubjectRepository();
+            Subject exam1 = subjectRepository.get(submissionSubjectsExams.get(0).getSubjectId());
+            Subject exam2 = subjectRepository.get(submissionSubjectsExams.get(1).getSubjectId());
+            Subject exam3 = subjectRepository.get(submissionSubjectsExams.get(2).getSubjectId());
+            int exam1Grade = submissionSubjectsExams.get(0).getGrade();
+            int exam2Grade = submissionSubjectsExams.get(1).getGrade();
+            int exam3Grade = submissionSubjectsExams.get(2).getGrade();
+
+            //loop faculty subjects and add information about already filed submission
+            //in this way we put exams and their grades in correct order into admissionRegisterRecord
+            for (FacultySubject facultySubject : facultySubjects) {
+                if (facultySubject.getSubjectId() == exam1.getId()) {
+                    admissionRegisterRecord.setExam1(exam1);
+                    admissionRegisterRecord.setExam1Grade(exam1Grade);
+                }
+                if (facultySubject.getSubjectId() == exam2.getId()) {
+                    admissionRegisterRecord.setExam2(exam2);
+                    admissionRegisterRecord.setExam2Grade(exam2Grade);
+                }
+                if (facultySubject.getSubjectId() == exam3.getId()) {
+                    admissionRegisterRecord.setExam3(exam3);
+                    admissionRegisterRecord.setExam3Grade(exam3Grade);
+                }
+            }
+
+            //get submissionSubjects for certificate and their grades
+            List<SubmissionSubject> submissionSubjectsCertificate = (List<SubmissionSubject>) submissionSubjectRepository.findSubmissionSubjectsCertificate(faculty.getId(), enrollee.getId());
+            float sumOfCertificateGrades = 0;
+            for (SubmissionSubject submissionSubject : submissionSubjectsCertificate) {
+                sumOfCertificateGrades += submissionSubject.getGrade();
+            }
+
+            //calculate average mark of crtificate grades
+            float certificateGPA = (sumOfCertificateGrades * 10 / 12) + 100;
+            admissionRegisterRecord.setSummaryCertificateGrade(certificateGPA);
+
+            //calculate total sum of grades for enrollee
+            float totalExams = exam1Grade + exam2Grade + exam3Grade;
+            float total = sumOfCertificateGrades + totalExams;
+            admissionRegisterRecord.setTotal(total);
+
+            //add admissionRegisterRecord to list of of records for register
+            admissionRegisterRecordsList.add(admissionRegisterRecord);
         }
-        return email;
+        return admissionRegisterRecordsList;
     }
 
-    public static AdmissionRegister createAdmissionRegister(Enrollee enrollee, Faculty faculty) {
-        AdmissionRegister admissionRegister = new AdmissionRegister();
-        admissionRegister.setEmail(getEmailEnrollee(enrollee));
-        admissionRegister.setFullName(enrollee.getFullName());
+    public Map<Faculty, List<AdmissionRegisterRecord>> getFacultiesAndTheirAdmissions() {
+        Map<Faculty, List<AdmissionRegisterRecord>> facultiesAndTheirAdmissions = new HashMap<>();
+        List<Faculty> faculties = (List<Faculty>) facultyRepository.findAll();
 
-        admissionRegister.setFacultyId(faculty.getId());
-        short enrolleExamSum = getEnrolleeExamSum(enrollee, faculty);
-        short enrolleCertificateSum = getEnrolleeCertificateSum(enrollee, faculty);
-        int totalSum = enrolleExamSum + enrolleCertificateSum;
-        admissionRegister.setCertificateSum(enrolleCertificateSum);
-        admissionRegister.setExamsSum(enrolleExamSum);
-        admissionRegister.setTotalSum((short) totalSum);
-        return admissionRegister;
-    }*/
+        //for each faculty add list of admissionRegisterRecords in order by total sum
+        for (Faculty faculty : faculties) {
+            List<AdmissionRegisterRecord> admissionRegisterRecords = createAdmissionRegisterRecords(faculty);
+            Collections.sort(admissionRegisterRecords, new Comparator<AdmissionRegisterRecord>() {
+                @Override
+                public int compare(AdmissionRegisterRecord o1, AdmissionRegisterRecord o2) {
+                    return Float.compare(o1.getTotal(), o2.getTotal());
+                }
+            });
+            facultiesAndTheirAdmissions.put(faculty, admissionRegisterRecords);
+        }
+        return facultiesAndTheirAdmissions;
+    }
 
 }
