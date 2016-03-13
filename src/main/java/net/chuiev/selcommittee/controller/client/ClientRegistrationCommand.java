@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.client;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Enrollee;
 import net.chuiev.selcommittee.entity.User;
 import net.chuiev.selcommittee.repository.EnrolleeRepository;
@@ -20,7 +21,7 @@ public class ClientRegistrationCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        return doPost(request,response);
+        return doPost(request, response);
     }
 
     private String doPost(HttpServletRequest request,
@@ -40,16 +41,16 @@ public class ClientRegistrationCommand extends Command {
         UserRepository userRepository = new UserRepository();
 
         User userTest = userRepository.findUserByEmail(email);
-        if(userTest!=null)return "/WEB-INF/errors/errorUserAlreadyExist.jsp";
+        if (userTest != null) return "/WEB-INF/errors/errorUserAlreadyExist.jsp";
         userRepository.create(newUser);
 
         User addedUser = userRepository.findUserByEmail(email);
 
-        Enrollee enrollee = new Enrollee(fullName, city, region,schoolName, addedUser.getId());
+        Enrollee enrollee = new Enrollee(fullName, city, region, schoolName, addedUser.getId());
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
 
         Enrollee testEnrollee = enrolleeRepository.findByUserId(addedUser.getId());
-        if(testEnrollee!=null)return "/WEB-INF/errors/errorUserAlreadyExist.jsp";
+        if (testEnrollee != null) return "/WEB-INF/errors/errorUserAlreadyExist.jsp";
         enrolleeRepository.create(enrollee);
 
 

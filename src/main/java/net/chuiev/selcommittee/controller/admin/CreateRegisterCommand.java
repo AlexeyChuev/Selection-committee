@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.admin;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.AdmissionRegisterRecord;
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.services.AdmissionRegisterService;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Alex on 3/13/2016.
  */
-public class CreateRegisterCommand extends Command{
+public class CreateRegisterCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override

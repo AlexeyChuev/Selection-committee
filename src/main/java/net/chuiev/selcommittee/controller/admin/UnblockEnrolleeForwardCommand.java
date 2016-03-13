@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.admin;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Enrollee;
 import net.chuiev.selcommittee.repository.EnrolleeRepository;
 
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by Alex on 3/12/2016.
  */
-public class BlockEnrolleeForwardCommand extends Command {
+public class UnblockEnrolleeForwardCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -23,10 +24,10 @@ public class BlockEnrolleeForwardCommand extends Command {
 
         int userRole = (int)session.getAttribute("userRole");
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
-        List<Enrollee> unblockEnrollees = (List<Enrollee>) enrolleeRepository.findAllUnblock();
-        request.setAttribute("unblockEnrollees", unblockEnrollees);
+        List<Enrollee> blockedEnrollees = (List<Enrollee>) enrolleeRepository.findAllBlock();
+        request.setAttribute("blockedEnrollees", blockedEnrollees);
 
-        if(userRole==1)result="/WEB-INF/admin/blockEnrollee.jsp";
+        if(userRole==1)result="/WEB-INF/admin/unblockEnrollee.jsp";
         return result;
     }
 }

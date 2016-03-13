@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.client;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.repository.FacultyRepository;
 
@@ -13,15 +14,15 @@ import java.util.List;
 /**
  * Created by Alex on 3/11/2016.
  */
-public class SortFacultiesAZCommand extends Command {
-    private static final long serialVersionUID = 2295388021320200831L;
+public class SortFacultiesByBudgetCommand extends Command {
+    private static final long serialVersionUID = 2291388021320200831L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result=null;
         HttpSession session = request.getSession(false);
         FacultyRepository facultyRepository = new FacultyRepository();
-        List<Faculty> faculties = (List<Faculty>) facultyRepository.sortedFacultiesByNameFromAToZ();
+        List<Faculty> faculties = (List<Faculty>) facultyRepository.sortedFacultiesByBudgetVolume();
         request.setAttribute("faculties", faculties);
 
 

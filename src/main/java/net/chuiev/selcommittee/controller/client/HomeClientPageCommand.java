@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.client;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Enrollee;
 import net.chuiev.selcommittee.entity.User;
 import net.chuiev.selcommittee.repository.EnrolleeRepository;
@@ -14,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by Alex on 3/11/2016.
  */
-public class HomeClientPageCommand extends Command{
+public class HomeClientPageCommand extends Command {
     private static final long serialVersionUID = -3071536593627692473L;
 
     @Override

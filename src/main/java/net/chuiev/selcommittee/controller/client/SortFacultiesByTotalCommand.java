@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.client;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.repository.FacultyRepository;
 
@@ -11,22 +12,23 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by Alex on 3/12/2016.
+ * Created by Alex on 3/11/2016.
  */
-public class DeleteFacultyForwardCommand extends Command {
-    private static final long serialVersionUID = 1L;
+public class SortFacultiesByTotalCommand extends Command {
+    private static final long serialVersionUID = 2295388000020200831L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result=null;
         HttpSession session = request.getSession(false);
         FacultyRepository facultyRepository = new FacultyRepository();
-        List<Faculty> faculties = (List<Faculty>) facultyRepository.findAll();
+        List<Faculty> faculties = (List<Faculty>) facultyRepository.sortedFacultiesByTotalVolume();
         request.setAttribute("faculties", faculties);
+
 
         int userRole = (int)session.getAttribute("userRole");
 
-        if(userRole==1)result="/WEB-INF/admin/deleteFaculty.jsp";
+        if(userRole==2)result="/WEB-INF/client/allFaculties.jsp";
         return result;
     }
 }

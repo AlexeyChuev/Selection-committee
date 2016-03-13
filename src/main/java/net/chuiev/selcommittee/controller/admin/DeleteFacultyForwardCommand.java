@@ -1,7 +1,8 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.admin;
 
-import net.chuiev.selcommittee.entity.Enrollee;
-import net.chuiev.selcommittee.repository.EnrolleeRepository;
+import net.chuiev.selcommittee.controller.Command;
+import net.chuiev.selcommittee.entity.Faculty;
+import net.chuiev.selcommittee.repository.FacultyRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,20 +14,20 @@ import java.util.List;
 /**
  * Created by Alex on 3/12/2016.
  */
-public class UnblockEnrolleeForwardCommand extends Command {
+public class DeleteFacultyForwardCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result=null;
         HttpSession session = request.getSession(false);
+        FacultyRepository facultyRepository = new FacultyRepository();
+        List<Faculty> faculties = (List<Faculty>) facultyRepository.findAll();
+        request.setAttribute("faculties", faculties);
 
         int userRole = (int)session.getAttribute("userRole");
-        EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
-        List<Enrollee> blockedEnrollees = (List<Enrollee>) enrolleeRepository.findAllBlock();
-        request.setAttribute("blockedEnrollees", blockedEnrollees);
 
-        if(userRole==1)result="/WEB-INF/admin/unblockEnrollee.jsp";
+        if(userRole==1)result="/WEB-INF/admin/deleteFaculty.jsp";
         return result;
     }
 }

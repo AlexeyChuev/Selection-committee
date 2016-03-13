@@ -1,5 +1,6 @@
-package net.chuiev.selcommittee.controller;
+package net.chuiev.selcommittee.controller.client;
 
+import net.chuiev.selcommittee.controller.Command;
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.FacultySubject;
 import net.chuiev.selcommittee.entity.Subject;
