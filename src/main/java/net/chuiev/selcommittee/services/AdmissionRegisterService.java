@@ -78,12 +78,35 @@ public class AdmissionRegisterService {
 
             //calculate total sum of grades for enrollee
             float totalExams = exam1Grade + exam2Grade + exam3Grade;
-            float total = sumOfCertificateGrades + totalExams;
+            float total = certificateGPA + totalExams;
             admissionRegisterRecord.setTotal(total);
 
             //add admissionRegisterRecord to list of of records for register
             admissionRegisterRecordsList.add(admissionRegisterRecord);
         }
+
+        //sort admissionRegisterRecords List by total
+        Collections.sort(admissionRegisterRecordsList, new Comparator<AdmissionRegisterRecord>() {
+            @Override
+            public int compare(AdmissionRegisterRecord o1, AdmissionRegisterRecord o2) {
+                return Float.compare(o2.getTotal(), o1.getTotal());
+            }
+        });
+
+        //add admissionState to each admissionRegisterRecord
+        for (int i = 0; i < admissionRegisterRecordsList.size(); i++) {
+            if (i < faculty.getBudgetVolume()) {
+                admissionRegisterRecordsList.get(i).setAdmissionState("Поступил(ла) на бюджет");
+                continue;
+            }
+            if (i < faculty.getTotalVolume()) {
+                admissionRegisterRecordsList.get(i).setAdmissionState("Поступил(ла) на контракт");
+                continue;
+            }
+            admissionRegisterRecordsList.get(i).setAdmissionState("Не поступил(ла)");
+
+        }
+
         return admissionRegisterRecordsList;
     }
 
@@ -94,15 +117,19 @@ public class AdmissionRegisterService {
         //for each faculty add list of admissionRegisterRecords in order by total sum
         for (Faculty faculty : faculties) {
             List<AdmissionRegisterRecord> admissionRegisterRecords = createAdmissionRegisterRecords(faculty);
-            Collections.sort(admissionRegisterRecords, new Comparator<AdmissionRegisterRecord>() {
-                @Override
-                public int compare(AdmissionRegisterRecord o1, AdmissionRegisterRecord o2) {
-                    return Float.compare(o1.getTotal(), o2.getTotal());
-                }
-            });
             facultiesAndTheirAdmissions.put(faculty, admissionRegisterRecords);
         }
         return facultiesAndTheirAdmissions;
     }
+
+    /*public static void main(String[] args) {
+        AdmissionRegisterService admissionRegisterService = new AdmissionRegisterService();
+        FacultyRepository facultyRepository = new FacultyRepository();
+        Faculty faculty = facultyRepository.get(1);
+        List<AdmissionRegisterRecord> list = admissionRegisterService.createAdmissionRegisterRecords(faculty);
+        for (AdmissionRegisterRecord a : list) {
+            System.out.println(a);
+        }
+    }*/
 
 }

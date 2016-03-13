@@ -4,7 +4,6 @@ package net.chuiev.selcommittee.entity;
  * Created by Алексей on 3/6/2016.
  */
 public class AdmissionRegisterRecord {
-    private static final long serialVersionUID = -1922777033971552783L;
 
     private Faculty faculty;
     private Enrollee enrollee;
@@ -16,9 +15,10 @@ public class AdmissionRegisterRecord {
     private Subject exam3;
     private int exam3Grade;
     private float total;
+    private String admissionState;
 
     public AdmissionRegisterRecord(Faculty faculty, Enrollee enrollee, float summaryCertificateGrade, Subject exam1, int exam1Grade,
-                                   Subject exam2, int exam2Grade, Subject exam3, int exam3Grade, float total) {
+                                   Subject exam2, int exam2Grade, Subject exam3, int exam3Grade, float total, String admissionState) {
         this.faculty = faculty;
         this.enrollee = enrollee;
         this.summaryCertificateGrade = summaryCertificateGrade;
@@ -29,9 +29,18 @@ public class AdmissionRegisterRecord {
         this.exam3 = exam3;
         this.exam3Grade = exam3Grade;
         this.total = total;
+        this.admissionState = admissionState;
     }
 
     public AdmissionRegisterRecord(){}
+
+    public String getAdmissionState() {
+        return admissionState;
+    }
+
+    public void setAdmissionState(String admissionState) {
+        this.admissionState = admissionState;
+    }
 
     public float getTotal() {
         return total;
@@ -129,7 +138,8 @@ public class AdmissionRegisterRecord {
         if (!enrollee.equals(that.enrollee)) return false;
         if (!exam1.equals(that.exam1)) return false;
         if (!exam2.equals(that.exam2)) return false;
-        return exam3.equals(that.exam3);
+        if (!exam3.equals(that.exam3)) return false;
+        return admissionState.equals(that.admissionState);
 
     }
 
@@ -145,6 +155,7 @@ public class AdmissionRegisterRecord {
         result = 31 * result + exam3.hashCode();
         result = 31 * result + exam3Grade;
         result = 31 * result + (total != +0.0f ? Float.floatToIntBits(total) : 0);
+        result = 31 * result + admissionState.hashCode();
         return result;
     }
 
@@ -161,6 +172,7 @@ public class AdmissionRegisterRecord {
                 ", exam3=" + exam3 +
                 ", exam3Grade=" + exam3Grade +
                 ", total=" + total +
+                ", admissionState='" + admissionState + '\'' +
                 '}';
     }
 }

@@ -24,13 +24,16 @@
         <tr>
             <td>ФИО абитуриента</td>
             <td>
-                <c:forEach var="listEntry" items="${entry.value}" begin="0" end="0">Grade of exam: ${listEntry.exam1.name}</c:forEach>
+                <c:forEach var="listEntry" items="${entry.value}" begin="0"
+                           end="0">Exam: ${listEntry.exam1.name}</c:forEach>
             </td>
             <td>
-                <c:forEach var="listEntry" items="${entry.value}" begin="0" end="0">Grade of exam: ${listEntry.exam2.name}</c:forEach>
+                <c:forEach var="listEntry" items="${entry.value}" begin="0"
+                           end="0">Exam: ${listEntry.exam2.name}</c:forEach>
             </td>
             <td>
-                <c:forEach var="listEntry" items="${entry.value}" begin="0" end="0">Grade of exam: ${listEntry.exam3.name}</c:forEach>
+                <c:forEach var="listEntry" items="${entry.value}" begin="0"
+                           end="0">Exam: ${listEntry.exam3.name}</c:forEach>
             </td>
             <td>Средний балл аттестата:</td>
             <td>Общая сумма баллов:</td>
@@ -38,11 +41,24 @@
         </tr>
         </thead>
         <tbody>
-
+        <c:forEach var="listEntry" items="${entry.value}">
+        <tr>
+            <td>${listEntry.enrollee.fullName}</td>
+            <td>${listEntry.exam1Grade}</td>
+            <td>${listEntry.exam2Grade}</td>
+            <td>${listEntry.exam3Grade}</td>
+            <td>${listEntry.summaryCertificateGrade}</td>
+            <td>${listEntry.total}</td>
+            <td>${listEntry.admissionState}</td>
+        </tr>
+        </c:forEach>
         </tbody>
     </table>
     <br>
 </c:forEach>
 
+<br>
+<br>
+<input type="button" value="Уведомить абитуриентов о результатах поступления" class="submit-btn" onclick="document.location.href='controller?command=sendEmail'">
 </body>
 </html>
