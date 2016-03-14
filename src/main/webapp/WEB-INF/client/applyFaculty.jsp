@@ -119,17 +119,6 @@
             <input type="number" name="economics" value="" required max="12" min="1"/>
         </label>
     </div>
-    <!--
-    <br>
-    <form action="controller?command=applySubmission">
-        <button type="submit">Подать заявку</button>
-    </form>
-
-
-    <!--
-    <input type=submit value="Подать заявку" class="submit-btn">
-    !-->
-
     <br>
     <div class="field">
         <input type="submit"
@@ -140,8 +129,6 @@
         <input type="reset"
                value="Очистить заполненные поля"/>
     </div>
-
-
 </form>
 </body>
 </html>

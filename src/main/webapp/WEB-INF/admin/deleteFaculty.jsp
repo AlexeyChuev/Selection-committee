@@ -12,14 +12,14 @@
     <title>Удаление факультета</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
+<%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h3>Выберите факультет, который хотите удалить:</h3>
 <br>
 <h3>Внимание! Удаление факультета приведет к удалению всех поданных на него заявок.</h3>
 <br>
 
 <form id="deleteFaculty" method="POST" action="controller">
-    <input type="hidden" name="command" value="deleteFaculty" />
+    <input type="hidden" name="command" value="deleteFaculty"/>
     <p><select size="1" name="facultiesSelect" required>
         <option disabled>Выберите факультет</option>
         <c:forEach var="faculty" items="${faculties}">
@@ -28,7 +28,5 @@
     </select></p>
     <p><input type="submit" value="Удалить"></p>
 </form>
-
-
 </body>
 </html>

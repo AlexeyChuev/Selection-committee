@@ -20,18 +20,17 @@ public class DeleteFacultyCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
         int facultyId = Integer.parseInt(request.getParameter("facultiesSelect"));
         FacultyRepository facultyRepository = new FacultyRepository();
-        Faculty faculty =facultyRepository.get(facultyId);
+        Faculty faculty = facultyRepository.get(facultyId);
         request.setAttribute("facultyName", faculty.getName());
         facultyRepository.delete(facultyId);
-
-        int userRole = (int)session.getAttribute("userRole");
-
-        if(userRole==1)result="/WEB-INF/admin/successDeleteFaculty.jsp";
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 1) {
+            result = "/WEB-INF/admin/successDeleteFaculty.jsp";
+        }
         return result;
     }
 }

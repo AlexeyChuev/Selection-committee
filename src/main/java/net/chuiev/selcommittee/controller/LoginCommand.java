@@ -1,9 +1,6 @@
 package net.chuiev.selcommittee.controller;
 
-import net.chuiev.selcommittee.entity.Enrollee;
-import net.chuiev.selcommittee.entity.Role;
 import net.chuiev.selcommittee.entity.User;
-import net.chuiev.selcommittee.repository.EnrolleeRepository;
 import net.chuiev.selcommittee.repository.UserRepository;
 
 import javax.servlet.ServletException;
@@ -22,8 +19,6 @@ public class LoginCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result = null;
         HttpSession session = request.getSession();
-
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -38,28 +33,26 @@ public class LoginCommand extends Command {
         if (user == null) {
             result = "/WEB-INF/errors/errorUserNotExist.jsp";
         } else {
-            if(!user.getPassword().equals(password))return  "/WEB-INF/errors/errorUserNotExist.jsp";
+            if (!user.getPassword().equals(password)) {
+                return "/WEB-INF/errors/errorUserNotExist.jsp";
+            }
             int userRole = user.getRole();
 
             if (userRole == 1) {
                 session.setAttribute("user", user.getEmail());
                 session.setAttribute("userRole", user.getRole());
-
                 result = "controller?command=adminHomePage";
             }
             if (userRole == 2) {
-                if(user.isBlocked())result= "/WEB-INF/errors/errorBlockedUser.jsp";
-                else {
+                if (user.isBlocked()) {
+                    result = "/WEB-INF/errors/errorBlockedUser.jsp";
+                } else {
                     session.setAttribute("email", email);
                     session.setAttribute("userRole", userRole);
                     result = "controller?command=clientHomePage";
                 }
             }
-
-
         }
         return result;
     }
-
-
 }

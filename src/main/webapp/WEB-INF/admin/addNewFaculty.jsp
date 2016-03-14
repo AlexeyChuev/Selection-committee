@@ -11,14 +11,14 @@
     <title>Добавить новый факультет</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
+<%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h3>Добавление нового факультета</h3>
 <div class="welcomeform">
     <form id="addNewFaculty" method="POST" action="controller">
-        <input type="hidden" name="command" value="addNewFaculty" />
+        <input type="hidden" name="command" value="addNewFaculty"/>
         <br>
         <div class="field">
-            <label>  Название факультата:
+            <label> Название факультата:
                 <input type="text" name="name" value="" required maxlength="50"/>
             </label>
         </div>
@@ -37,7 +37,7 @@
         <br>
         <div class="field">
             <input type="submit"
-                   value="Добавить" />
+                   value="Добавить"/>
         </div>
         <div class="field">
             <input type="reset"

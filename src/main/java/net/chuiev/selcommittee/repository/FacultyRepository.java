@@ -48,7 +48,9 @@ public class FacultyRepository implements Repository<Faculty> {
 
     @Override
     public void update(Faculty newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -70,7 +72,9 @@ public class FacultyRepository implements Repository<Faculty> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {
@@ -96,7 +100,9 @@ public class FacultyRepository implements Repository<Faculty> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_COMMAND + entityId);
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newFaculty.setId(resultSet.getInt("id"));
             newFaculty.setName(resultSet.getString("name"));
             newFaculty.setBudgetVolume(resultSet.getInt("budgetVolume"));
@@ -195,7 +201,9 @@ public class FacultyRepository implements Repository<Faculty> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_BY_NAME + prepareName(name));
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newFaculty.setId(resultSet.getInt("id"));
             newFaculty.setName(resultSet.getString("name"));
             newFaculty.setBudgetVolume(resultSet.getInt("budgetVolume"));

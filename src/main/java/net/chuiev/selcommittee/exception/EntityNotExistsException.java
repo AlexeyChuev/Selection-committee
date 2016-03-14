@@ -8,8 +8,6 @@ public class EntityNotExistsException extends RuntimeException {
         super(cause);
     }
 
-    public EntityNotExistsException()
-    {
-
+    public EntityNotExistsException() {
     }
 }

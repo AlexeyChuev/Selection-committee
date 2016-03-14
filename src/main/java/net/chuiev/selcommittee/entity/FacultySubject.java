@@ -18,7 +18,8 @@ public class FacultySubject implements Serializable {
         this.subjectId = subjectId;
     }
 
-    public FacultySubject(){}
+    public FacultySubject() {
+    }
 
     public int getId() {
         return id;

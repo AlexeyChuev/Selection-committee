@@ -49,8 +49,6 @@ public class CommandManager {
         if (commandName == null || !commands.containsKey(commandName)) {
             return commands.get("noCommand");
         }
-
         return commands.get(commandName);
     }
-
 }

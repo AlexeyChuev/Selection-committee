@@ -12,8 +12,8 @@
 </head>
 <body>
 
-<form name="login" id ="login" action="controller" method="POST">
-    <input type="hidden" name="command" value="login" />
+<form name="login" id="login" action="controller" method="POST">
+    <input type="hidden" name="command" value="login"/>
     <h1>Система "Приемная комиссия"</h1>
     <label>
         Введите email:<br>
@@ -27,7 +27,8 @@
     <br>
     <br>
     <input type=submit value="Войти" class="submit-btn">
-    <input type="button" value="Зарегистрироваться" class="submit-btn" onclick="document.location.href='registration.jsp'">
+    <input type="button" value="Зарегистрироваться" class="submit-btn"
+           onclick="document.location.href='registration.jsp'">
 </form>
 </body>
 </html>

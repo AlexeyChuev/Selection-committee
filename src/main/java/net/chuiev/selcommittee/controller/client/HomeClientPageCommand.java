@@ -20,7 +20,7 @@ public class HomeClientPageCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
         UserRepository userRepository = new UserRepository();
@@ -33,11 +33,10 @@ public class HomeClientPageCommand extends Command {
         request.setAttribute("school", enrollee.getSchoolName());
 
         session.setAttribute("enrolleeID", enrollee.getId());
-
-
-        int userRole = (int)session.getAttribute("userRole");
-
-        if(userRole==2)result="/WEB-INF/client/clientHome.jsp";
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 2) {
+            result = "/WEB-INF/client/clientHome.jsp";
+        }
         return result;
     }
 }

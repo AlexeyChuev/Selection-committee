@@ -1,7 +1,5 @@
 package net.chuiev.selcommittee.repository;
 
-import net.chuiev.selcommittee.entity.Enrollee;
-import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.Submission;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
@@ -44,7 +42,9 @@ public class SubmissionRepository implements Repository<Submission> {
 
     @Override
     public void update(Submission newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -65,7 +65,9 @@ public class SubmissionRepository implements Repository<Submission> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {
@@ -91,7 +93,9 @@ public class SubmissionRepository implements Repository<Submission> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_COMMAND + entityId);
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));
@@ -117,7 +121,9 @@ public class SubmissionRepository implements Repository<Submission> {
             preparedStatement.setInt(1, facultyId);
             preparedStatement.setInt(2, enrolleeId);
             resultSet = preparedStatement.executeQuery();
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newSubmission.setId(resultSet.getInt("id"));
             newSubmission.setFacultyId(resultSet.getInt("FACULTY_ID"));
             newSubmission.setEnrolleeId(resultSet.getInt("ENROLLEE_ID"));

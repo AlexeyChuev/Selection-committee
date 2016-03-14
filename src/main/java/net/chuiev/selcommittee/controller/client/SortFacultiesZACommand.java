@@ -19,16 +19,15 @@ public class SortFacultiesZACommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
         FacultyRepository facultyRepository = new FacultyRepository();
         List<Faculty> faculties = (List<Faculty>) facultyRepository.sortedFacultiesByNameFromZToA();
         request.setAttribute("faculties", faculties);
-
-
-        int userRole = (int)session.getAttribute("userRole");
-
-        if(userRole==2)result="/WEB-INF/client/allFaculties.jsp";
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 2) {
+            result = "/WEB-INF/client/allFaculties.jsp";
+        }
         return result;
     }
 }

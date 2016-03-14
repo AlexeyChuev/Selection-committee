@@ -21,16 +21,15 @@ public class CreateRegisterCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
         AdmissionRegisterService admissionRegisterService = new AdmissionRegisterService();
         Map<Faculty, List<AdmissionRegisterRecord>> facultiesAndTheirAdmissions = admissionRegisterService.getFacultiesAndTheirAdmissions();
-
-        request.setAttribute("map",facultiesAndTheirAdmissions);
-
-        int userRole = (int)session.getAttribute("userRole");
-        if(userRole==1)result="/WEB-INF/admin/viewRegister.jsp";
+        request.setAttribute("map", facultiesAndTheirAdmissions);
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 1) {
+            result = "/WEB-INF/admin/viewRegister.jsp";
+        }
         return result;
     }
 }

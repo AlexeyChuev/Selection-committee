@@ -12,31 +12,31 @@
     <title>Факультеты</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/header.jspf"%>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <h2> Список факультетов: </h2>
 
 <table id="facultiesTable" class="display">
-<thead>
-<tr>
-    <td>Название факультета</td>
-    <td>Количество бюджетных мест</td>
-    <td>Всего мест</td>
-</tr>
-</thead>
-<tbody>
-<c:forEach var="faculty" items="${faculties}">
+    <thead>
     <tr>
-        <td>
-            <a href="<c:url value="controller?command=defineFaculty"> <c:param name="facultyid" value="${faculty.id}"/></c:url>">
-                <c:out value="${faculty.name}"></c:out>
-            </a>
-        </td>
-        <td>${faculty.budgetVolume}</td>
-        <td>${faculty.totalVolume}</td>
+        <td>Название факультета</td>
+        <td>Количество бюджетных мест</td>
+        <td>Всего мест</td>
     </tr>
-</c:forEach>
-</tbody>
+    </thead>
+    <tbody>
+    <c:forEach var="faculty" items="${faculties}">
+        <tr>
+            <td>
+                <a href="<c:url value="controller?command=defineFaculty"> <c:param name="facultyid" value="${faculty.id}"/></c:url>">
+                    <c:out value="${faculty.name}"></c:out>
+                </a>
+            </td>
+            <td>${faculty.budgetVolume}</td>
+            <td>${faculty.totalVolume}</td>
+        </tr>
+    </c:forEach>
+    </tbody>
 </table>
 
 <br>
@@ -48,10 +48,5 @@
     <a href="controller?command=sortFacultiesByBudget">По количеству бюджетных мест</a>
     <a href="controller?command=sortFacultiesByTotal">По общему количеству мес</a>
 </div>
-
-
-
-
-
 </body>
 </html>

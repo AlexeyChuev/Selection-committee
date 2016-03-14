@@ -25,30 +25,27 @@ public class EnrolleeApplyCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
         String email = (String) session.getAttribute("email");
         UserRepository userRepository = new UserRepository();
         User user = userRepository.findUserByEmail(email);
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
         Enrollee enrollee = enrolleeRepository.findByUserId(user.getId());
-
         int facultyId = Integer.parseInt(request.getParameter("facultyid"));
         int enrolleeId = enrollee.getId();
 
         SubmissionRepository submissionRepository = new SubmissionRepository();
-
         Submission testSubmission = submissionRepository.getByFacultyAndEnrolle(facultyId, enrolleeId);
-        if(testSubmission!=null)return "/WEB-INF/errors/errorSubmissionAlreadyExist.jsp";
-
+        if (testSubmission != null) {
+            return "/WEB-INF/errors/errorSubmissionAlreadyExist.jsp";
+        }
         Submission submission = new Submission();
         submission.setFacultyId(facultyId);
         submission.setEnrolleeId(enrolleeId);
         submissionRepository.create(submission);
 
         Submission justAddedSubmission = submissionRepository.getByFacultyAndEnrolle(facultyId, enrolleeId);
-
         //exams and them marks
         int exam1Mark = Integer.parseInt(request.getParameter("exam1"));
         int exam2Mark = Integer.parseInt(request.getParameter("exam2"));
@@ -93,18 +90,12 @@ public class EnrolleeApplyCommand extends Command {
         int economics = Integer.parseInt(request.getParameter("economics"));
         submissionSubjectRepository.create(new SubmissionSubject(justAddedSubmission.getId(), 10, economics, 2));
 
-        result="/WEB-INF/client/successAddSubmission.jsp";
-
+        result = "/WEB-INF/client/successAddSubmission.jsp";
         return result;
     }
 
-
-
     //grade_type = 1 --> it's for exam
-    private static void addSubmissionSubjectExam(int submissionId, int subjectId, int grade)
-    {
+    private static void addSubmissionSubjectExam(int submissionId, int subjectId, int grade) {
         submissionSubjectRepository.create(new SubmissionSubject(submissionId, subjectId, grade, 1));
     }
-
-
 }

@@ -21,7 +21,6 @@ public class UserRepository implements Repository<User> {
 
     private final static String FIND_USER_BY_EMAIL = "SELECT * FROM ADMIN.Users WHERE EMAIL=";
 
-
     @Override
     public void create(User entity) {
         Connection connection = null;
@@ -45,7 +44,9 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public void update(User newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -68,7 +69,9 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {
@@ -94,7 +97,9 @@ public class UserRepository implements Repository<User> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_COMMAND + entityId);
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newUser.setId(resultSet.getInt("id"));
             newUser.setEmail(resultSet.getString("email"));
             newUser.setPassword(resultSet.getString("password"));
@@ -150,7 +155,9 @@ public class UserRepository implements Repository<User> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_USER_BY_EMAIL + prepareEmail(email));
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newUser.setId(resultSet.getInt("id"));
             newUser.setEmail(resultSet.getString("email"));
             newUser.setPassword(resultSet.getString("password"));

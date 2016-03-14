@@ -6,7 +6,7 @@ import java.sql.Blob;
 /**
  * Created by Алексей on 3/5/2016.
  */
-public class Enrollee implements Serializable{
+public class Enrollee implements Serializable {
     private static final long serialVersionUID = 1113613887250453747L;
 
     private int id;
@@ -14,17 +14,7 @@ public class Enrollee implements Serializable{
     private String city;
     private String region;
     private String schoolName;
-
-
     private int userId;
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public Enrollee(String fullName, String city, String region, String schoolName, int userId) {
 
@@ -36,7 +26,16 @@ public class Enrollee implements Serializable{
         this.userId = userId;
     }
 
-    public Enrollee(){}
+    public Enrollee() {
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;

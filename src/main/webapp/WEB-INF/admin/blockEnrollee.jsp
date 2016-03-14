@@ -11,8 +11,12 @@
 <head>
     <title>Заблокировать абитуриента</title>
     <style>
-        table {margin: auto;}
-        td {text-align: center;}
+        table {
+            margin: auto;
+        }
+        td {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -21,8 +25,6 @@
 <br>
 <br>
 <p align="center"> Список не заблокированных абитуриентов</p>
-
-
 <table id="unblockEnrolleesTable" class="display">
     <thead>
     <tr>
@@ -46,8 +48,7 @@
     </tbody>
 </table>
 <br>
-<input type="button" value="Вернуться на панель администратора" class="submit-btn" onclick="document.location.href='controller?command=adminHomePage'">
-
-
+<input type="button" value="Вернуться на панель администратора" class="submit-btn"
+       onclick="document.location.href='controller?command=adminHomePage'">
 </body>
 </html>

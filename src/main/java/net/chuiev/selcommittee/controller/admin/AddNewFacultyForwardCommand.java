@@ -16,12 +16,12 @@ public class AddNewFacultyForwardCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
-        int userRole = (int)session.getAttribute("userRole");
-
-        if(userRole==1)result="/WEB-INF/admin/addNewFaculty.jsp";
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 1) {
+            result = "/WEB-INF/admin/addNewFaculty.jsp";
+        }
         return result;
     }
 }

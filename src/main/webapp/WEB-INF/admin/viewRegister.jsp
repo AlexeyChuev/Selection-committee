@@ -42,15 +42,15 @@
         </thead>
         <tbody>
         <c:forEach var="listEntry" items="${entry.value}">
-        <tr>
-            <td>${listEntry.enrollee.fullName}</td>
-            <td>${listEntry.exam1Grade}</td>
-            <td>${listEntry.exam2Grade}</td>
-            <td>${listEntry.exam3Grade}</td>
-            <td>${listEntry.summaryCertificateGrade}</td>
-            <td>${listEntry.total}</td>
-            <td>${listEntry.admissionState}</td>
-        </tr>
+            <tr>
+                <td>${listEntry.enrollee.fullName}</td>
+                <td>${listEntry.exam1Grade}</td>
+                <td>${listEntry.exam2Grade}</td>
+                <td>${listEntry.exam3Grade}</td>
+                <td>${listEntry.summaryCertificateGrade}</td>
+                <td>${listEntry.total}</td>
+                <td>${listEntry.admissionState}</td>
+            </tr>
         </c:forEach>
         </tbody>
     </table>
@@ -59,6 +59,7 @@
 
 <br>
 <br>
-<input type="button" value="Уведомить абитуриентов о результатах поступления" class="submit-btn" onclick="document.location.href='controller?command=sendEmail'">
+<input type="button" value="Уведомить абитуриентов о результатах поступления" class="submit-btn"
+       onclick="document.location.href='controller?command=sendEmail'">
 </body>
 </html>

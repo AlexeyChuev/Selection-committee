@@ -18,8 +18,6 @@
     <form id="registration_form" method="POST" action="controller">
         <input type="hidden" name="command" value="client_registration" />
 
-
-
         <div class="field">
             <label>  Email:
             <input type="email" name="email" value="" required/>
@@ -61,22 +59,11 @@
             </label>
         </div>
 
-        <!--
-        <br>
-        <div class="field">
-            <label>
-                Приложить скан аттестата:
-                <input type="file" name="certificate" value=""/>
-            </label>
-        </div>
-        !-->
-
         <br>
         <div class="field">
             <input type="submit"
                    value="Отправить" />
         </div>
-
 
         <div class="field">
             <input type="reset"
@@ -85,12 +72,10 @@
 
         <br>
         <div class="field">
-
          <a href="index.jsp">Вернуться на страницу входа</a>
         </div>
 
     </form>
-
 </div>
 
 </body>

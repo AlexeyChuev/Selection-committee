@@ -22,9 +22,7 @@ public class UnblockEnrolleeCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result = null;
         HttpSession session = request.getSession(false);
-
         int enrolleeId = Integer.parseInt(request.getParameter("enrolleeId"));
-
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
         Enrollee enrollee = enrolleeRepository.get(enrolleeId);
         if (enrollee != null) {

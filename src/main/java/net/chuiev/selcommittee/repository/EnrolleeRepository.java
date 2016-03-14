@@ -19,7 +19,6 @@ public class EnrolleeRepository implements Repository<Enrollee> {
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ENROLLEE WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ENROLLEE";
 
-    //private final static String UPDATE_ISBLOCKED = "UPDATE ADMIN.ENROLLEE SET ISBLOCKED=? WHERE id=?";
     private final static String FIND_BY_USER_ID = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID=";
     private final static String FIND_ALL_UNBLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=FALSE)";
     private final static String FIND_ALL_BLOCK = "SELECT * FROM ADMIN.ENROLLEE WHERE USER_ID IN (SELECT (ID) FROM ADMIN.USERS WHERE ISBLOCKED=TRUE)";
@@ -51,7 +50,9 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
     @Override
     public void update(Enrollee newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -76,7 +77,9 @@ public class EnrolleeRepository implements Repository<Enrollee> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {
@@ -138,7 +141,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
                 newEnrollee.setRegion(resultSet.getString("region"));
                 newEnrollee.setUserId(resultSet.getInt("user_id"));
                 newEnrollee.setSchoolName(resultSet.getString("school_name"));
-                enrollees.add(newEnrollee);            }
+                enrollees.add(newEnrollee);
+            }
             connection.commit();
         } catch (SQLException e) {
             connectionCreator.rollback(connection);
@@ -150,26 +154,6 @@ public class EnrolleeRepository implements Repository<Enrollee> {
         return enrollees;
     }
 
-    /*public void updateStatusIsBlocked(Enrollee newEntity, boolean isBlocked) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = connectionCreator.getConnection();
-            preparedStatement = connection.prepareStatement(UPDATE_ISBLOCKED);
-            preparedStatement.setBoolean(1, isBlocked);
-            preparedStatement.setInt(2, newEntity.getId());
-            preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            connectionCreator.rollback(connection);
-        } finally {
-            connectionCreator.close(preparedStatement);
-            connectionCreator.close(connection);
-        }
-
-    }*/
-
     public Enrollee findByUserId(int userId) {
         Enrollee newEnrollee = new Enrollee();
         Connection connection = null;
@@ -179,7 +163,9 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(FIND_BY_USER_ID + userId);
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) {
+                return null;
+            }
             newEnrollee.setId(resultSet.getInt("id"));
             newEnrollee.setFullName(resultSet.getString("full_name"));
             newEnrollee.setCity(resultSet.getString("city"));
@@ -214,7 +200,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
                 newEnrollee.setRegion(resultSet.getString("region"));
                 newEnrollee.setUserId(resultSet.getInt("user_id"));
                 newEnrollee.setSchoolName(resultSet.getString("school_name"));
-                enrollees.add(newEnrollee);            }
+                enrollees.add(newEnrollee);
+            }
             connection.commit();
         } catch (SQLException e) {
             connectionCreator.rollback(connection);
@@ -243,7 +230,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
                 newEnrollee.setRegion(resultSet.getString("region"));
                 newEnrollee.setUserId(resultSet.getInt("user_id"));
                 newEnrollee.setSchoolName(resultSet.getString("school_name"));
-                enrollees.add(newEnrollee);            }
+                enrollees.add(newEnrollee);
+            }
             connection.commit();
         } catch (SQLException e) {
             connectionCreator.rollback(connection);
@@ -274,7 +262,8 @@ public class EnrolleeRepository implements Repository<Enrollee> {
                 newEnrollee.setRegion(resultSet.getString("region"));
                 newEnrollee.setUserId(resultSet.getInt("user_id"));
                 newEnrollee.setSchoolName(resultSet.getString("school_name"));
-                enrollees.add(newEnrollee);            }
+                enrollees.add(newEnrollee);
+            }
             connection.commit();
         } catch (SQLException e) {
             connectionCreator.rollback(connection);

@@ -18,7 +18,8 @@ public class Submission implements Serializable {
         this.enrolleeId = enrolleeId;
     }
 
-    public Submission(){}
+    public Submission() {
+    }
 
     public int getId() {
         return id;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Алексей on 3/5/2016.
  */
-public class Faculty  implements Serializable {
+public class Faculty implements Serializable {
     private static final long serialVersionUID = 1099698953477481899L;
 
     private int id;
@@ -26,7 +26,8 @@ public class Faculty  implements Serializable {
         this.totalVolume = totalVolume;
     }
 
-    public Faculty(){}
+    public Faculty() {
+    }
 
     public int getId() {
         return id;

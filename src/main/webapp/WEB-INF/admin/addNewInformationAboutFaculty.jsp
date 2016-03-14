@@ -11,7 +11,7 @@
     <title>Добавление новых значений для факультета</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
+<%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h2>Информация о факультете:</h2>
 <br>
 <br>
@@ -24,7 +24,6 @@
 <br>
 <h2>Введите новые значения для факультета:</h2>
 <br>
-
 <form id="faculty_edit_form" method="POST" action="controller">
     <input type="hidden" name="command" value="updateFaculty"/>
     <input type="hidden" name="facultyid" value="${faculty.id}"/>
@@ -48,7 +47,6 @@
             <input type="number" name="totalVolume" value="" required min="0"/>
         </label>
     </div>
-
     <br>
     <br>
     <div class="field">
@@ -60,10 +58,6 @@
         <input type="reset"
                value="Очистить заполненные поля"/>
     </div>
-
-
 </form>
-
-
 </body>
 </html>

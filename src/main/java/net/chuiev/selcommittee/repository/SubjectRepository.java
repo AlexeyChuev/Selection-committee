@@ -39,7 +39,9 @@ public class SubjectRepository implements Repository<Subject> {
 
     @Override
     public void update(Subject newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -58,7 +60,9 @@ public class SubjectRepository implements Repository<Subject> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {

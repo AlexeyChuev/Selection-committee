@@ -11,8 +11,9 @@
     <title>Бюджета больше, чем общего числа мест</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
+<%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h2>Бюджетных мест не может быть больше, чем общее количество мест</h2>
-<input type="button" value="Вернуться на панель администратора" class="submit-btn" onclick="document.location.href='controller?command=adminHomePage'">
+<input type="button" value="Вернуться на панель администратора" class="submit-btn"
+       onclick="document.location.href='controller?command=adminHomePage'">
 </body>
 </html>

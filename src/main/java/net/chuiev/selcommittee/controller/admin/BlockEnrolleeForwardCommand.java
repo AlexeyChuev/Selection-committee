@@ -19,15 +19,15 @@ public class BlockEnrolleeForwardCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
-        int userRole = (int)session.getAttribute("userRole");
+        int userRole = (int) session.getAttribute("userRole");
         EnrolleeRepository enrolleeRepository = new EnrolleeRepository();
         List<Enrollee> unblockEnrollees = (List<Enrollee>) enrolleeRepository.findAllUnblock();
         request.setAttribute("unblockEnrollees", unblockEnrollees);
-
-        if(userRole==1)result="/WEB-INF/admin/blockEnrollee.jsp";
+        if (userRole == 1) {
+            result = "/WEB-INF/admin/blockEnrollee.jsp";
+        }
         return result;
     }
 }

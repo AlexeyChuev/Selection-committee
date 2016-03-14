@@ -32,7 +32,8 @@ public class AdmissionRegisterRecord {
         this.admissionState = admissionState;
     }
 
-    public AdmissionRegisterRecord(){}
+    public AdmissionRegisterRecord() {
+    }
 
     public String getAdmissionState() {
         return admissionState;

@@ -1,6 +1,6 @@
 package net.chuiev.selcommittee.repository;
 
-import java.sql.SQLException;
+
 import java.util.Collection;
 
 /**
@@ -8,8 +8,11 @@ import java.util.Collection;
  */
 public interface Repository<T> {
     void create(T entity);
+
     void update(T newEntity);
+
     void delete(int entityId);
+
     T get(int entityId);
 
     Collection<T> findAll();

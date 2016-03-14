@@ -12,7 +12,8 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-    <h2>Ваша заявка принята!</h2>
-<input type="button" value="Вернуться на страницу профиля" class="submit-btn" onclick="document.location.href='controller?command=clientHomePage'">
+<h2>Ваша заявка принята!</h2>
+<input type="button" value="Вернуться на страницу профиля" class="submit-btn"
+       onclick="document.location.href='controller?command=clientHomePage'">
 </body>
 </html>

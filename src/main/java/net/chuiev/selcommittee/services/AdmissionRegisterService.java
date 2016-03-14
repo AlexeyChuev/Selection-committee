@@ -104,9 +104,7 @@ public class AdmissionRegisterService {
                 continue;
             }
             admissionRegisterRecordsList.get(i).setAdmissionState("Не поступил(ла)");
-
         }
-
         return admissionRegisterRecordsList;
     }
 
@@ -121,15 +119,4 @@ public class AdmissionRegisterService {
         }
         return facultiesAndTheirAdmissions;
     }
-
-    /*public static void main(String[] args) {
-        AdmissionRegisterService admissionRegisterService = new AdmissionRegisterService();
-        FacultyRepository facultyRepository = new FacultyRepository();
-        Faculty faculty = facultyRepository.get(1);
-        List<AdmissionRegisterRecord> list = admissionRegisterService.createAdmissionRegisterRecords(faculty);
-        for (AdmissionRegisterRecord a : list) {
-            System.out.println(a);
-        }
-    }*/
-
 }

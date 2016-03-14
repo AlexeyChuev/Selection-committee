@@ -2,7 +2,6 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.GradeType;
 import net.chuiev.selcommittee.entity.GradeTypeEnum;
-import net.chuiev.selcommittee.exception.EntityNotExistsException;
 import net.chuiev.selcommittee.exception.UnmodifiableEntityException;
 
 import java.sql.Connection;
@@ -20,7 +19,6 @@ public class GradeTypeRepository implements Repository<GradeType> {
 
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.GRADE_TYPE WHERE id=";
     private final static String FIND_ALL_COMMAND = "SELECT * FROM ADMIN.ROLE";
-
 
     @Override
     public void create(GradeType entity) {
@@ -78,9 +76,11 @@ public class GradeTypeRepository implements Repository<GradeType> {
                 GradeType newGradeType = new GradeType();
                 newGradeType.setId(resultSet.getInt("id"));
                 String tempRoleType = resultSet.getString("grade_type");
-                if (GradeTypeEnum.EXAM.getName().equalsIgnoreCase(tempRoleType))
+                if (GradeTypeEnum.EXAM.getName().equalsIgnoreCase(tempRoleType)) {
                     newGradeType.setGradeType(GradeTypeEnum.EXAM);
-                else newGradeType.setGradeType(GradeTypeEnum.CERTIFICATE);
+                } else {
+                    newGradeType.setGradeType(GradeTypeEnum.CERTIFICATE);
+                }
                 gradeTypes.add(newGradeType);
             }
         } catch (SQLException e) {

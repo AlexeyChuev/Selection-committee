@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Alex on 3/7/2016.
  */
-public class Role implements Serializable{
+public class Role implements Serializable {
     private static final long serialVersionUID = 2200691353927261877L;
 
     private int id;
@@ -16,7 +16,8 @@ public class Role implements Serializable{
         this.roleType = roleType;
     }
 
-    public Role(){}
+    public Role() {
+    }
 
     public int getId() {
         return id;

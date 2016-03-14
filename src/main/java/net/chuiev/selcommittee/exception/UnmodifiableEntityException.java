@@ -8,8 +8,6 @@ public class UnmodifiableEntityException extends RuntimeException {
         super(cause);
     }
 
-    public UnmodifiableEntityException()
-    {
-
+    public UnmodifiableEntityException() {
     }
 }

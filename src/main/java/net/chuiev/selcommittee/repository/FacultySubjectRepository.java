@@ -2,13 +2,11 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.FacultySubject;
-import net.chuiev.selcommittee.entity.Subject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Алексей on 3/5/2016.
@@ -45,7 +43,9 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
 
     @Override
     public void update(FacultySubject newEntity) {
-        if (get(newEntity.getId()) == null) throw new EntityNotExistsException();
+        if (get(newEntity.getId()) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -66,7 +66,9 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
 
     @Override
     public void delete(int entityId) {
-        if (get(entityId) == null) throw new EntityNotExistsException();
+        if (get(entityId) == null) {
+            throw new EntityNotExistsException();
+        }
         Connection connection = null;
         Statement statement = null;
         try {

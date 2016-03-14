@@ -1,8 +1,6 @@
 package net.chuiev.selcommittee.controller.admin;
 
 import net.chuiev.selcommittee.controller.Command;
-import net.chuiev.selcommittee.entity.User;
-import net.chuiev.selcommittee.repository.UserRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +16,12 @@ public class AdminHomePageCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String result=null;
+        String result = null;
         HttpSession session = request.getSession(false);
-
-        int userRole = (int)session.getAttribute("userRole");
-
-        if(userRole==1)result="/WEB-INF/admin/adminHome.jsp";
+        int userRole = (int) session.getAttribute("userRole");
+        if (userRole == 1) {
+            result = "/WEB-INF/admin/adminHome.jsp";
+        }
         return result;
     }
 }

@@ -15,12 +15,13 @@ public final class ConnectionCreator {
 
     private DataSource getDS(String database, String user, String password) throws SQLException {
         ClientDataSource ds = new ClientDataSource();
-        // DatabaseName can include Derby URL Attributes
         ds.setDatabaseName(database);
-        if (user != null)
+        if (user != null) {
             ds.setUser(user);
-        if (password != null)
+        }
+        if (password != null) {
             ds.setPassword(password);
+        }
         // The host on which Network Server is running
         ds.setServerName("localhost");
         // port on which Network Server is listening
@@ -43,7 +44,8 @@ public final class ConnectionCreator {
         if (rs != null) {
             try {
                 rs.close();
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
     }
 
@@ -51,7 +53,8 @@ public final class ConnectionCreator {
         if (stmt != null) {
             try {
                 stmt.close();
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
     }
 
@@ -59,7 +62,8 @@ public final class ConnectionCreator {
         if (con != null) {
             try {
                 con.rollback();
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
     }
 
@@ -67,7 +71,8 @@ public final class ConnectionCreator {
         if (con != null) {
             try {
                 con.close();
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
     }
 }

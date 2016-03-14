@@ -13,19 +13,18 @@
     <title>Страница клиента</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/jspf/header.jspf"%>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
 <h2>Ваш профиль</h2>
 
-    <b>ФИО:</b><br>${name}
+<b>ФИО:</b><br>${name}
 <br><br>
-    <b>Город:</b><br>${city}
+<b>Город:</b><br>${city}
 <br><br>
-    <b>Регион:</b><br>${region}
+<b>Регион:</b><br>${region}
 <br><br>
-    <b>Учебное заведение:</b><br>${school}
+<b>Учебное заведение:</b><br>${school}
 <br><br>
-    <b>Email:</b><br>${email}
+<b>Email:</b><br>${email}
 <br>
-
 </body>
 </html>

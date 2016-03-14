@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Alex on 3/7/2016.
  */
-public class GradeType implements Serializable{
+public class GradeType implements Serializable {
     private static final long serialVersionUID = 4113633887252453777L;
 
     private int id;
@@ -16,7 +16,8 @@ public class GradeType implements Serializable{
         this.gradeType = gradeType;
     }
 
-    public GradeType(){}
+    public GradeType() {
+    }
 
     public Enum getGradeType() {
         return gradeType;

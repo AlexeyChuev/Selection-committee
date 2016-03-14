@@ -13,13 +13,12 @@
 </head>
 <body>
 
-<%@ include file="/WEB-INF/jspf/headerAdmin.jspf"%>
+<%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h3>Выберите факультет, который хотите отредкатировать:</h3>
 <br>
 
-
 <form id="deleteFaculty" method="POST" action="controller">
-    <input type="hidden" name="command" value="addNewInformationAboutFaculty" />
+    <input type="hidden" name="command" value="addNewInformationAboutFaculty"/>
     <p><select size="1" name="facultiesSelect" required>
         <option disabled>Выберите факультет</option>
         <c:forEach var="faculty" items="${faculties}">
@@ -28,6 +27,5 @@
     </select></p>
     <p><input type="submit" value="Редактировать"></p>
 </form>
-
 </body>
 </html>

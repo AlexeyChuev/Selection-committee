@@ -12,7 +12,7 @@
 </head>
 <body>
 <h2>Пользователь с таким email уже зарегистрирован</h2>
-<input type="button" value="Вернуться на страницу входа" class="submit-btn" onclick="document.location.href='login.jsp'">
-
+<input type="button" value="Вернуться на страницу входа" class="submit-btn"
+       onclick="document.location.href='login.jsp'">
 </body>
 </html>

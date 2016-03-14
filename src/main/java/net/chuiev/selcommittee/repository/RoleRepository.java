@@ -2,7 +2,6 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Role;
 import net.chuiev.selcommittee.entity.RoleTypeEnum;
-import net.chuiev.selcommittee.exception.EntityNotExistsException;
 import net.chuiev.selcommittee.exception.UnmodifiableEntityException;
 
 import java.sql.Connection;
@@ -49,9 +48,11 @@ public class RoleRepository implements Repository<Role> {
             resultSet.next();
             newRole.setId(resultSet.getInt("id"));
             String tempRoleType = resultSet.getString("role_type");
-            if (RoleTypeEnum.ADMIN.getName().equalsIgnoreCase(tempRoleType))
+            if (RoleTypeEnum.ADMIN.getName().equalsIgnoreCase(tempRoleType)) {
                 newRole.setRoleType(RoleTypeEnum.ADMIN);
-            else newRole.setRoleType(RoleTypeEnum.CLIENT);
+            } else {
+                newRole.setRoleType(RoleTypeEnum.CLIENT);
+            }
             connection.commit();
         } catch (SQLException e) {
             connectionCreator.rollback(connection);
@@ -77,9 +78,11 @@ public class RoleRepository implements Repository<Role> {
                 Role newRole = new Role();
                 newRole.setId(resultSet.getInt("id"));
                 String tempRoleType = resultSet.getString("role_type");
-                if (RoleTypeEnum.ADMIN.getName().equalsIgnoreCase(tempRoleType))
+                if (RoleTypeEnum.ADMIN.getName().equalsIgnoreCase(tempRoleType)) {
                     newRole.setRoleType(RoleTypeEnum.ADMIN);
-                else newRole.setRoleType(RoleTypeEnum.CLIENT);
+                } else {
+                    newRole.setRoleType(RoleTypeEnum.CLIENT);
+                }
                 roles.add(newRole);
             }
             connection.commit();

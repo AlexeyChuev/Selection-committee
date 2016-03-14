@@ -13,6 +13,7 @@
 <body>
 <br>
 <h3>Ошибка</h3>
-<input type="button" value="Вернуться на страницу входа" class="submit-btn" onclick="document.location.href='login.jsp'">
+<input type="button" value="Вернуться на страницу входа" class="submit-btn"
+       onclick="document.location.href='login.jsp'">
 </body>
 </html>

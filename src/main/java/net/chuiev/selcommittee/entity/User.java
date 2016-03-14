@@ -17,14 +17,14 @@ public class User implements Serializable {
     private boolean isBlocked;
 
     public User(int role, String email, String password, boolean isBlocked) {
-
         this.role = role;
         this.email = email;
         this.password = password;
         this.isBlocked = isBlocked;
     }
 
-    public User(){}
+    public User() {
+    }
 
     public boolean isBlocked() {
         return isBlocked;

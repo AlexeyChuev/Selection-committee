@@ -34,11 +34,9 @@ public class Controller extends HttpServlet {
         String path = command.execute(request, response);
         if (path == null) {
             response.sendRedirect("/login.jsp");
-        }
-        else{
-
-            RequestDispatcher disp = request.getRequestDispatcher(path);
-            disp.forward(request, response);
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+            dispatcher.forward(request, response);
         }
     }
 }

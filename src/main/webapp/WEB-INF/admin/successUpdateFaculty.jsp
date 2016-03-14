@@ -13,6 +13,7 @@
 <body>
 <%@ include file="/WEB-INF/jspf/headerAdmin.jspf" %>
 <h2>${facultyName} отредактирован</h2>
-<input type="button" value="Вернуться на панель администратора" class="submit-btn" onclick="document.location.href='controller?command=adminHomePage'">
+<input type="button" value="Вернуться на панель администратора" class="submit-btn"
+       onclick="document.location.href='controller?command=adminHomePage'">
 </body>
 </html>

@@ -20,20 +20,20 @@ public class AddNewFacultyCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String result = null;
         HttpSession session = request.getSession(false);
-
         String facultyName = request.getParameter("name");
-
         int budget = Integer.parseInt(request.getParameter("budget"));
         int total = Integer.parseInt(request.getParameter("total"));
-
-        if (budget > total) return "/WEB-INF/errors/adminErrorBudgetBiggerTotal.jsp";
+        if (budget > total) {
+            return "/WEB-INF/errors/adminErrorBudgetBiggerTotal.jsp";
+        }
         FacultyRepository facultyRepository = new FacultyRepository();
         facultyRepository.create(new Faculty(facultyName, budget, total));
-
         Faculty justAddedFaculty = facultyRepository.findFacultyByName(facultyName);
         if (justAddedFaculty != null) {
             int userRole = (int) session.getAttribute("userRole");
-            if (userRole == 1) result = "/WEB-INF/admin/succesAddFaculty.jsp";
+            if (userRole == 1) {
+                result = "/WEB-INF/admin/succesAddFaculty.jsp";
+            }
         }
         return result;
     }
