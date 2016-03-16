@@ -17,7 +17,7 @@ public class SessionCreator {
         sessionProperties.put("mail.smtp.socketFactory.port", "465");
         sessionProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         //sessionProperties.put("mail.smtp.socketFactory.fallback", "false");
-        //sessionProperties.setProperty("mail.smtp.quitwait", "false");
+        //sessionProperties.setProperty("mail.smtp.quitwait", "true");
         sessionProperties.put("mail.smtp.starttls.enable", "true");
     }
 
@@ -25,7 +25,7 @@ public class SessionCreator {
         return Session.getDefaultInstance(sessionProperties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("alexchuev090893@gmail.com", "090893alexchuev");
+                        return new PasswordAuthentication("addmission.office.test@gmail.com", "addmission");
                     }
                 });
     }

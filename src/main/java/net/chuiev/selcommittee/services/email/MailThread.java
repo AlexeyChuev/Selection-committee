@@ -9,7 +9,9 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MailThread extends Thread {
+public class MailThread implements Runnable {
+
+
     private MimeMessage message;
     private String sendToEmail;
     private String mailSubject;
@@ -32,12 +34,10 @@ public class MailThread extends Thread {
             // upload parametrs to mail message object
             message.setSubject(mailSubject);
             message.setContent(mailText, "text/html");
-            message.setFrom(new InternetAddress("alexchuev090893@gmail.com"));
+            message.setFrom(new InternetAddress("addmission.office.test@gmail.com"));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(sendToEmail));
         } catch (AddressException e) {
-            //System.err.print("Некорректный адрес:" + sendToEmail + " " + e);
         } catch (MessagingException e) {
-            //System.err.print("Ошибка формирования сообщения" + e);
         }
     }
 
@@ -47,12 +47,6 @@ public class MailThread extends Thread {
             // sending mail message
             Transport.send(message);
         } catch (MessagingException e) {
-            //System.err.print("Ошибка при отправлении сообщения" + e);
         }
-    }
-
-    public static void main(String[] args) {
-        MailThread mailThread = new MailThread("<alexeychuev@mail.ru>", "bla", "text", new Properties());
-        mailThread.start();
     }
 }

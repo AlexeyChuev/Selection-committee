@@ -1,19 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Алексей
-  Date: 3/10/2016
-  Time: 6:33 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>User not exist</title>
 </head>
 <body>
-<br>
-<h3>Неправильно введены email-пароль или юзер не зарегистрирован</h3>
-<input type="button" value="Зарегистрироваться" class="submit-btn" onclick="document.location.href='registration.jsp'">
-<input type="button" value="Ввести данные заново" class="submit-btn" onclick="document.location.href='login.jsp'">
+<div align="center">
+    <br>
+    <h3>Incorrectly entered email or password, or user is not registered</h3>
+    <input type="button" value="Registration" class="submit-btn"
+           onclick="document.location.href='registration.jsp'">
+    <input type="button" value="Enter the information again" class="submit-btn" onclick="document.location.href='login.jsp'">
+</div>
 </body>
 </html>

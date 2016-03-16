@@ -8,11 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Пользователь с таким email уже существует</title>
+    <title>User with this email already exists</title>
 </head>
 <body>
-<h2>Пользователь с таким email уже зарегистрирован</h2>
-<input type="button" value="Вернуться на страницу входа" class="submit-btn"
-       onclick="document.location.href='login.jsp'">
+<div align="center">
+    <h2>User with this email is already registered</h2>
+    <input type="button" value="Back to login page" class="submit-btn"
+           onclick="document.location.href='login.jsp'">
+</div>
 </body>
 </html>
