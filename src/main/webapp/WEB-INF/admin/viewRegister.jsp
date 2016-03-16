@@ -60,6 +60,6 @@
 <br>
 <br>
 <input type="button" value="Уведомить абитуриентов о результатах поступления" class="submit-btn"
-       onclick="document.location.href='controller?command=sendEmail'">
+       onclick="document.location.href='controller?command=sendEmails'">
 </body>
 </html>

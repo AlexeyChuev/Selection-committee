@@ -1,13 +1,14 @@
-package net.chuiev.selcommittee.email;
+package net.chuiev.selcommittee.services.email;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.*;
 import java.util.Properties;
+
 /**
  * Created by Алексей on 3/7/2016.
  */
+
 public class Send2 {
     private String username;
     private String password;
@@ -23,6 +24,7 @@ public class Send2 {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.starttls.enable", "true");
     }
 
     public void send(String subject, String text, String toEmail) {
@@ -34,27 +36,23 @@ public class Send2 {
 
         try {
             Message message = new MimeMessage(session);
-            //от кого
-            message.setFrom(new InternetAddress("chuevalexey93@gmail.com","Admin"));
-            //кому
+            //from who
+            message.setFrom(new InternetAddress("alexchuev090893@gmail.com"));
+            //to who
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            //тема сообщения
+            //theme
             message.setSubject(subject);
-            //текст
+            //text
             message.setText(text);
-
-            //отправляем сообщение
+            //send email
             Transport.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void main(String[] args) {
-        Send2 sender = new Send2("chuevalexey93@gmail.com", "pass");
-
-        sender.send("This is Subject", "TLS: This is text!", "alexchuev090893@gmail.com");
+        Send2 sender = new Send2("alexchuev090893@gmail.com", "090893alexchuev");
+        sender.send("This is Subject", "TLS: This is text!", "<alexeychuev@mail.ru>");
     }
 }

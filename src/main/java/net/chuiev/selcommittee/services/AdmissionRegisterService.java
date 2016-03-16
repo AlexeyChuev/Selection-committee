@@ -96,14 +96,14 @@ public class AdmissionRegisterService {
         //add admissionState to each admissionRegisterRecord
         for (int i = 0; i < admissionRegisterRecordsList.size(); i++) {
             if (i < faculty.getBudgetVolume()) {
-                admissionRegisterRecordsList.get(i).setAdmissionState("Поступил(ла) на бюджет");
+                admissionRegisterRecordsList.get(i).setAdmissionState("Entered on a budget");
                 continue;
             }
             if (i < faculty.getTotalVolume()) {
-                admissionRegisterRecordsList.get(i).setAdmissionState("Поступил(ла) на контракт");
+                admissionRegisterRecordsList.get(i).setAdmissionState("Entered on a contract");
                 continue;
             }
-            admissionRegisterRecordsList.get(i).setAdmissionState("Не поступил(ла)");
+            admissionRegisterRecordsList.get(i).setAdmissionState("Not admitted");
         }
         return admissionRegisterRecordsList;
     }

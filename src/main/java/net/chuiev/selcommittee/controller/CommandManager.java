@@ -43,6 +43,7 @@ public class CommandManager {
         commands.put("unblockEnrolleeForward", new UnblockEnrolleeForwardCommand());
         commands.put("unblockEnrollee", new UnblockEnrolleeCommand());
         commands.put("createRegister", new CreateRegisterCommand());
+        commands.put("sendEmails", new SendEmailsCommand());
     }
 
     public static Command get(String commandName) {
