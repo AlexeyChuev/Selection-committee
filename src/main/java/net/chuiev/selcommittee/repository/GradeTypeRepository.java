@@ -3,6 +3,7 @@ package net.chuiev.selcommittee.repository;
 import net.chuiev.selcommittee.entity.GradeType;
 import net.chuiev.selcommittee.entity.GradeTypeEnum;
 import net.chuiev.selcommittee.exception.UnmodifiableEntityException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,9 +13,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Alex on 3/7/2016.
+ * GradeType Repository. Part of implemeting pattern Repository.
+ * Give only FIND-operations with GradeType data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class GradeTypeRepository implements Repository<GradeType> {
+    private static final Logger LOG = Logger.getLogger(GradeTypeRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.GRADE_TYPE WHERE id=";
@@ -22,16 +29,19 @@ public class GradeTypeRepository implements Repository<GradeType> {
 
     @Override
     public void create(GradeType entity) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
     @Override
     public void update(GradeType newEntity) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
     @Override
     public void delete(int entityId) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
@@ -53,6 +63,7 @@ public class GradeTypeRepository implements Repository<GradeType> {
             else newGradeType.setGradeType(GradeTypeEnum.CERTIFICATE);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -84,6 +95,7 @@ public class GradeTypeRepository implements Repository<GradeType> {
                 gradeTypes.add(newGradeType);
             }
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

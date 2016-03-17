@@ -2,15 +2,22 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Subject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * Subject Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with Subject data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class SubjectRepository implements Repository<Subject> {
+    private static final Logger LOG = Logger.getLogger(SubjectRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBJECT (NAME) VALUES(?)";
@@ -30,6 +37,7 @@ public class SubjectRepository implements Repository<Subject> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -51,6 +59,7 @@ public class SubjectRepository implements Repository<Subject> {
             preparedStatement.setInt(2, newEntity.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -71,6 +80,7 @@ public class SubjectRepository implements Repository<Subject> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -92,6 +102,7 @@ public class SubjectRepository implements Repository<Subject> {
             newSubject.setId(resultSet.getInt("id"));
             newSubject.setName(resultSet.getString("name"));
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -119,6 +130,7 @@ public class SubjectRepository implements Repository<Subject> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

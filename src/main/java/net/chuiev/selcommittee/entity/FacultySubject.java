@@ -3,7 +3,11 @@ package net.chuiev.selcommittee.entity;
 import java.io.Serializable;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * FacultySubject entity. This transfer object characterized by id,
+ * facultyId and subjectId.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class FacultySubject implements Serializable {
     private static final long serialVersionUID = 2565574420335652970L;

@@ -1,7 +1,11 @@
 package net.chuiev.selcommittee.entity;
 
 /**
- * Created by Алексей on 3/6/2016.
+ * AdmissionRegisterRecord entity. This transfer object characterized by faculty, enrollee, summaryCertificateGrade,
+ * exams 1-3 and their marks, total points and admissionState.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class AdmissionRegisterRecord {
 

@@ -3,15 +3,22 @@ package net.chuiev.selcommittee.repository;
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.entity.FacultySubject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * FacultySubject Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with FacultySubject data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class FacultySubjectRepository implements Repository<FacultySubject> {
+    private static final Logger LOG = Logger.getLogger(FacultySubjectRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.FACULTY_SUBJECT (FACULTY_ID, SUBJECT_ID) VALUES(?,?)";
@@ -34,6 +41,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -57,6 +65,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -77,6 +86,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -100,6 +110,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             newFacultySubject.setSubjectId(resultSet.getInt("SUBJECT_ID"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -128,6 +139,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -155,6 +167,7 @@ public class FacultySubjectRepository implements Repository<FacultySubject> {
                 facultySubjects.add(newFacultySubject);
             }
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

@@ -1,7 +1,9 @@
 package net.chuiev.selcommittee.exception;
 
 /**
- * Created by Alex on 3/7/2016.
+ * Exception, which throws, then user and admin can't modify entity in DB.
+ *
+ * @author Oleksii Chuiev  *
  */
 public class UnmodifiableEntityException extends RuntimeException {
     public UnmodifiableEntityException(Throwable cause) {

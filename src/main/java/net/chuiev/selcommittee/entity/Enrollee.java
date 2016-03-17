@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.sql.Blob;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * Enrollee entity. This transfer object characterized by id, fullName,
+ * city, region, schoolName, userId.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class Enrollee implements Serializable {
     private static final long serialVersionUID = 1113613887250453747L;

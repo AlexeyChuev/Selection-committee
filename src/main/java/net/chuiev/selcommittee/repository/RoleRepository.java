@@ -3,6 +3,7 @@ package net.chuiev.selcommittee.repository;
 import net.chuiev.selcommittee.entity.Role;
 import net.chuiev.selcommittee.entity.RoleTypeEnum;
 import net.chuiev.selcommittee.exception.UnmodifiableEntityException;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,9 +13,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Alex on 3/7/2016.
+ * Role Repository. Part of implemeting pattern Repository.
+ * Give only FIND-operations with Role data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class RoleRepository implements Repository<Role> {
+    private static final Logger LOG = Logger.getLogger(RoleRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String FIND_COMMAND = "SELECT * FROM ADMIN.ROLE WHERE id=";
@@ -22,16 +29,19 @@ public class RoleRepository implements Repository<Role> {
 
     @Override
     public void create(Role entity) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
     @Override
     public void update(Role newEntity) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
     @Override
     public void delete(int entityId) {
+        LOG.error("entity unmodifiable");
         throw new UnmodifiableEntityException();
     }
 
@@ -44,7 +54,7 @@ public class RoleRepository implements Repository<Role> {
         try {
             connection = connectionCreator.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(FIND_COMMAND);
+            resultSet = statement.executeQuery(FIND_COMMAND+entityId);
             resultSet.next();
             newRole.setId(resultSet.getInt("id"));
             String tempRoleType = resultSet.getString("role_type");
@@ -55,6 +65,7 @@ public class RoleRepository implements Repository<Role> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -87,6 +98,7 @@ public class RoleRepository implements Repository<Role> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

@@ -2,15 +2,22 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.User;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Alex on 3/7/2016.
+ * User Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with User data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class UserRepository implements Repository<User> {
+    private static final Logger LOG = Logger.getLogger(UserRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.Users (role, email, password, ISBLOCKED) VALUES(?,?,?,?)";
@@ -35,6 +42,7 @@ public class UserRepository implements Repository<User> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -60,6 +68,7 @@ public class UserRepository implements Repository<User> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -80,6 +89,7 @@ public class UserRepository implements Repository<User> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -107,6 +117,7 @@ public class UserRepository implements Repository<User> {
             newUser.setBlocked(resultSet.getBoolean("isblocked"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -137,6 +148,7 @@ public class UserRepository implements Repository<User> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -165,6 +177,7 @@ public class UserRepository implements Repository<User> {
             newUser.setBlocked(resultSet.getBoolean("isblocked"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

@@ -1,7 +1,10 @@
 package net.chuiev.selcommittee.entity;
 
 /**
- * Created by Alex on 3/7/2016.
+ * GradeType enum. There are only two types of grade.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public enum GradeTypeEnum {
     EXAM, CERTIFICATE;

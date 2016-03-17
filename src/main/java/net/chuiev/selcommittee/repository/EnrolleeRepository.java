@@ -2,15 +2,22 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Enrollee;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * Enrollee Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with Enrollee data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class EnrolleeRepository implements Repository<Enrollee> {
+    private static final Logger LOG = Logger.getLogger(EnrolleeRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.ENROLLEE (FULL_NAME,city,region,school_name,certificate,USER_ID) VALUES(?,?,?,?,NULL,?)";
@@ -41,6 +48,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -67,6 +75,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -88,6 +97,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -114,6 +124,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             newEnrollee.setSchoolName(resultSet.getString("school_name"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -145,6 +156,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -174,6 +186,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             newEnrollee.setSchoolName(resultSet.getString("school_name"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -204,6 +217,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -234,6 +248,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -266,6 +281,7 @@ public class EnrolleeRepository implements Repository<Enrollee> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);

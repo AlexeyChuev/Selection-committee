@@ -2,14 +2,19 @@ package net.chuiev.selcommittee.controller;
 
 import net.chuiev.selcommittee.controller.admin.*;
 import net.chuiev.selcommittee.controller.client.*;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Alex on 3/10/2016.
+ * Class for managing commands for controller.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class CommandManager {
+    private static final Logger LOG = Logger.getLogger(CommandManager.class);
 
     private static Map<String, Command> commands = new HashMap<String, Command>();
 
@@ -18,7 +23,6 @@ public class CommandManager {
         commands.put("noCommand", new NoCommand());
         commands.put("logout", new LogoutCommand());
 
-        //client
         commands.put("client_registration", new ClientRegistrationCommand());
         commands.put("clientHomePage", new HomeClientPageCommand());
         commands.put("viewAllFaculties", new ViewAllFacultiesCommand());
@@ -29,7 +33,6 @@ public class CommandManager {
         commands.put("defineFaculty", new DefineFacultyCommand());
         commands.put("applySubmission", new EnrolleeApplyCommand());
 
-        //admin
         commands.put("adminHomePage", new AdminHomePageCommand());
         commands.put("addNewFacultyForward", new AddNewFacultyForwardCommand());
         commands.put("addNewFaculty", new AddNewFacultyCommand());
@@ -44,12 +47,23 @@ public class CommandManager {
         commands.put("unblockEnrollee", new UnblockEnrolleeCommand());
         commands.put("createRegister", new CreateRegisterCommand());
         commands.put("sendEmails", new SendEmailsCommand());
+
+        LOG.debug("Container commands was initialized");
     }
 
-    public static Command get(String commandName) {
-        if (commandName == null || !commands.containsKey(commandName)) {
+    /**
+     * Returns command using command name
+     *
+     * @param command
+     *            Name of the command.
+     * @return Command object or <code>noCommand</code>
+     *          object, if command wasn't find by name.
+     */
+    public static Command get(String command) {
+        if (command == null || !commands.containsKey(command)) {
+            LOG.trace("Can't find command = " + command);
             return commands.get("noCommand");
         }
-        return commands.get(commandName);
+        return commands.get(command);
     }
 }

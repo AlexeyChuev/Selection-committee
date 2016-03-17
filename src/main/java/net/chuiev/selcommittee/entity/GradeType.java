@@ -3,7 +3,11 @@ package net.chuiev.selcommittee.entity;
 import java.io.Serializable;
 
 /**
- * Created by Alex on 3/7/2016.
+ * GradeType entity. This transfer object characterized
+ * by id, gradeType (there are only two types of grade).
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class GradeType implements Serializable {
     private static final long serialVersionUID = 4113633887252453777L;

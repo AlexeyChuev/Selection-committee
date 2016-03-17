@@ -7,11 +7,25 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * Created by Alex on 3/10/2016.
+ * Abstract class for Command pattern.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public abstract class Command implements Serializable {
     private static final long serialVersionUID = 8879403039606311780L;
 
+    /**
+     * Execution method for command. Returns path to jsp pages using client request.
+     *
+     * @param request
+     *            - client request
+     * @param response
+     *            - server response
+     * @return Address to jsp-pag.
+     * @throws IOException
+     * @throws ServletException
+     */
     public abstract String execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException;
 }

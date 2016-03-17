@@ -1,7 +1,10 @@
 package net.chuiev.selcommittee.entity;
 
 /**
- * Created by Alex on 3/7/2016.
+ * RoleTypeEnum enum. There are only two types of roleType.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public enum RoleTypeEnum {
     ADMIN, CLIENT;

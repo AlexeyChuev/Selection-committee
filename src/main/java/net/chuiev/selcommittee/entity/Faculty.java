@@ -3,7 +3,11 @@ package net.chuiev.selcommittee.entity;
 import java.io.Serializable;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * Faculty entity. This transfer object characterized by id, name,
+ * budgetVolume and totalVolume.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class Faculty implements Serializable {
     private static final long serialVersionUID = 1099698953477481899L;

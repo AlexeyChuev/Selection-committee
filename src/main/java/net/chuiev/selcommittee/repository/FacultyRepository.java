@@ -2,15 +2,22 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.Faculty;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * Faculty Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with Faculty data.
+ *
+ * @author Oleksii Chuiev
+ *
  */
 public class FacultyRepository implements Repository<Faculty> {
+    private static final Logger LOG = Logger.getLogger(FacultyRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.FACULTY (NAME, BUDGETVOLUME, TOTALVOLUME) VALUES(?,?,?)";
@@ -39,6 +46,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -63,6 +71,7 @@ public class FacultyRepository implements Repository<Faculty> {
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -83,6 +92,7 @@ public class FacultyRepository implements Repository<Faculty> {
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -109,6 +119,7 @@ public class FacultyRepository implements Repository<Faculty> {
             newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -138,6 +149,7 @@ public class FacultyRepository implements Repository<Faculty> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -166,6 +178,7 @@ public class FacultyRepository implements Repository<Faculty> {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -210,6 +223,7 @@ public class FacultyRepository implements Repository<Faculty> {
             newFaculty.setTotalVolume(resultSet.getInt("totalVolume"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);

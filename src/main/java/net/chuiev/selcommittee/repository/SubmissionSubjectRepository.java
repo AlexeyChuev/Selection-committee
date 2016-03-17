@@ -2,15 +2,21 @@ package net.chuiev.selcommittee.repository;
 
 import net.chuiev.selcommittee.entity.SubmissionSubject;
 import net.chuiev.selcommittee.exception.EntityNotExistsException;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by Алексей on 3/5/2016.
+ * SubmissionSubject Repository. Part of implemeting pattern Repository.
+ * Give CRUD-operations with SubmissionSubject data.
+ *
+ * @author Oleksii Chuiev
  */
 public class SubmissionSubjectRepository implements Repository<SubmissionSubject> {
+    private static final Logger LOG = Logger.getLogger(SubmissionSubjectRepository.class);
+
     private ConnectionCreator connectionCreator = new ConnectionCreator();
 
     private final static String INSERT_COMMAND = "INSERT INTO ADMIN.SUBMISSION_SUBJECT (SUBMISSION_ID, SUBJECT_ID, GRADE, GRADE_TYPE) VALUES(?,?,?,?)";
@@ -36,6 +42,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -61,6 +68,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -81,6 +89,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             statement.executeUpdate(DELETE_COMMAND + entityId);
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -106,6 +115,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             newSubmissionSubject.setGradeType(resultSet.getInt("grade_type"));
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -136,6 +146,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(statement);
@@ -168,6 +179,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);
@@ -199,6 +211,7 @@ public class SubmissionSubjectRepository implements Repository<SubmissionSubject
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             connectionCreator.rollback(connection);
         } finally {
             connectionCreator.close(preparedStatement);

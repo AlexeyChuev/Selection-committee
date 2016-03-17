@@ -1,7 +1,9 @@
 package net.chuiev.selcommittee.exception;
 
 /**
- * Created by Алексей on 3/6/2016.
+ * Exception, which throws, then entity doesn't exist in DB.
+ *
+ * @author Oleksii Chuiev  *
  */
 public class EntityNotExistsException extends RuntimeException {
     public EntityNotExistsException(Throwable cause) {
