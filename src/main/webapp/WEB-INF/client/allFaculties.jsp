@@ -57,6 +57,9 @@
         <br>
         <a href="controller?command=sortFacultiesByTotal">Total number </a>
     </div>
+    <br><br><br>
+    <input type="button" value="Back to profile page" class="submit-btn"
+           onclick="document.location.href='controller?command=clientHomePage'">
 </div>
 </body>
 </html>

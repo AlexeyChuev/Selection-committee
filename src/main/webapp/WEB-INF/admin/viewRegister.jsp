@@ -69,6 +69,9 @@
     <br>
     <input type="button" value="Notify applicants of the results of admission (send e-mails)" class="submit-btn"
            onclick="document.location.href='controller?command=sendEmails'">
+
+    <input type="button" value="Back to administrator page" class="submit-btn"
+           onclick="document.location.href='controller?command=adminHomePage'">
 </div>
 </body>
 </html>

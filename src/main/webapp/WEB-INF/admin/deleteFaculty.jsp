@@ -22,6 +22,9 @@
         </c:forEach>
     </select></p>
     <p><input type="submit" value="Delete"></p>
+    <br><br>
+    <input type="button" value="Back to administrator page" class="submit-btn"
+           onclick="document.location.href='controller?command=adminHomePage'">
 </form>
 </div>
 </body>

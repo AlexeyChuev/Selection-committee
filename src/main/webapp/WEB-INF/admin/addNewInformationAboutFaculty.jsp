@@ -52,6 +52,9 @@
             <input type="reset"
                    value="Clear all fields"/>
         </div>
+        <br><br>
+        <input type="button" value="Back to administrator page" class="submit-btn"
+               onclick="document.location.href='controller?command=adminHomePage'">
     </form>
 </div>
 </body>

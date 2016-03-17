@@ -123,6 +123,10 @@
             <input type="reset"
                    value="Clear all fields"/>
         </div>
+
+        <br><br>
+        <input type="button" value="Back to profile page" class="submit-btn"
+               onclick="document.location.href='controller?command=clientHomePage'">
     </form>
 </div>
 </body>

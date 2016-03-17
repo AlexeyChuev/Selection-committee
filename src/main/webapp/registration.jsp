@@ -18,42 +18,42 @@
         <br><br>
         <div class="field">
             <label> Email:
-                <input type="email" name="email" value="" required/>
+                <input type="email" name="email" value="" required maxlength="60"/>
             </label>
         </div>
         <br>
         <div class="field">
             <label>
                 Password:
-                <input type="password" name="password" value="" required/>
+                <input type="password" name="password" value="" required maxlength="50" min="4"/>
             </label>
         </div>
         <br>
         <div class="field">
             <label>
                 Full name:
-                <input type="text" name="full_name" value="" required/>
+                <input type="text" name="full_name" value="" required maxlength="70"/>
             </label>
         </div>
         <br>
         <div class="field">
             <label>
                 City:
-                <input type="text" name="city" value="" required/>
+                <input type="text" name="city" value="" required maxlength="30"/>
             </label>
         </div>
         <br>
         <div class="field">
             <label>
                 Region:
-                <input type="text" name="region" value="" required/>
+                <input type="text" name="region" value="" required maxlength="30"/>
             </label>
         </div>
         <br>
         <div class="field">
             <label>
                 School name:
-                <input type="text" name="school" value="" required/>
+                <input type="text" name="school" value="" required maxlength="50"/>
             </label>
         </div>
 
