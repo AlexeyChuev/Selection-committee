@@ -1,0 +1,46 @@
+package net.chuiev.selcommittee;
+
+import org.apache.log4j.Logger;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * Filter, that cancel enter o protected pages of application.
+ *
+ * @author Oleksii Chuiev
+ */
+@WebFilter(urlPatterns = {"/jsp/*"},
+        initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
+public class PageRedirectSecurityFilter implements Filter{
+    private static final Logger LOG = Logger.getLogger(PageRedirectSecurityFilter.class);
+
+    private String indexPath;
+
+    public void init(FilterConfig fConfig) throws ServletException {
+        LOG.debug("Start initializing filter: "
+                + PageRedirectSecurityFilter.class.getSimpleName());
+        indexPath = fConfig.getInitParameter("INDEX_PATH");
+    }
+
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
+        LOG.debug("Using the filter " + PageRedirectSecurityFilter.class.getSimpleName());
+
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
+        chain.doFilter(request, response);
+
+        LOG.debug("Filter used successfully " + PageRedirectSecurityFilter.class.getSimpleName());
+    }
+
+    public void destroy() {
+        LOG.debug("Start destroying filter: "
+                + PageRedirectSecurityFilter.class.getSimpleName());
+    }
+}
